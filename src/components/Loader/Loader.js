@@ -7,7 +7,7 @@ const Loader = ({ spinning }) => {
   return (<div className={classNames(styles.loader, { [styles.hidden]: !spinning })}>
     <div className={styles.warpper}>
       <div className={styles.inner} />
-      <div className={styles.text} >LOADING</div>
+      <div className={styles.text} >登陆中...</div>
     </div>
   </div>)
 }

@@ -25,50 +25,50 @@ const List = ({ onDeleteItem, onEditItem, isMotion, location, ...tableProps }) =
 
   const columns = [
     {
-      title: 'Avatar',
+      title: '头像',
       dataIndex: 'avatar',
       key: 'avatar',
       width: 64,
       className: styles.avatar,
       render: (text) => <img alt={'avatar'} width={24} src={text} />,
     }, {
-      title: 'Name',
+      title: '用户名',
       dataIndex: 'name',
       key: 'name',
       render: (text, record) => <Link to={`user/${record.id}`}>{text}</Link>,
     }, {
-      title: 'NickName',
+      title: '昵称',
       dataIndex: 'nickName',
       key: 'nickName',
     }, {
-      title: 'Age',
+      title: '年龄',
       dataIndex: 'age',
       key: 'age',
     }, {
-      title: 'Gender',
+      title: '性别',
       dataIndex: 'isMale',
       key: 'isMale',
       render: (text) => <span>{text
             ? 'Male'
             : 'Female'}</span>,
     }, {
-      title: 'Phone',
+      title: '电话',
       dataIndex: 'phone',
       key: 'phone',
     }, {
-      title: 'Email',
+      title: '邮箱',
       dataIndex: 'email',
       key: 'email',
     }, {
-      title: 'Address',
+      title: '地址',
       dataIndex: 'address',
       key: 'address',
     }, {
-      title: 'CreateTime',
+      title: '注册时间',
       dataIndex: 'createTime',
       key: 'createTime',
     }, {
-      title: 'Operation',
+      title: '操作',
       key: 'operation',
       width: 100,
       render: (text, record) => {

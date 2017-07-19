@@ -40,7 +40,7 @@ const Header = ({ user, logout, switchSider, siderFold, isNavbar, menuPopoverVis
             {user.username} < /span>}
           >
             <Menu.Item key="logout">
-              Sign out
+              退出登录
             </Menu.Item>
           </SubMenu>
         </Menu>

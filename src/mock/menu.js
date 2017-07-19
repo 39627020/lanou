@@ -5,20 +5,20 @@ let database = [
   {
     id: '1',
     icon: 'laptop',
-    name: 'Dashboard',
+    name: '系统概况',
     route: '/dashboard',
   },
   {
     id: '2',
     bpid: '1',
-    name: 'Users',
+    name: '用户管理',
     icon: 'user',
     route: '/user',
   },
   {
     id: '7',
     bpid: '1',
-    name: 'Posts',
+    name: '考试管理',
     icon: 'shopping-cart',
     route: '/post',
   },

@@ -21,8 +21,8 @@ export default {
         router: '/dashboard',
       },
     ],
-    menuPopoverVisible: false,
-    siderFold: localStorage.getItem(`${prefix}siderFold`) === 'true',
+    menuPopoverVisible: false, //宽度过小时，侧边栏弹出
+    siderFold: localStorage.getItem(`${prefix}siderFold`) === 'true',//
     darkTheme: localStorage.getItem(`${prefix}darkTheme`) === 'true',
     isNavbar: document.body.clientWidth < 769,
     navOpenKeys: JSON.parse(localStorage.getItem(`${prefix}navOpenKeys`)) || [],

@@ -131,9 +131,9 @@ const User = ({ location, dispatch, user, loading }) => {
          selectedRowKeys.length > 0 &&
            <Row style={{ marginBottom: 24, textAlign: 'right', fontSize: 13 }}>
              <Col>
-               {`Selected ${selectedRowKeys.length} items `}
-               <Popconfirm title={'Are you sure delete these items?'} placement="left" onConfirm={handleDeleteItems}>
-                 <Button type="primary" size="large" style={{ marginLeft: 8 }}>Remove</Button>
+               {`已选择 <strong>${selectedRowKeys.length}</strong> 个项目 `}
+               <Popconfirm title={'你确定要删除这些用户吗？删除后不可恢复！'} placement="left" onConfirm={handleDeleteItems}>
+                 <Button type="primary" size="large" style={{ marginLeft: 8 }}>批量删除</Button>
                </Popconfirm>
              </Col>
            </Row>
