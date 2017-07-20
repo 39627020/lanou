@@ -19,8 +19,9 @@ export async function logout (params) {
 }
 
 export async function query (params) {
+  const username = localStorage.getItem(`${prefix}loginUsername`);
   return request({
-    url: users+ "/"+localStorage.getItem(`${prefix}loginUsername`),
+    url: users + "/"+ username,
     method: 'get',
     data: params,
   })
