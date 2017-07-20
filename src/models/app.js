@@ -52,17 +52,22 @@ export default {
       if (success && user) {
         const {permissions} = user
         //todo:修改逻辑 符合后台登录要求
-        const {list} = yield call(menusService.query)
+      //  const {list} = yield call(menusService.query)
+        const list =[ { id: '1', icon: 'laptop', name: 'Dashboard', route: '/dashboard' }, { id: '2', bpid: '1', name: 'Users', icon: 'user', route: '/user' }, { id: '7', bpid: '1', name: 'Posts', icon: 'shopping-cart', route: '/post' }, { id: '21', mpid: '-1', bpid: '2', name: 'User Detail', route: '/user/:id' }, { id: '5', bpid: '1', name: 'Recharts', icon: 'code-o' }, { id: '51', bpid: '5', mpid: '5', name: 'LineChart', icon: 'line-chart', route: '/chart/lineChart' }, { id: '52', bpid: '5', mpid: '5', name: 'BarChart', icon: 'bar-chart', route: '/chart/barChart' }, { id: '53', bpid: '5', mpid: '5', name: 'AreaChart', icon: 'area-chart', route: '/chart/areaChart' } ]
         let menu = list
         if (permissions.roles.includes(EnumRoleType.ADMIN) || permissions.roles.includes(EnumRoleType.DEVELOPER)) {
+          //访问全部菜单
           permissions.visit = list.map(item => item.id)
         } else {
+          //返回合适的item
           menu = list.filter(item => {
+            //对每个item的验证条件
             const cases = [
               permissions.visit.includes(item.id),
               item.mpid ? permissions.visit.includes(item.mpid) || item.mpid === '-1' : true,
               item.bpid ? permissions.visit.includes(item.bpid) : true,
             ]
+            //不满足就返回false
             return cases.every(_ => _)
           })
         }
