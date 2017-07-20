@@ -1,10 +1,11 @@
-import { query, logout } from '../services/app'
+import {query, logout} from '../services/app'
 import * as menusService from '../services/menus'
-import { routerRedux } from 'dva/router'
-import { parse } from 'qs'
+import {routerRedux} from 'dva/router'
+import {parse} from 'qs'
 import config from 'config'
-import { EnumRoleType } from 'enums'
-const { prefix } = config
+import {EnumRoleType} from 'enums'
+
+const {prefix} = config
 
 export default {
   namespace: 'app',
@@ -12,6 +13,7 @@ export default {
     user: {},
     permissions: {
       visit: [],
+      roles: [],
     },
     menu: [
       {
@@ -29,29 +31,30 @@ export default {
   },
   subscriptions: {
 
-    setup ({ dispatch }) {
-      dispatch({ type: 'query' })
+    setup({dispatch}) {
+      dispatch({type: 'query'})
       let tid
       window.onresize = () => {
         clearTimeout(tid)
         tid = setTimeout(() => {
-          dispatch({ type: 'changeNavbar' })
+          dispatch({type: 'changeNavbar'})
         }, 300)
       }
     },
 
   },
   effects: {
-//todo:修改逻辑 符合后台登录要求
-    *query ({
-      payload,
-    }, { call, put }) {
-      const { success, user } = yield call(query, payload)
+
+    * query({
+              payload,
+            }, {call, put}) {
+      const {success, user} = yield call(query, payload)
       if (success && user) {
-        const { list } = yield call(menusService.query)
-        const { permissions } = user
+        const {permissions} = user
+        //todo:修改逻辑 符合后台登录要求
+        const {list} = yield call(menusService.query)
         let menu = list
-        if (permissions.role === EnumRoleType.ADMIN || permissions.role === EnumRoleType.DEVELOPER) {
+        if (permissions.roles.includes(EnumRoleType.ADMIN) || permissions.roles.includes(EnumRoleType.DEVELOPER)) {
           permissions.visit = list.map(item => item.id)
         } else {
           menu = list.filter(item => {
@@ -82,37 +85,37 @@ export default {
       }
     },
 
-    *logout ({
-      payload,
-    }, { call, put }) {
+    * logout({
+               payload,
+             }, {call, put}) {
       const data = yield call(logout, parse(payload))
       if (data.success) {
-        yield put({ type: 'query' })
+        yield put({type: 'query'})
       } else {
         throw (data)
       }
     },
 
-    *changeNavbar ({
-      payload,
-    }, { put, select }) {
-      const { app } = yield(select(_ => _))
+    * changeNavbar({
+                     payload,
+                   }, {put, select}) {
+      const {app} = yield(select(_ => _))
       const isNavbar = document.body.clientWidth < 769
       if (isNavbar !== app.isNavbar) {
-        yield put({ type: 'handleNavbar', payload: isNavbar })
+        yield put({type: 'handleNavbar', payload: isNavbar})
       }
     },
 
   },
   reducers: {
-    updateState (state, { payload }) {
+    updateState(state, {payload}) {
       return {
         ...state,
         ...payload,
       }
     },
 
-    switchSider (state) {
+    switchSider(state) {
       localStorage.setItem(`${prefix}siderFold`, !state.siderFold)
       return {
         ...state,
@@ -120,7 +123,7 @@ export default {
       }
     },
 
-    switchTheme (state) {
+    switchTheme(state) {
       localStorage.setItem(`${prefix}darkTheme`, !state.darkTheme)
       return {
         ...state,
@@ -128,21 +131,21 @@ export default {
       }
     },
 
-    switchMenuPopver (state) {
+    switchMenuPopver(state) {
       return {
         ...state,
         menuPopoverVisible: !state.menuPopoverVisible,
       }
     },
 
-    handleNavbar (state, { payload }) {
+    handleNavbar(state, {payload}) {
       return {
         ...state,
         isNavbar: payload,
       }
     },
 
-    handleNavOpenKeys (state, { payload: navOpenKeys }) {
+    handleNavOpenKeys(state, {payload: navOpenKeys}) {
       return {
         ...state,
         ...navOpenKeys,

@@ -1,6 +1,6 @@
 import {login} from '../services/login'
 import {routerRedux} from 'dva/router'
-import {queryURL,config} from 'utils'
+import {queryURL, config} from 'utils'
 
 const {prefix} = config
 
@@ -8,7 +8,7 @@ export default {
   namespace: 'login',
   state: {
     loginLoading: false,
-    token: localStorage.getItem(`${prefix}token`)
+    token: localStorage.getItem(`${prefix}loginToken`)
   },
 
   effects: {
@@ -19,7 +19,8 @@ export default {
       const data = yield call(login, payload)
       yield put({type: 'hideLoginLoading'})
       if (data.success) {
-       localStorage.setItem(`${prefix}token`, data.token)
+        localStorage.setItem(`${prefix}loginToken`, data.token)
+        localStorage.setItem(`${prefix}loginUsername`, payload.username)
         const from = queryURL('from');
         yield put({type: 'app/query'})
         if (from) {

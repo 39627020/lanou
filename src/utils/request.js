@@ -1,10 +1,11 @@
 import axios from 'axios'
 import qs from 'qs'
-import { YQL, CORS } from './config'
+import {YQL, CORS, prefix} from './config'
 import jsonp from 'jsonp'
 import lodash from 'lodash'
 import pathToRegexp from 'path-to-regexp'
-import { message } from 'antd'
+import {message} from 'antd'
+
 
 const fetch = (options) => {
   let {
@@ -12,6 +13,7 @@ const fetch = (options) => {
     data,
     fetchType,
     url,
+    token,
   } = options
 
   const cloneData = lodash.cloneDeep(data)
@@ -44,35 +46,40 @@ const fetch = (options) => {
         if (error) {
           reject(error)
         }
-        resolve({ statusText: 'OK', status: 200, data: result })
+        resolve({statusText: 'OK', status: 200, data: result})
       })
     })
   } else if (fetchType === 'YQL') {
     url = `http://query.yahooapis.com/v1/public/yql?q=select * from json where url='${options.url}?${encodeURIComponent(qs.stringify(options.data))}'&format=json`
     data = null
   }
-
+  axios.defaults.headers.common['Authorization'] = token;
   switch (method.toLowerCase()) {
     case 'get':
-      return axios.get(url, {
-        params: cloneData,
-      })
+      return axios.get(url, cloneData,
+      )
     case 'delete':
-      return axios.delete(url, {
-        data: cloneData,
-      })
+      return axios.delete(url,
+        cloneData,
+      )
     case 'post':
-      return axios.post(url, cloneData)
+      return axios.post(url,
+        cloneData,
+      )
     case 'put':
-      return axios.put(url, cloneData)
+      return axios.put(url, {
+        cloneData
+      })
     case 'patch':
-      return axios.patch(url, cloneData)
+      return axios.patch(url, {
+        cloneData
+      })
     default:
       return axios(options)
   }
 }
 
-export default function request (options) {
+export default function request(options) {
   if (options.url && options.url.indexOf('//') > -1) {
     const origin = `${options.url.split('//')[0]}//${options.url.split('//')[1].split('/')[0]}`
     if (window.location.origin !== origin) {
@@ -85,9 +92,11 @@ export default function request (options) {
       }
     }
   }
-
+  const _token = localStorage.getItem(`${prefix}loginToken`)
+  if (_token !== null)
+    options.token = _token
   return fetch(options).then((response) => {
-    const { statusText, status } = response
+    const {statusText, status} = response
     let data = options.fetchType === 'YQL' ? response.data.query.results.json : response.data
     if (data instanceof Array) {
       data = {
@@ -102,17 +111,17 @@ export default function request (options) {
       ...data,
     }
   }).catch((error) => {
-    const { response } = error
+    const {response} = error
     let msg
     let statusCode
     if (response && response instanceof Object) {
-      const { data, statusText } = response
+      const {data, statusText} = response
       statusCode = response.status
       msg = data.message || statusText
     } else {
       statusCode = 600
       msg = error.message || 'Network Error'
     }
-    return { success: false, statusCode, message: msg }
+    return {success: false, statusCode, message: msg}
   })
 }

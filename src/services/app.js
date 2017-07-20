@@ -1,6 +1,6 @@
 import { request, config } from 'utils'
-const { api } = config
-const { user, userLogout, userLogin } = api
+const { api ,prefix} = config
+const { users, userLogout, userLogin } = api
 
 export async function login (params) {
   return request({
@@ -11,16 +11,16 @@ export async function login (params) {
 }
 
 export async function logout (params) {
-  return request({
-    url: userLogout,
-    method: 'get',
-    data: params,
-  })
+  localStorage.setItem(`${prefix}loginToken`,"")
+  localStorage.setItem(`${prefix}loginUsername`,"")
+  return {
+    success:true,
+  };
 }
 
 export async function query (params) {
   return request({
-    url: user.replace('/:id', ''),
+    url: users+ "/"+localStorage.getItem(`${prefix}loginUsername`),
     method: 'get',
     data: params,
   })
