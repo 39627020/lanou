@@ -19,7 +19,7 @@ export default {
       {
         id: 1,
         icon: 'laptop',
-        name: 'Dashboard',
+        name: '系统概况',
         router: '/dashboard',
       },
     ],
@@ -53,7 +53,7 @@ export default {
         const {permissions} = user
         //todo:修改逻辑 符合后台登录要求
       // const {list} = yield call(menusService.query)
-        const list =[ { id: '1', icon: 'laptop', name: 'Dashboard', route: '/dashboard' }, { id: '2', bpid: '1', name: 'Users', icon: 'user', route: '/user' }, { id: '7', bpid: '1', name: 'Posts', icon: 'shopping-cart', route: '/post' }, { id: '21', mpid: '-1', bpid: '2', name: 'User Detail', route: '/user/:id' }, { id: '5', bpid: '1', name: 'Recharts', icon: 'code-o' }, { id: '51', bpid: '5', mpid: '5', name: 'LineChart', icon: 'line-chart', route: '/chart/lineChart' }, { id: '52', bpid: '5', mpid: '5', name: 'BarChart', icon: 'bar-chart', route: '/chart/barChart' }, { id: '53', bpid: '5', mpid: '5', name: 'AreaChart', icon: 'area-chart', route: '/chart/areaChart' } ]
+        const list =[ { id: '1', icon: 'laptop', name: '系统概况', route: '/dashboard' }, { id: '2', bpid: '1', name: '用户管理', icon: 'user', route: '/user' }, { id: '7', bpid: '1', name: '考试管理', icon: 'shopping-cart', route: '/post' }, { id: '21', mpid: '-1', bpid: '2', name: '用户详情', route: '/user/:id' }, { id: '5', bpid: '1', name: '数据统计', icon: 'code-o' }, { id: '51', bpid: '5', mpid: '5', name: '线性图', icon: 'line-chart', route: '/chart/lineChart' }, { id: '52', bpid: '5', mpid: '5', name: '直方图', icon: 'bar-chart', route: '/chart/barChart' }, { id: '53', bpid: '5', mpid: '5', name: '区块图', icon: 'area-chart', route: '/chart/areaChart' } ]
         let menu = list
         if (permissions.roles.includes(EnumRoleType.ADMIN) || permissions.roles.includes(EnumRoleType.DEVELOPER)) {
           //访问全部菜单
