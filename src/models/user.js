@@ -11,10 +11,10 @@ export default modelExtend(pageModel, {
   namespace: 'user',
 
   state: {
-    currentItem: {},
-    modalVisible: false,
-    modalType: 'create',
-    selectedRowKeys: [],
+    currentItem: {}, //当前选择的user
+    modalVisible: false, //模态框是否可见
+    modalType: 'create', //模态框类型，create update
+    selectedRowKeys: [], //选中的user
     isMotion: localStorage.getItem(`${prefix}userIsMotion`) === 'true',
   },
 

@@ -41,6 +41,7 @@ Date.prototype.format = function (format) {
 
 
 /**
+ * 返回查询参数的值
  * @param   {String}
  * @return  {String}
  */

@@ -68,11 +68,11 @@ const App = ({ children, dispatch, app, loading, location }) => {
 
   const breadProps = {
     menu,
-  }
+   }
   if (openPages && openPages.includes(pathname)) {
     return (<div>
       <Loader spinning={loading.effects['app/query']} />
-      {children}
+      {children} {/*这个children，是在执行app/query后确定的,已经重定向到登录界面*/}
     </div>)
   }
   return (
