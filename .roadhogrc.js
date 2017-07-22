@@ -13,8 +13,8 @@ export default {
   "proxy": {
     "/api/v1": {
       "target": "http://localhost:8080",
-      "changeOrigin": true,
-      "pathRewrite": { "^/api/v1" : "/api/v1" }
+      "changeOrigin": false,
+      // "pathRewrite": { "^/api/v1" : "/api/v1" }
     },
   //   "/api/v2": {
   //     "target": "http://192.168.0.110",

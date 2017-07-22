@@ -56,7 +56,11 @@ const fetch = (options) => {
   axios.defaults.headers.common['Authorization'] = token;
   switch (method.toLowerCase()) {
     case 'get':
-      return axios.get(url, cloneData,
+      return axios.get(url,
+        {
+          params:
+          cloneData
+        }
       )
     case 'delete':
       return axios.delete(url,
