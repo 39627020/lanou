@@ -4,24 +4,23 @@ import * as usersService from '../services/users'
 import { pageModel } from './common'
 import { config } from 'utils'
 
-const { query } = usersService
 const { prefix } = config
 
 export default modelExtend(pageModel, {
-  namespace: 'user',
+  namespace: 'users',
 
   state: {
     currentItem: {}, //当前选择的user
     modalVisible: false, //模态框是否可见
     modalType: 'create', //模态框类型，create update
     selectedRowKeys: [], //选中的user
-    isMotion: localStorage.getItem(`${prefix}userIsMotion`) === 'true',
+    isMotion: localStorage.getItem(`${prefix}userIsMotion`) === 'true', //是否启用动画
   },
 
   subscriptions: {
     setup ({ dispatch, history }) {
       history.listen(location => {
-        if (location.pathname === '/user') {
+        if (location.pathname === '/users') {
           dispatch({
             type: 'query',
             payload: location.query,
@@ -34,7 +33,7 @@ export default modelExtend(pageModel, {
   effects: {
 
     *query ({ payload = {} }, { call, put }) {
-      const data = yield call(query, payload)
+      const data = yield call(usersService.query, payload)
       if (data) {
         yield put({
           type: 'querySuccess',

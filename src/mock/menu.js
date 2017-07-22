@@ -13,7 +13,7 @@ let database = [
     bpid: '1',
     name: '用户管理',
     icon: 'user',
-    route: '/user',
+    route: '/users',
   },
   {
     id: '7',
@@ -27,7 +27,7 @@ let database = [
     mpid: '-1',
     bpid: '2',
     name: 'User Detail',
-    route: '/user/:id',
+    route: '/users/:id',
   },
   {
     id: '3',
