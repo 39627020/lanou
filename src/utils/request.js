@@ -64,7 +64,7 @@ const fetch = (options) => {
       )
     case 'delete':
       return axios.delete(url,
-        cloneData,
+        ...cloneData,
       )
     case 'post':
       return axios.post(url,
@@ -72,11 +72,11 @@ const fetch = (options) => {
       )
     case 'put':
       return axios.put(url, {
-        cloneData
+        ...cloneData
       })
     case 'patch':
       return axios.patch(url, {
-        cloneData
+        ...cloneData
       })
     default:
       return axios(options)

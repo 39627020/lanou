@@ -1,6 +1,6 @@
-import * as appService  from '../services/app'
+import * as appService from '../services/app'
 import modelExtend from 'dva-model-extend'
-import { model } from './common'
+import {model} from './common'
 import * as menusService from '../services/menus'
 import {routerRedux} from 'dva/router'
 import {parse} from 'qs'
@@ -9,7 +9,7 @@ import {EnumRoleType} from 'enums'
 
 const {prefix} = config
 
-export default modelExtend(model,{
+export default modelExtend(model, {
   namespace: 'app',
   state: {
     user: {},
@@ -21,7 +21,7 @@ export default modelExtend(model,{
       {
         id: 1,
         icon: 'laptop',
-        name: 'Dashboard',
+        name: '系统概况',
         router: '/dashboard',
       },
     ],
@@ -54,16 +54,64 @@ export default modelExtend(model,{
      * @param payload
      * @param call
      * @param put
-     */
-      * query({
-                payload,
-              }, {call, put}) {
+     */* query({
+                 payload,
+               }, {call, put}) {
       const {success, user} = yield call(appService.query, payload)
       if (success && user) {
         const {permissions} = user
         //todo:修改逻辑 符合后台登录要求
         // const {list} = yield call(menusService.query)
-        const list =[ { id: '1', icon: 'laptop', name: 'Dashboard', route: '/dashboard' }, { id: '2', bpid: '1', name: 'Users', icon: 'user', route: '/users' }, { id: '7', bpid: '1', name: 'Posts', icon: 'shopping-cart', route: '/post' }, { id: '21', mpid: '-1', bpid: '2', name: 'User Detail', route: '/users/:id' }, { id: '5', bpid: '1', name: 'Recharts', icon: 'code-o' }, { id: '51', bpid: '5', mpid: '5', name: 'LineChart', icon: 'line-chart', route: '/chart/lineChart' }, { id: '52', bpid: '5', mpid: '5', name: 'BarChart', icon: 'bar-chart', route: '/chart/barChart' }, { id: '53', bpid: '5', mpid: '5', name: 'AreaChart', icon: 'area-chart', route: '/chart/areaChart' } ]
+        const list = [{id: '1', icon: 'laptop', name: '系统概况', route: '/dashboard'}, {
+          id: '2',
+          bpid: '1',
+          name: '用户管理',
+          icon: 'user',
+          route: '/users'
+        },
+          {
+            id: '21',
+            mpid: '-1',
+            bpid: '2',
+            name: '用户详情',
+            route: '/users/:id'
+          },
+          {
+            id: '3',
+            bpid: '1',
+            name: '考试管理',
+            icon: 'book',
+            route: '/exams'
+          },
+          {
+            id: '4',
+            bpid: '1',
+            name: '试卷管理',
+            icon: 'switcher',
+            route: '/papers'
+          },
+          {
+            id: '5',
+            bpid: '1',
+            name: '题库管理',
+            icon: 'database',
+            route: '/testItems'
+          },
+          {id: '7', bpid: '1', name: 'Posts', icon: 'shopping-cart', route: '/post'},  {id: '8', bpid: '1', name: 'Recharts', icon: 'code-o'}, {
+          id: '51',
+          bpid: '8',
+          mpid: '8',
+          name: 'LineChart',
+          icon: 'line-chart',
+          route: '/chart/lineChart'
+        }, {id: '52', bpid: '8', mpid: '8', name: 'BarChart', icon: 'bar-chart', route: '/chart/barChart'}, {
+          id: '53',
+          bpid: '8',
+          mpid: '8',
+          name: 'AreaChart',
+          icon: 'area-chart',
+          route: '/chart/areaChart'
+        }]
         let menu = list
         if (permissions.roles.includes(EnumRoleType.ADMIN) || permissions.roles.includes(EnumRoleType.DEVELOPER)) {
           //访问全部菜单
@@ -104,11 +152,9 @@ export default modelExtend(model,{
      * @param payload
      * @param call
      * @param put
-     */
-
-      * logout({
-                 payload,
-               }, {call, put}) {
+     */* logout({
+                  payload,
+                }, {call, put}) {
       const data = yield call(appService.logout, parse(payload))
       if (data.success) {
         yield put({type: 'query'})
@@ -121,10 +167,9 @@ export default modelExtend(model,{
      * @param payload
      * @param put
      * @param select
-     */
-      * changeNavbar({
-                       payload,
-                     }, {put, select}) {
+     */* changeNavbar({
+                        payload,
+                      }, {put, select}) {
       const {app} = yield select(_ => _)
       const isNavbar = document.body.clientWidth < 769
       if (isNavbar !== app.isNavbar) {

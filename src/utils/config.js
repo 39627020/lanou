@@ -15,10 +15,10 @@ module.exports = {
   api: {
     userLogin: `${APIV1}/auth/login`,
     userLogout: `${APIV1}/auth/logout`,
-    userInfo: `${APIV1}/userInfo`,
+    userRegister:`${APIV1}/auth/register`,
     users: `${APIV1}/users`,
+    user: `${APIV1}/users/:id`,
     posts: `${APIV1}/posts`,
-    user: `${APIV1}/user/:id`,
     dashboard: `${APIV1}/dashboard`,
     menus: `${APIV1}/menus`,
     v1test: `${APIV1}/test`,

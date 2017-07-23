@@ -1,6 +1,6 @@
 import { request, config } from 'utils'
 const { api } = config
-const { user } = api
+const { userRegister,user } = api
 
 export async function query (params) {
   return request({
@@ -12,7 +12,8 @@ export async function query (params) {
 
 export async function create (params) {
   return request({
-    url: user.replace('/:id', ''),
+  //  url: user.replace('/:id', ''),
+    url:userRegister,
     method: 'post',
     data: params,
   })

@@ -10,12 +10,13 @@ import { Link } from 'dva/router'
 const confirm = Modal.confirm
 
 const List = ({ onDeleteItem, onEditItem, isMotion, location, ...tableProps }) => {
+
   const handleMenuClick = (record, e) => {
     if (e.key === '1') {
       onEditItem(record)
     } else if (e.key === '2') {
       confirm({
-        title: 'Are you sure delete this record?',
+        title: '你确定要删除这个用户吗?',
         onOk () {
           onDeleteItem(record.id)
         },
@@ -33,9 +34,9 @@ const List = ({ onDeleteItem, onEditItem, isMotion, location, ...tableProps }) =
       render: (text) => <img alt={'avatar'} width={24} src={text} />,
     }, {
       title: '用户名',
-      dataIndex: 'name',
-      key: 'name',
-      render: (text, record) => <Link to={`user/${record.id}`}>{text}</Link>,
+      dataIndex: 'username',
+      key: 'username',
+      render: (text, record) => <Link to={`users/${record.id}`}>{text}</Link>,
     }, {
       title: '昵称',
       dataIndex: 'nickName',
@@ -46,11 +47,11 @@ const List = ({ onDeleteItem, onEditItem, isMotion, location, ...tableProps }) =
       key: 'age',
     }, {
       title: '性别',
-      dataIndex: 'isMale',
-      key: 'isMale',
+      dataIndex: 'female',
+      key: 'female',
       render: (text) => <span>{text
-            ? 'Male'
-            : 'Female'}</span>,
+            ? '女'
+            : '男'}</span>,
     }, {
       title: '电话',
       dataIndex: 'phone',
@@ -65,14 +66,14 @@ const List = ({ onDeleteItem, onEditItem, isMotion, location, ...tableProps }) =
       key: 'address',
     }, {
       title: '注册时间',
-      dataIndex: 'createTime',
-      key: 'createTime',
+      dataIndex: 'createDate',
+      key: 'createDate',
     }, {
       title: '操作',
       key: 'operation',
       width: 100,
       render: (text, record) => {
-        return <DropOption onMenuClick={e => handleMenuClick(record, e)} menuOptions={[{ key: '1', name: 'Update' }, { key: '2', name: 'Delete' }]} />
+        return <DropOption onMenuClick={e => handleMenuClick(record, e)} menuOptions={[{ key: '1', name: '修改' }, { key: '2', name: '删除' }]} />
       },
     },
   ]
@@ -90,7 +91,7 @@ const List = ({ onDeleteItem, onEditItem, isMotion, location, ...tableProps }) =
         {...tableProps}
         className={classnames({ [styles.table]: true, [styles.motion]: isMotion })}
         bordered
-        scroll={{ x: 1250 }}
+        scroll={{ x: 800 }}
         columns={columns}
         simple
         rowKey={record => record.id}

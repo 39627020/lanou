@@ -77,6 +77,7 @@ export default modelExtend(pageModel, {
     },
 
     * create({payload}, {call, put}) {
+
       const data = yield call(create, payload)
       if (data.success) {
         yield put({type: 'hideModal'})
@@ -87,7 +88,7 @@ export default modelExtend(pageModel, {
     },
 
     * update({payload}, {select, call, put}) {
-      const id = yield select(({user}) => user.currentItem.id)
+      const id = yield select(({users}) => users.currentItem.id)
       const newUser = {...payload, id}
       const data = yield call(update, newUser)
       if (data.success) {
