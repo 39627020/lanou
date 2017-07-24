@@ -1,5 +1,5 @@
 const APIV1 = '/api/v1'
-const APIV2 = '/api/v2'
+//const APIV2 = '/api/v2'
 
 module.exports = {
   name: '蓝鸥IT',
@@ -13,15 +13,18 @@ module.exports = {
   openPages: ['/login'],
   apiPrefix: '/api/v1',
   api: {
+    dashboard: `${APIV1}/dashboard`,
     userLogin: `${APIV1}/auth/login`,
     userLogout: `${APIV1}/auth/logout`,
     userRegister:`${APIV1}/auth/register`,
     users: `${APIV1}/users`,
     user: `${APIV1}/users/:id`,
-    posts: `${APIV1}/posts`,
-    dashboard: `${APIV1}/dashboard`,
-    menus: `${APIV1}/menus`,
-    v1test: `${APIV1}/test`,
-    v2test: `${APIV2}/test`,
+    testItem: `${APIV1}/testItems/:id`,
+    paper: `${APIV1}/papers/:id`,
+    exam: `${APIV1}/exams/:id`,
+    // posts: `${APIV1}/posts`,
+    // menus: `${APIV1}/menus`,
+    // v1test: `${APIV1}/test`,
+    // v2test: `${APIV2}/test`,
   },
 }

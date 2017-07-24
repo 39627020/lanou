@@ -64,6 +64,7 @@ const Routers = function ({history, app}) {
           path: 'testItems',
           getComponent(nextState, cb) {
             require.ensure([], require => {
+              registerModel(app, require('./models/testItems'))
               cb(null, require('./routes/testIems'))
             }, 'testItems')
           }
@@ -71,6 +72,7 @@ const Routers = function ({history, app}) {
           path: 'exams',
           getComponent(nextState, cb) {
             require.ensure([], require => {
+              registerModel(app, require('./models/exams'))
               cb(null, require('./routes/exams'))
             }, 'exams')
           }
@@ -78,6 +80,7 @@ const Routers = function ({history, app}) {
           path: 'papers',
           getComponent(nextState, cb) {
             require.ensure([], require => {
+              registerModel(app,require('./models/papers'))
               cb(null, require('./routes/papers'))
             }, 'papers')
           }

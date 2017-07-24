@@ -99,6 +99,8 @@ export default function request(options) {
   const _token = localStorage.getItem(`${prefix}loginToken`)
   if (_token !== null)
     options.token = _token
+
+  console.log(options)
   return fetch(options).then((response) => {
     const {statusText, status} = response
     let data = options.fetchType === 'YQL' ? response.data.query.results.json : response.data
