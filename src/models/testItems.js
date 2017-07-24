@@ -1,13 +1,13 @@
-import {pageModel} from './common'
-import modelExtend from 'dva-model-extend'
-import * as itemService from '../services/testItems'
+import {pageModel} from './common';
+import modelExtend from 'dva-model-extend';
+import * as itemService from '../services/testItems';
 
-export default modelExtend(pageModel,{
-  namespace:"testItems",
-  state:{
-    currentItem:{},
+export default modelExtend(pageModel, {
+  namespace: "testItems",
+  state: {
+    currentItem: {},
   },
-  subscriptions:{
+  subscriptions: {
     setup({dispatch, history}) {
 
       history.listen(location => {
@@ -15,15 +15,15 @@ export default modelExtend(pageModel,{
           dispatch({
             type: 'query',
             payload: location.query,
-          })
+          });
         }
-      })
+      });
     },
   },
-  effects:{
+  effects: {
 
-    *query(payload={},{put,call}){
-      const data= yield call(itemService.query,payload)
+    * query({payload = {}}, {put, call}) {
+      const data = yield call(itemService.query, payload);
       //获取到消息,开始分页
       if (data) {
         yield put({
@@ -31,14 +31,14 @@ export default modelExtend(pageModel,{
           payload: {
             list: data.content,
             pagination: {
-              current: Number(payload.page) || data.number+1,//服务器是从0开始算页码
+              current: Number(payload.page) || data.number + 1,//服务器是从0开始算页码
               pageSize: Number(payload.pageSize) || data.size,
               total: data.totalElements,
             },
           },
-        })
+        });
       }
     }
   },
 
-})
+});
