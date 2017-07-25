@@ -6,6 +6,7 @@ export default modelExtend(pageModel, {
   namespace: "papers",
   state: {
     currentItem: {},
+    selectedRowKeys:[],
   },
   subscriptions: {
     setup({dispatch, history}) {

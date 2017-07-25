@@ -6,6 +6,7 @@ export default modelExtend(pageModel, {
   namespace: "testItems",
   state: {
     currentItem: {},
+    selectedRowKeys:[],
   },
   subscriptions: {
     setup({dispatch, history}) {

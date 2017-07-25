@@ -1,36 +1,35 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { routerRedux } from 'dva/router'
-import { connect } from 'dva'
-import { Row, Col, Button, Popconfirm } from 'antd'
-import List from './List'
-import Filter from './Filter'
-import Modal from './Modal'
-
-const Users = ({ location, dispatch, users, loading }) => {
-  const { list, pagination, currentItem, modalVisible, modalType, isMotion, selectedRowKeys } = users
-  const { pageSize } = pagination
+import React from 'react';
+import PropTypes from 'prop-types';
+import {routerRedux} from 'dva/router';
+import {connect} from 'dva';
+import List from './List';
+import Filter from './Filter';
+import Modal from './Modal';
+import MultiChoiceEdit from '../../components/DataTable/MultiChoiceEdit';
+const Users = ({location, dispatch, users, loading}) => {
+  const {list, pagination, currentItem, modalVisible, modalType, isMotion, selectedRowKeys} = users;
+  const {pageSize} = pagination;
 
   const modalProps = {
     item: modalType === 'create' ? {} : currentItem,
-    type:modalType,
+    type: modalType,
     visible: modalVisible,
     maskClosable: false,
     confirmLoading: loading.effects['users/update'],
     title: `${modalType === 'create' ? '新建用户' : '修改用户'}`,
     wrapClassName: 'vertical-center-modal',
-    onOk (data) {
+    onOk(data) {
       dispatch({
         type: `users/${modalType}`,
         payload: data,
-      })
+      });
     },
-    onCancel () {
+    onCancel() {
       dispatch({
         type: 'users/hideModal',
-      })
+      });
     },
-  }
+  };
 
   const listProps = {
     dataSource: list,
@@ -38,8 +37,8 @@ const Users = ({ location, dispatch, users, loading }) => {
     pagination,
     location,
     isMotion,
-    onChange (page) {
-      const { query, pathname } = location
+    onChange(page) {
+      const {query, pathname} = location;
       dispatch(routerRedux.push({
         pathname,
         query: {
@@ -47,22 +46,22 @@ const Users = ({ location, dispatch, users, loading }) => {
           page: page.current,
           pageSize: page.pageSize,
         },
-      }))
+      }));
     },
-    onDeleteItem (id) {
+    onDeleteItem(id) {
       dispatch({
         type: 'users/delete',
         payload: id,
-      })
+      });
     },
-    onEditItem (item) {
+    onEditItem(item) {
       dispatch({
         type: 'users/showModal',
         payload: {
           modalType: 'update',
           currentItem: item,
         },
-      })
+      });
     },
     rowSelection: {
       selectedRowKeys,
@@ -72,17 +71,17 @@ const Users = ({ location, dispatch, users, loading }) => {
           payload: {
             selectedRowKeys: keys,
           },
-        })
+        });
       },
     },
-  }
+  };
 
   const filterProps = {
     isMotion,
     filter: {
       ...location.query,
     },
-    onFilterChange (value) {
+    onFilterChange(value) {
       dispatch(routerRedux.push({
         pathname: location.pathname,
         query: {
@@ -90,9 +89,9 @@ const Users = ({ location, dispatch, users, loading }) => {
           page: 1,
           pageSize,
         },
-      }))
+      }));
     },
-    onSearch (fieldsValue) {
+    onSearch(fieldsValue) {
       fieldsValue.keyword.length ? dispatch(routerRedux.push({
         pathname: '/users',
         query: {
@@ -101,20 +100,20 @@ const Users = ({ location, dispatch, users, loading }) => {
         },
       })) : dispatch(routerRedux.push({
         pathname: '/users',
-      }))
+      }));
     },
-    onAdd () {
+    onAdd() {
       dispatch({
         type: 'users/showModal',
         payload: {
           modalType: 'create',
         },
-      })
+      });
     },
-    switchIsMotion () {
-      dispatch({ type: 'users/switchIsMotion' })
+    switchIsMotion() {
+      dispatch({type: 'users/switchIsMotion'});
     },
-  }
+  };
 
   const handleDeleteItems = () => {
     dispatch({
@@ -122,34 +121,34 @@ const Users = ({ location, dispatch, users, loading }) => {
       payload: {
         ids: selectedRowKeys,
       },
-    })
-  }
-
+    });
+  };
+  const handleCancelMultiChoice = () => {
+    dispatch({
+      type: 'users/updateState',
+      payload: {
+        selectedRowKeys: [],
+      },
+    });
+  };
   return (
     <div className="content-inner">
       <Filter {...filterProps} />
       {
-         selectedRowKeys.length > 0 &&
-           <Row style={{ marginBottom: 24, textAlign: 'right', fontSize: 13 }}>
-             <Col>
-               {`已选择 <strong>${selectedRowKeys.length}</strong> 个项目 `}
-               <Popconfirm title={'你确定要删除这些用户吗？删除后不可恢复！'} placement="left" onConfirm={handleDeleteItems}>
-                 <Button type="primary" size="large" style={{ marginLeft: 8 }}>批量删除</Button>
-               </Popconfirm>
-             </Col>
-           </Row>
+        selectedRowKeys.length > 0 &&
+        <MultiChoiceEdit selectedRowKeys={selectedRowKeys} handleCancelMultiChoice={handleCancelMultiChoice} handleDeleteItems={handleDeleteItems}/>
       }
       <List {...listProps} />
       {modalVisible && <Modal {...modalProps} />}
     </div>
-  )
-}
+  );
+};
 
 Users.propTypes = {
   users: PropTypes.object,
   location: PropTypes.object,
   dispatch: PropTypes.func,
   loading: PropTypes.object,
-}
+};
 
-export default connect(({ users, loading }) => ({ users, loading }))(Users)
+export default connect(({users, loading}) => ({users, loading}))(Users);
