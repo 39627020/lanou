@@ -10,36 +10,7 @@ const confirm = Modal.confirm;
 const List = ({...tableProps}) => {
 
   const {onEditItem, onDeleteItem} = tableProps;
-  /**
-   * 选择题展示
-   * @param text
-   * @returns {XML}
-   */
-  const selectRowRender = (text) => {
-    const obj = JSON.parse(text);
-    console.log(obj);
 
-    return (
-      <div>
-        <div>题干：{obj.question}</div>
-        <div>
-          <div>
-            A:{obj.answer.A}
-          </div>
-          <div>
-            B:{obj.answer.B}
-          </div>
-          <div>
-            C:{obj.answer.C}
-          </div>
-          <div>
-            D:{obj.answer.D}
-          </div>
-        </div>
-      </div>
-
-    );
-  };
   /**
    * 操作选项
    * @param record
@@ -58,33 +29,16 @@ const List = ({...tableProps}) => {
     }
   };
 
-  const {type} = tableProps;
   const columns = [
     {
-      title: '试题分类',
+      title: '试卷分类',
       dataIndex: 'subject',
-      className: `subject-type`,
+      className:`subject-type`,
       render: (text) => text.type,
     },
-    /**
-     * 判断是选择题还是问答题
-     * type=1 问答题
-     * 其他 选择题
-     */
-    type === 1 ?
-      {
-        title: '问题描述',
-        dataIndex: 'question',
-        render: (text) => text,
-      } :
-      {
-        title: '题目与选项',
-        dataIndex: 'question',
-        render: selectRowRender
-      },
     {
-      title: '参考答案',
-      dataIndex: 'answer',
+      title: '试卷简介',
+      dataIndex: 'description',
       render: (text) => text,
     },
     {

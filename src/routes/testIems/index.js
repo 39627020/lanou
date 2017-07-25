@@ -69,7 +69,7 @@ const TestItems = ({testItems, loading, dispatch, location}) => {
   );
 };
 TestItems.propTypes = {
-  post: PropTypes.object,
+  testItems: PropTypes.object,
   loading: PropTypes.object,
   location: PropTypes.object,
   dispatch: PropTypes.func,
