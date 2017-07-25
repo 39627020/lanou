@@ -1,5 +1,4 @@
 import modelExtend from 'dva-model-extend'
-import {create, remove, update} from '../services/user'
 import * as usersService from '../services/users'
 import {pageModel} from './common'
 import {config} from 'utils'
@@ -38,7 +37,7 @@ export default modelExtend(pageModel, {
   effects: {
 
     * query({payload = {}}, {call, put}) {
-      const data = yield call(usersService.query, payload)
+      const data = yield call(usersService.queryMany, payload)
       //获取到消息,开始分页
       if (data) {
         yield put({
@@ -56,7 +55,7 @@ export default modelExtend(pageModel, {
     },
 
     * 'delete'({payload}, {call, put, select}) {
-      const data = yield call(remove, {id: payload})
+      const data = yield call(usersService.removeOneById, {id: payload})
       const {selectedRowKeys} = yield select(_ => _.user)
       if (data.success) {
         yield put({type: 'updateState', payload: {selectedRowKeys: selectedRowKeys.filter(_ => _ !== payload)}})
@@ -67,7 +66,7 @@ export default modelExtend(pageModel, {
     },
 
     * 'multiDelete'({payload}, {call, put}) {
-      const data = yield call(usersService.remove, payload)
+      const data = yield call(usersService.removeMany, payload)
       if (data.success) {
         yield put({type: 'updateState', payload: {selectedRowKeys: []}})
         yield put({type: 'query'})
@@ -78,7 +77,7 @@ export default modelExtend(pageModel, {
 
     * create({payload}, {call, put}) {
 
-      const data = yield call(create, payload)
+      const data = yield call(usersService.create, payload)
       if (data.success) {
         yield put({type: 'hideModal'})
         yield put({type: 'query'})
@@ -90,7 +89,7 @@ export default modelExtend(pageModel, {
     * update({payload}, {select, call, put}) {
       const id = yield select(({users}) => users.currentItem.id)
       const newUser = {...payload, id}
-      const data = yield call(update, newUser)
+      const data = yield call(usersService.update, newUser)
       if (data.success) {
         yield put({type: 'hideModal'})
         yield put({type: 'query'})

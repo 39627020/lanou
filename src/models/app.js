@@ -1,13 +1,13 @@
-import * as appService from '../services/app'
-import modelExtend from 'dva-model-extend'
-import {model} from './common'
-import * as menusService from '../services/menus'
-import {routerRedux} from 'dva/router'
-import {parse} from 'qs'
-import config from 'config'
-import {EnumRoleType} from 'enums'
+import * as appService from '../services/app';
+import modelExtend from 'dva-model-extend';
+import {model} from './common';
+import * as menusService from '../services/menus';
+import {routerRedux} from 'dva/router';
+import {parse} from 'qs';
+import config from 'config';
+import {EnumRoleType} from 'enums';
 
-const {prefix} = config
+const {prefix} = config;
 
 export default modelExtend(model, {
   namespace: 'app',
@@ -34,17 +34,17 @@ export default modelExtend(model, {
   subscriptions: {
 
     setup({dispatch}) {
-      dispatch({type: 'query'})
-      let tid
+      dispatch({type: 'query'});
+      let tid;
       /*
       窗口宽度改变时，自适应界面
        */
       window.onresize = () => {
-        clearTimeout(tid)
+        clearTimeout(tid);
         tid = setTimeout(() => {
-          dispatch({type: 'changeNavbar'})
-        }, 300)
-      }
+          dispatch({type: 'changeNavbar'});
+        }, 300);
+      };
     },
 
   },
@@ -57,11 +57,12 @@ export default modelExtend(model, {
      */* query({
                  payload,
                }, {call, put}) {
-      const {success, user} = yield call(appService.query, payload)
+
+      const {success, user} = yield call(appService.queryOneByUserName, payload);
       if (success && user) {
-        const {permissions} = user
+        const {permissions} = user;
         //todo:修改逻辑 符合后台登录要求
-        // const {list} = yield call(menusService.query)
+        // const {list} = yield call(menusService.queryMany)
         const list = [{id: '1', icon: 'laptop', name: '系统概况', route: '/dashboard'}, {
           id: '2',
           bpid: '1',
@@ -97,25 +98,30 @@ export default modelExtend(model, {
             icon: 'database',
             route: '/testItems'
           },
-          {id: '7', bpid: '1', name: 'Posts', icon: 'shopping-cart', route: '/post'},  {id: '8', bpid: '1', name: 'Recharts', icon: 'code-o'}, {
-          id: '51',
-          bpid: '8',
-          mpid: '8',
-          name: 'LineChart',
-          icon: 'line-chart',
-          route: '/chart/lineChart'
-        }, {id: '52', bpid: '8', mpid: '8', name: 'BarChart', icon: 'bar-chart', route: '/chart/barChart'}, {
-          id: '53',
-          bpid: '8',
-          mpid: '8',
-          name: 'AreaChart',
-          icon: 'area-chart',
-          route: '/chart/areaChart'
-        }]
-        let menu = list
+          {id: '7', bpid: '1', name: 'Posts', icon: 'shopping-cart', route: '/post'}, {
+            id: '8',
+            bpid: '1',
+            name: 'Recharts',
+            icon: 'code-o'
+          }, {
+            id: '51',
+            bpid: '8',
+            mpid: '8',
+            name: 'LineChart',
+            icon: 'line-chart',
+            route: '/chart/lineChart'
+          }, {id: '52', bpid: '8', mpid: '8', name: 'BarChart', icon: 'bar-chart', route: '/chart/barChart'}, {
+            id: '53',
+            bpid: '8',
+            mpid: '8',
+            name: 'AreaChart',
+            icon: 'area-chart',
+            route: '/chart/areaChart'
+          }];
+        let menu = list;
         if (permissions.roles.includes(EnumRoleType.ADMIN) || permissions.roles.includes(EnumRoleType.DEVELOPER)) {
           //访问全部菜单
-          permissions.visit = list.map(item => item.id)
+          permissions.visit = list.map(item => item.id);
         } else {
           //返回合适的item
           menu = list.filter(item => {
@@ -124,10 +130,10 @@ export default modelExtend(model, {
               permissions.visit.includes(item.id),
               item.mpid ? permissions.visit.includes(item.mpid) || item.mpid === '-1' : true,
               item.bpid ? permissions.visit.includes(item.bpid) : true,
-            ]
+            ];
             //不满足就返回false
-            return cases.every(_ => _)
-          })
+            return cases.every(_ => _);
+          });
         }
         yield put({
           type: 'updateState',
@@ -136,14 +142,14 @@ export default modelExtend(model, {
             permissions,
             menu,
           },
-        })
+        });
         if (location.pathname === '/login') {
-          yield put(routerRedux.push('/dashboard'))
+          yield put(routerRedux.push('/dashboard'));
         }
       } else {
         if (config.openPages && config.openPages.indexOf(location.pathname) < 0) {
-          let from = location.pathname
-          window.location = `${location.origin}/login?from=${from}`
+          let from = location.pathname;
+          window.location = `${location.origin}/login?from=${from}`;
         }
       }
     },
@@ -155,11 +161,11 @@ export default modelExtend(model, {
      */* logout({
                   payload,
                 }, {call, put}) {
-      const data = yield call(appService.logout, parse(payload))
+      const data = yield call(appService.logout, parse(payload));
       if (data.success) {
-        yield put({type: 'query'})
+        yield put({type: 'query'});
       } else {
-        throw (data)
+        throw (data);
       }
     },
     /**
@@ -170,10 +176,10 @@ export default modelExtend(model, {
      */* changeNavbar({
                         payload,
                       }, {put, select}) {
-      const {app} = yield select(_ => _)
-      const isNavbar = document.body.clientWidth < 769
+      const {app} = yield select(_ => _);
+      const isNavbar = document.body.clientWidth < 769;
       if (isNavbar !== app.isNavbar) {
-        yield put({type: 'handleNavbar', payload: isNavbar})
+        yield put({type: 'handleNavbar', payload: isNavbar});
       }
     },
   },
@@ -184,11 +190,11 @@ export default modelExtend(model, {
      * @returns {{siderFold: boolean}}
      */
     switchSider(state) {
-      localStorage.setItem(`${prefix}siderFold`, !state.siderFold)
+      localStorage.setItem(`${prefix}siderFold`, !state.siderFold);
       return {
         ...state,
         siderFold: !state.siderFold,
-      }
+      };
     },
     /**
      * 更改侧边栏主题
@@ -196,11 +202,11 @@ export default modelExtend(model, {
      * @returns {{darkTheme: boolean}}
      */
     switchTheme(state) {
-      localStorage.setItem(`${prefix}darkTheme`, !state.darkTheme)
+      localStorage.setItem(`${prefix}darkTheme`, !state.darkTheme);
       return {
         ...state,
         darkTheme: !state.darkTheme,
-      }
+      };
     },
     /**
      * 在页面很窄时，是否弹出菜单
@@ -211,7 +217,7 @@ export default modelExtend(model, {
       return {
         ...state,
         menuPopoverVisible: !state.menuPopoverVisible,
-      }
+      };
     },
     /**
      * 修改菜单的显示状态
@@ -223,7 +229,7 @@ export default modelExtend(model, {
       return {
         ...state,
         isNavbar: payload,
-      }
+      };
     },
     /**
      * 侧边栏子菜单呢的折叠情况
@@ -235,7 +241,7 @@ export default modelExtend(model, {
       return {
         ...state,
         ...navOpenKeys,
-      }
+      };
     },
   },
-})
+});

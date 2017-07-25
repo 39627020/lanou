@@ -34,7 +34,7 @@ const Users = ({ location, dispatch, users, loading }) => {
 
   const listProps = {
     dataSource: list,
-    loading: loading.effects['users/query'],
+    loading: loading.effects['users/queryMany'],
     pagination,
     location,
     isMotion,

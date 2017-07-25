@@ -1,5 +1,5 @@
 import pathToRegexp from 'path-to-regexp'
-import { query } from '../../services/user'
+import { queryOneById } from '../../services/users'
 
 export default {
 
@@ -24,7 +24,7 @@ export default {
     *query ({
       payload,
     }, { call, put }) {
-      const data = yield call(query, payload)
+      const data = yield call(queryOneById, payload)
       const { success, message, status, ...other } = data
       if (success) {
         yield put({

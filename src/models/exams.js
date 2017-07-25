@@ -23,7 +23,7 @@ export default modelExtend(pageModel, {
   effects: {
 
     * query({payload = {}}, {put, call}) {
-      const data = yield call(itemService.query, payload);
+      const data = yield call(itemService.queryMany, payload);
       //获取到消息,开始分页
       if (data) {
         yield put({

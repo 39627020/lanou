@@ -2,7 +2,7 @@ import { request, config } from 'utils'
 const { api } = config
 const { paper } = api
 
-export async function query (params) {
+export async function queryMany (params) {
 
   return request({
     url: paper.replace('/:id',""),

@@ -20,7 +20,7 @@ const Index = ({ post, dispatch, loading, location }) => {
   const listProps = {
     pagination,
     dataSource: list,
-    loading: loading.effects['post/query'],
+    loading: loading.effects['post/queryMany'],
     onChange (page) {
       dispatch(routerRedux.push({
         pathname,

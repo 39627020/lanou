@@ -1,6 +1,6 @@
 import { request, config } from 'utils'
 const { api ,prefix} = config
-const { users, userLogout, userLogin } = api
+const { user, userLogout, userLogin } = api
 
 export async function login (params) {
   return request({
@@ -18,10 +18,10 @@ export async function logout (params) {
   };
 }
 
-export async function query (params) {
+export async function queryOneByUserName (params) {
   const username = localStorage.getItem(`${prefix}loginUsername`);
   return request({
-    url: users + "/"+ username,
+    url: user.replace('/:id',"") + "/"+ username,
     method: 'get',
     data: params,
   })

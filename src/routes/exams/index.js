@@ -12,7 +12,7 @@ const Exams = ({exams, loading, dispatch, location}) => {
   const listProps = {
     pagination,
     dataSource: list,
-    loading: loading.effects['papers/query'],
+    loading: loading.effects['papers/queryMany'],
     location,
     onChange: (page) => {
       dispatch(routerRedux.push({
