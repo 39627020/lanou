@@ -56,7 +56,8 @@ export default modelExtend(pageModel, {
 
     * 'delete'({payload}, {call, put, select}) {
       const data = yield call(usersService.removeOneById, {id: payload})
-      const {selectedRowKeys} = yield select(_ => _.user)
+      //多选时删除一个，保留选择记录
+      const {selectedRowKeys} = yield select(_ => _.users)
       if (data.success) {
         yield put({type: 'updateState', payload: {selectedRowKeys: selectedRowKeys.filter(_ => _ !== payload)}})
         yield put({type: 'query'})
@@ -67,6 +68,7 @@ export default modelExtend(pageModel, {
 
     * 'multiDelete'({payload}, {call, put}) {
       const data = yield call(usersService.removeMany, payload)
+      console.log(payload)
       if (data.success) {
         yield put({type: 'updateState', payload: {selectedRowKeys: []}})
         yield put({type: 'query'})
@@ -76,7 +78,6 @@ export default modelExtend(pageModel, {
     },
 
     * create({payload}, {call, put}) {
-
       const data = yield call(usersService.create, payload)
       if (data.success) {
         yield put({type: 'hideModal'})
