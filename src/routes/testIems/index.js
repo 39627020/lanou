@@ -13,10 +13,11 @@ const TestItemEnum = {
   CHOICE: 2,
 };
 
-const TestItems = ({testItems, loading, dispatch, location,}) => {
+const TestItems = ({testItems, loading, app, dispatch, location,}) => {
   const {list, pagination, selectedRowKeys} = testItems;
   const {query = {}, pathname} = location;
-
+  const {subjects} = app;
+  const {pageSize} = pagination;
   /**
    * 类型切换
    * @param key
@@ -35,15 +36,35 @@ const TestItems = ({testItems, loading, dispatch, location,}) => {
    * @type {{isMotion: *, filter: {}, onFilterChange: (function(*)), onSearch: (function(*)), onAdd: (function()), switchIsMotion: (function())}}
    */
   const filterProps = {
+    subjects,
+    filter: {
+      ...location.query,
+    },
+    onFilterChange(value) {
+      dispatch(routerRedux.push({
+        pathname: location.pathname,
+        query: {
+          ...value,
+          page: 1,
+          pageSize,
+        },
+      }));
+    },
+    onAdd() {
+      dispatch({
+        type: 'users/showModal',
+        payload: {
+          modalType: 'create',
+        },
+      });
+    },
 
   };
   /**
    * 模态框参数
    * @type {{item: {}, type: *, visible: *, maskClosable: boolean, confirmLoading, title: string, wrapClassName: string, onOk: (function(*=)), onCancel: (function())}}
    */
-  const modalProps = {
-
-  };
+  const modalProps = {};
   /**
    * 列表参数
    * @type {{pagination: *, dataSource: *, loading, location: *, onChange: (function(*)), rowSelection: {selectedRowKeys: *, onChange: (function(*=))}}}
@@ -114,15 +135,19 @@ const TestItems = ({testItems, loading, dispatch, location,}) => {
         <TabPane tab="问答题" key={String(TestItemEnum.QUESTION)}>
           {
             selectedRowKeys.length > 0 &&
-            <MultiChoiceEdit selectedRowKeys={selectedRowKeys} handleCancelMultiChoice={handleCancelMultiChoice} handleDeleteItems={handleDeleteItems}/>
+            <MultiChoiceEdit selectedRowKeys={selectedRowKeys} handleCancelMultiChoice={handleCancelMultiChoice}
+                             handleDeleteItems={handleDeleteItems}/>
           }
+          {/*<Filter {...filterProps}/>*/}
           <List {...quesitonPops} />
         </TabPane>
         <TabPane tab="选择题" key={String(TestItemEnum.CHOICE)}>
           {
             selectedRowKeys.length > 0 &&
-            <MultiChoiceEdit selectedRowKeys={selectedRowKeys} handleCancelMultiChoice={handleCancelMultiChoice} handleDeleteItems={handleDeleteItems}/>
+            <MultiChoiceEdit selectedRowKeys={selectedRowKeys} handleCancelMultiChoice={handleCancelMultiChoice}
+                             handleDeleteItems={handleDeleteItems}/>
           }
+          {/*<Filter {...filterProps}/>*/}
           <List {...selectPops} />
         </TabPane>
       </Tabs>
@@ -136,4 +161,4 @@ TestItems.propTypes = {
   dispatch: PropTypes.func,
 };
 
-export default connect(({testItems, loading}) => ({testItems, loading}))(TestItems);
+export default connect(({testItems, loading, app}) => ({testItems, loading, app}))(TestItems);

@@ -2,6 +2,7 @@ import * as appService from '../services/app';
 import modelExtend from 'dva-model-extend';
 import {model} from './common';
 import * as menusService from '../services/menus';
+import * as subjectService from '../services/subject';
 import {routerRedux} from 'dva/router';
 import {parse} from 'qs';
 import config from 'config';
@@ -13,6 +14,7 @@ export default modelExtend(model, {
   namespace: 'app',
   state: {
     user: {},
+    subjects:[],
     permissions: {
       visit: [],
       roles: [],
@@ -60,10 +62,14 @@ export default modelExtend(model, {
 
       const {success, user} = yield call(appService.queryOneByUserName, payload);
       if (success && user) {
+        //加载subject分类
+        const subjectData = yield call(subjectService.queryMany)
+        let subjects = subjectData.list
+
         const {permissions} = user;
         //todo:修改逻辑 符合后台登录要求
-        // const {list} = yield call(menusService.queryMany)
-        const list = [{id: '1', icon: 'laptop', name: '系统概况', route: '/dashboard'}, {
+        // const menuData = yield call(menusService.queryMany)
+         const list = [{id: '1', icon: 'laptop', name: '系统概况', route: '/dashboard'}, {
           id: '2',
           bpid: '1',
           name: '用户管理',
@@ -141,6 +147,7 @@ export default modelExtend(model, {
             user,
             permissions,
             menu,
+            subjects,
           },
         });
         if (location.pathname === '/login') {

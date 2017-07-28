@@ -68,7 +68,7 @@ const Filter = ({
     fields = handleFields(fields)
     onFilterChange(fields)
   }
-  const { name, address } = filter
+  const { username, address } = filter
 
   let initialCreateTime = []
   if (filter.createTime && filter.createTime[0]) {
@@ -81,7 +81,7 @@ const Filter = ({
   return (
     <Row gutter={24}>
       <Col {...ColProps} xl={{ span: 4 }} md={{ span: 8 }}>
-        {getFieldDecorator('name', { initialValue: name })(<Search placeholder="按用户名搜索" size="large" onSearch={handleSubmit} />)}
+        {getFieldDecorator('username', { initialValue: username })(<Search placeholder="按用户名搜索" size="large" onSearch={handleSubmit} />)}
       </Col>
       <Col {...ColProps} xl={{ span: 4 }} md={{ span: 8 }}>
         {getFieldDecorator('address', { initialValue: address })(

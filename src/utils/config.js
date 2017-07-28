@@ -21,6 +21,7 @@ module.exports = {
     testItem: `${APIV1}/testItems/:id`,
     paper: `${APIV1}/papers/:id`,
     exam: `${APIV1}/exams/:id`,
+    subject: `${APIV1}/subjects/:id`,
     // posts: `${APIV1}/posts`,
     // menus: `${APIV1}/menus`,
     // v1test: `${APIV1}/test`,
