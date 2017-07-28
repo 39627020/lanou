@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {routerRedux} from 'dva/router';
 import {connect} from 'dva';
 import List from './List';
-
 import MultiChoiceEdit from '../../components/DataTable/MultiChoiceEdit';
 
 const Exams = ({exams, loading, dispatch, location}) => {

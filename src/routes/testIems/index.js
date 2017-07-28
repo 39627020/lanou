@@ -5,6 +5,7 @@ import {connect} from 'dva';
 import List from './List';
 import {Tabs} from 'antd';
 import MultiChoiceEdit from '../../components/DataTable/MultiChoiceEdit';
+import Filter from './Filter';
 
 const TabPane = Tabs.TabPane;
 const TestItemEnum = {
@@ -29,6 +30,24 @@ const TestItems = ({testItems, loading, dispatch, location,}) => {
     }));
   };
 
+  /**
+   * 搜索栏参数
+   * @type {{isMotion: *, filter: {}, onFilterChange: (function(*)), onSearch: (function(*)), onAdd: (function()), switchIsMotion: (function())}}
+   */
+  const filterProps = {
+
+  };
+  /**
+   * 模态框参数
+   * @type {{item: {}, type: *, visible: *, maskClosable: boolean, confirmLoading, title: string, wrapClassName: string, onOk: (function(*=)), onCancel: (function())}}
+   */
+  const modalProps = {
+
+  };
+  /**
+   * 列表参数
+   * @type {{pagination: *, dataSource: *, loading, location: *, onChange: (function(*)), rowSelection: {selectedRowKeys: *, onChange: (function(*=))}}}
+   */
   const listProps = {
     pagination,
     dataSource: list,
@@ -65,6 +84,9 @@ const TestItems = ({testItems, loading, dispatch, location,}) => {
     type: 2,
     ...listProps
   };
+  /**
+   * 多选框相关方法
+   */
   const handleDeleteItems = () => {
     dispatch({
       type: 'testItems/multiDelete',
@@ -73,6 +95,9 @@ const TestItems = ({testItems, loading, dispatch, location,}) => {
       },
     });
   };
+  /**
+   * 多选框相关方法
+   */
   const handleCancelMultiChoice = () => {
     dispatch({
       type: 'testItems/updateState',
