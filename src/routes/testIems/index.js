@@ -33,7 +33,6 @@ const TestItems = ({testItems, loading, app, dispatch, location,}) => {
 
   /**
    * 搜索栏参数
-   * @type {{isMotion: *, filter: {}, onFilterChange: (function(*)), onSearch: (function(*)), onAdd: (function()), switchIsMotion: (function())}}
    */
   const filterProps = {
     subjects,
@@ -138,7 +137,7 @@ const TestItems = ({testItems, loading, app, dispatch, location,}) => {
             <MultiChoiceEdit selectedRowKeys={selectedRowKeys} handleCancelMultiChoice={handleCancelMultiChoice}
                              handleDeleteItems={handleDeleteItems}/>
           }
-          {/*<Filter {...filterProps}/>*/}
+          <Filter {...filterProps}/>
           <List {...quesitonPops} />
         </TabPane>
         <TabPane tab="选择题" key={String(TestItemEnum.CHOICE)}>
@@ -147,7 +146,7 @@ const TestItems = ({testItems, loading, app, dispatch, location,}) => {
             <MultiChoiceEdit selectedRowKeys={selectedRowKeys} handleCancelMultiChoice={handleCancelMultiChoice}
                              handleDeleteItems={handleDeleteItems}/>
           }
-          {/*<Filter {...filterProps}/>*/}
+          <Filter {...filterProps}/>
           <List {...selectPops} />
         </TabPane>
       </Tabs>

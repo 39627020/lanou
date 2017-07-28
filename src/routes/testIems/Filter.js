@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import moment from 'moment';
+import {FilterItem} from 'components';
 import {Form, Button, Row, Col, Input} from 'antd';
 import {Select} from 'antd';
-
-
-
 const Option = Select.Option;
 
 const Filter = ({
@@ -19,8 +17,7 @@ const Filter = ({
                     getFieldDecorator,
                   },
                 }) => {
-  const {selectedSubject} = filter;
-  handleSubmit = () => {
+  const handleSubmit = () => {
     let fields = getFieldsValue();
     onFilterChange(fields);
   };
@@ -49,13 +46,15 @@ const Filter = ({
   return (
     <Row gutter={24} style={{marginBottom: 16}}>
       <Col sm={{span: 6}} xs={{span: 24}}>
-            < Select style={{width: 120}} placeholder="请选择类型">
-              {
-                subjects.map(sub =>
-                  <Option value={sub.type}>{sub.type}</Option>
-                )
-              }
-            </Select>
+        <Select defaultValue="all" style={{width: 120}} onChange={handleSelect}>
+          <Option value='all'>全部</Option>
+          {
+            subjects.map(sub =>
+              <Option value={sub.type}>{sub.type}</Option>
+            )
+          }
+        </Select>
+
       </Col>
       <Col sm={{span: 6}} xs={{span: 16}}>
         <div>
