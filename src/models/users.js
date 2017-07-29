@@ -68,7 +68,7 @@ export default modelExtend(pageModel, {
 
     * 'multiDelete'({payload}, {call, put}) {
       const data = yield call(usersService.removeMany, payload)
-      console.log(payload)
+
       if (data.success) {
         yield put({type: 'updateState', payload: {selectedRowKeys: []}})
         yield put({type: 'query'})
