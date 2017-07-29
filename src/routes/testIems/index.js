@@ -6,6 +6,7 @@ import List from './List';
 import {Tabs} from 'antd';
 import MultiChoiceEdit from '../../components/DataTable/MultiChoiceEdit';
 import Filter from './Filter';
+import Modal from './Modal';
 
 const TabPane = Tabs.TabPane;
 const TestItemEnum = {
@@ -62,7 +63,7 @@ const TestItems = ({testItems, loading, app, dispatch, location,}) => {
     visible: modalVisible,
     maskClosable: false,
     confirmLoading: loading.effects['testItems/update'],
-    title: `${modalType === 'create' ? '新建试题' : '修改试题'}`,
+    title: `${modalType === 'create' ? '新增试题' : '修改试题'}`,
     wrapClassName: 'vertical-center-modal',
     onOk(data) {
       dispatch({
@@ -166,6 +167,7 @@ const TestItems = ({testItems, loading, app, dispatch, location,}) => {
           }
           <Filter {...filterProps}/>
           <List {...quesitonPops} />
+          {modalVisible && <Modal {...modalProps} />}
         </TabPane>
         <TabPane tab="选择题" key={String(TestItemEnum.CHOICE)}>
           {
@@ -175,6 +177,7 @@ const TestItems = ({testItems, loading, app, dispatch, location,}) => {
           }
           <Filter {...filterProps}/>
           <List {...selectPops} />
+          {modalVisible && <Modal {...modalProps} />}
         </TabPane>
       </Tabs>
     </div>

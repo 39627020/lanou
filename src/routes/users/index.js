@@ -16,7 +16,7 @@ const Users = ({location, dispatch, users, loading}) => {
     visible: modalVisible,
     maskClosable: false,
     confirmLoading: loading.effects['users/update'],
-    title: `${modalType === 'create' ? '新建用户' : '修改用户'}`,
+    title: `${modalType === 'create' ? '新增用户' : '修改用户'}`,
     wrapClassName: 'vertical-center-modal',
     onOk(data) {
       dispatch({

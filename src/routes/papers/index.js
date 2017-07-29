@@ -41,7 +41,7 @@ const Papers = ({papers, loading, app,dispatch, location}) => {
     visible: modalVisible,
     maskClosable: false,
     confirmLoading: loading.effects['papers/update'],
-    title: `${modalType === 'create' ? '新建试卷' : '修改试卷'}`,
+    title: `${modalType === 'create' ? '新增试卷' : '修改试卷'}`,
     wrapClassName: 'vertical-center-modal',
     onOk(data) {
       dispatch({

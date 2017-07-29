@@ -42,7 +42,7 @@ const Exams = ({exams, loading, app,dispatch, location}) => {
     visible: modalVisible,
     maskClosable: false,
     confirmLoading: loading.effects['exams/update'],
-    title: `${modalType === 'create' ? '新建考试' : '修改考试'}`,
+    title: `${modalType === 'create' ? '新增考试' : '修改考试'}`,
     wrapClassName: 'vertical-center-modal',
     onOk(data) {
       dispatch({
