@@ -4,11 +4,37 @@ import {routerRedux} from 'dva/router';
 import {connect} from 'dva';
 import List from './List';
 import MultiChoiceEdit from '../../components/DataTable/MultiChoiceEdit';
-
-const Papers = ({papers, loading, dispatch, location}) => {
+import Filter from './Filter';
+const Papers = ({papers, loading, app,dispatch, location}) => {
   const {list, pagination, selectedRowKeys} = papers;
   const {query = {}, pathname} = location;
-
+  const {subjects} =app;
+  /**
+   * 搜索栏参数
+   */
+  const filterProps = {
+    subjects,
+    filter: {
+      ...location.query,
+    },
+    onFilterChange(value) {
+      dispatch(routerRedux.push({
+        pathname: location.pathname,
+        query: {
+          ...query,
+          ...value,
+        },
+      }));
+    },
+    onAdd() {
+      dispatch({
+        type: 'users/showModal',
+        payload: {
+          modalType: 'create',
+        },
+      });
+    },
+  };
   const listProps = {
     pagination,
     dataSource: list,
@@ -58,6 +84,7 @@ const Papers = ({papers, loading, dispatch, location}) => {
         selectedRowKeys.length > 0 &&
         <MultiChoiceEdit selectedRowKeys={selectedRowKeys} handleCancelMultiChoice={handleCancelMultiChoice} handleDeleteItems={handleDeleteItems}/>
       }
+      <Filter {...filterProps}/>
       <List {...listProps} />
     </div>
   );
@@ -70,4 +97,4 @@ Papers.propTypes = {
 };
 
 
-export default connect(({papers, loading}) => ({papers, loading}))(Papers);
+export default connect(({papers, loading,app}) => ({papers, loading,app}))(Papers);

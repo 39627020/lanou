@@ -17,8 +17,6 @@ const List = ({...tableProps}) => {
    */
   const selectRowRender = (text) => {
     const obj = JSON.parse(text);
-    console.log(obj);
-
     return (
       <div>
         <div>题干：{obj.question}</div>

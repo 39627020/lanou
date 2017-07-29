@@ -15,9 +15,8 @@ const TestItemEnum = {
 
 const TestItems = ({testItems, loading, app, dispatch, location,}) => {
   const {list, pagination, selectedRowKeys} = testItems;
-  const {query = {}, pathname} = location;
+  const {query, pathname} = location;
   const {subjects} = app;
-  const {pageSize} = pagination;
   /**
    * 类型切换
    * @param key
@@ -43,9 +42,8 @@ const TestItems = ({testItems, loading, app, dispatch, location,}) => {
       dispatch(routerRedux.push({
         pathname: location.pathname,
         query: {
+          ...query,
           ...value,
-          page: 1,
-          pageSize,
         },
       }));
     },
@@ -57,7 +55,6 @@ const TestItems = ({testItems, loading, app, dispatch, location,}) => {
         },
       });
     },
-
   };
   /**
    * 模态框参数

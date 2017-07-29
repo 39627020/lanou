@@ -54,8 +54,6 @@ const fetch = (options) => {
     data = null;
   }
   axios.defaults.headers.common['Authorization'] = token;
-  //todo 调试
-  console.log(cloneData)
   switch (method.toLowerCase()) {
     case 'get':
       return axios.get(url,
