@@ -6,6 +6,7 @@ import {FilterItem} from 'components';
 const Option = Select.Option;
 
 const Filter = ({
+                  type,
                   subjects,
                   onAdd,
                   onFilterChange,
@@ -15,6 +16,8 @@ const Filter = ({
                     getFieldDecorator,
                   },
                 }) => {
+  const handleAddClick =()=>{onAdd(type)}
+
   const handleSubmit = () => {
     let fields = getFieldsValue();
     onFilterChange(fields);
@@ -69,7 +72,7 @@ const Filter = ({
       </Col>
       <Col {...ColProps} sm={{span: 6, offset: 6}} xs={{span: 8}}>
         <div style={{float: "right"}}>
-          <Button size="large" type="ghost" onClick={onAdd}>新增试题</Button>
+          <Button size="large" type="ghost" onClick={ handleAddClick }>新增试题</Button>
         </div>
       </Col>
     </Row>

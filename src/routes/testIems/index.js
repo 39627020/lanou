@@ -7,6 +7,7 @@ import {Tabs} from 'antd';
 import MultiChoiceEdit from '../../components/DataTable/MultiChoiceEdit';
 import Filter from './Filter';
 import Modal from './Modal';
+import lodash from 'lodash';
 
 const TabPane = Tabs.TabPane;
 const TestItemEnum = {
@@ -15,9 +16,14 @@ const TestItemEnum = {
 };
 
 const TestItems = ({testItems, loading, app, dispatch, location,}) => {
-  const {list, pagination, selectedRowKeys, modalVisible, modalType, currentItem} = testItems;
+  const {list, pagination, selectedRowKeys, modalVisible1, modalVisible2, modalType, currentItem} = testItems;
   const {query, pathname} = location;
   const {subjects} = app;
+  //深度拷贝list，并格式化
+  const cloneList = lodash.cloneDeep(list).map(i => {
+    i.subject = i.subject.type;
+    return i;
+  });
   /**
    * 类型切换
    * @param key
@@ -48,19 +54,29 @@ const TestItems = ({testItems, loading, app, dispatch, location,}) => {
         },
       }));
     },
-    onAdd() {
-      dispatch({
-        type: 'testItems/showModal',
-        payload: {
-          modalType: 'create',
-        },
-      });
-    },
+    onAdd(type) {
+
+      if (type == 1) {
+        dispatch({
+          type: 'testItems/showModal1', payload: {
+            modalType: 'create',
+          },
+        });
+      }
+      else {
+        dispatch({
+          type: 'testItems/showModal2', payload: {
+            modalType: 'create',
+          },
+        });
+      }
+
+    }
   };
   const modalProps = {
     item: modalType === 'create' ? {} : currentItem,
-    type: modalType,
-    visible: modalVisible,
+    subjects: subjects,
+    modalType: modalType,
     maskClosable: false,
     confirmLoading: loading.effects['testItems/update'],
     title: `${modalType === 'create' ? '新增试题' : '修改试题'}`,
@@ -83,7 +99,6 @@ const TestItems = ({testItems, loading, app, dispatch, location,}) => {
    */
   const listProps = {
     pagination,
-    dataSource: list,
     loading: loading.effects['testItems/queryMany'],
     location,
     onChange: (page) => {
@@ -113,25 +128,30 @@ const TestItems = ({testItems, loading, app, dispatch, location,}) => {
         payload: id,
       });
     },
-    onEditItem(item) {
-      dispatch({
-        type: 'testItems/showModal',
-        payload: {
-          modalType: 'update',
-          currentItem: item,
-        },
-      });
+    onEditItem(type, item) {
+      if (type == 1) {
+        dispatch({
+          type: 'testItems/showModal1',
+          payload: {
+            modalType: 'update',
+            currentItem: item,
+          },
+        });
+      }
+      else {
+        dispatch({
+          type: 'testItems/showModal2',
+          payload: {
+            modalType: 'update',
+            currentItem: item,
+          },
+        });
+      }
+
     }
   };
 
-  const quesitonPops = {
-    type: 1,
-    ...listProps
-  };
-  const selectPops = {
-    type: 2,
-    ...listProps
-  };
+
   /**
    * 多选框相关方法
    */
@@ -165,19 +185,21 @@ const TestItems = ({testItems, loading, app, dispatch, location,}) => {
             <MultiChoiceEdit selectedRowKeys={selectedRowKeys} handleCancelMultiChoice={handleCancelMultiChoice}
                              handleDeleteItems={handleDeleteItems}/>
           }
-          <Filter {...filterProps}/>
-          <List {...quesitonPops} />
-          {modalVisible && <Modal {...modalProps} />}
+          <Filter type={String(TestItemEnum.QUESTION)} {...filterProps}/>
+          <List dataSource={cloneList.filter(i => i.type == "QUESTION")}
+                type={String(TestItemEnum.QUESTION)} {...listProps} />
+          {modalVisible1 && <Modal visible={modalVisible1} type={String(TestItemEnum.QUESTION)} {...modalProps} />}
         </TabPane>
-        <TabPane tab="选择题" key={String(TestItemEnum.CHOICE)}>
+        <TabPane tab='选择题' key={String(TestItemEnum.CHOICE)}>
           {
             selectedRowKeys.length > 0 &&
             <MultiChoiceEdit selectedRowKeys={selectedRowKeys} handleCancelMultiChoice={handleCancelMultiChoice}
                              handleDeleteItems={handleDeleteItems}/>
           }
-          <Filter {...filterProps}/>
-          <List {...selectPops} />
-          {modalVisible && <Modal {...modalProps} />}
+          <Filter type={String(TestItemEnum.CHOICE)} {...filterProps}/>
+          <List dataSource={cloneList.filter(i => i.type == "CHOICE")}
+                type={String(TestItemEnum.CHOICE)} {...listProps} />
+          {modalVisible2 && <Modal visible={modalVisible2} type={String(TestItemEnum.CHOICE)}{...modalProps} />}
         </TabPane>
       </Tabs>
     </div>

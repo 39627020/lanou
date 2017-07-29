@@ -9,34 +9,38 @@ const confirm = Modal.confirm;
 
 const List = ({...tableProps}) => {
 
-  const {onEditItem, onDeleteItem} = tableProps;
+  const {onEditItem, onDeleteItem, type} = tableProps;
+
   /**
    * 选择题展示
    * @param text
    * @returns {XML}
    */
   const selectRowRender = (text) => {
-    const obj = JSON.parse(text);
-    return (
-      <div>
-        <div>题干：{obj.question}</div>
+    if (type == 2) {
+      const obj = JSON.parse(text);
+      return (
         <div>
+          <div>题干：{obj.question}</div>
           <div>
-            A:{obj.answer.A}
-          </div>
-          <div>
-            B:{obj.answer.B}
-          </div>
-          <div>
-            C:{obj.answer.C}
-          </div>
-          <div>
-            D:{obj.answer.D}
+            <div>
+              A:{obj.answer.A}
+            </div>
+            <div>
+              B:{obj.answer.B}
+            </div>
+            <div>
+              C:{obj.answer.C}
+            </div>
+            <div>
+              D:{obj.answer.D}
+            </div>
           </div>
         </div>
-      </div>
-
-    );
+      );
+    } else if (type == 1) {
+      return (<div>{text}</div>);
+    }
   };
   /**
    * 操作选项
@@ -45,7 +49,7 @@ const List = ({...tableProps}) => {
    */
   const handleMenuClick = (record, e) => {
     if (e.key === '1') {
-      onEditItem(record);
+      onEditItem(type,record);
     } else if (e.key === '2') {
       confirm({
         title: '你确定要删除这个用户吗?',
@@ -56,30 +60,18 @@ const List = ({...tableProps}) => {
     }
   };
 
-  const {type} = tableProps;
   const columns = [
     {
       title: '试题分类',
       dataIndex: 'subject',
       className: `subject-type`,
-      render: (text) => text.type,
+      render: (text) => text,
     },
-    /**
-     * 判断是选择题还是问答题
-     * type=1 问答题
-     * 其他 选择题
-     */
-    type === 1 ?
-      {
-        title: '问题描述',
-        dataIndex: 'question',
-        render: (text) => text,
-      } :
-      {
-        title: '题目与选项',
-        dataIndex: 'question',
-        render: selectRowRender
-      },
+    {
+      title: '题目与选项',
+      dataIndex: 'question',
+      render: selectRowRender
+    },
     {
       title: '参考答案',
       dataIndex: 'answer',
@@ -95,7 +87,6 @@ const List = ({...tableProps}) => {
       },
     },
   ];
-
 
   return (
     <div>

@@ -7,7 +7,8 @@ export default modelExtend(pageModel, {
   state: {
     currentItem: {},
     selectedRowKeys:[],
-    modalVisible: false, //模态框是否可见
+    modalVisible1: false, //模态框是否可见
+    modalVisible2: false, //模态框是否可见
     modalType: 'create', //模态框类型，create update
   },
   subscriptions: {
@@ -41,16 +42,40 @@ export default modelExtend(pageModel, {
           },
         });
       }
-    }
+    },
+    * create({payload}, {call, put}) {
+      const data = yield call(itemService.create, payload)
+      if (data.success) {
+        yield put({type: 'hideModal'})
+        yield put({type: 'query'})
+      } else {
+        throw data
+      }
+    },
+
+    * update({payload}, {select, call, put}) {
+      const id = yield select(({testItems}) => testItems.currentItem.id)
+      const newItem = {...payload, id}
+      const data = yield call(itemService.update, newItem)
+      if (data.success) {
+        yield put({type: 'hideModal'})
+        yield put({type: 'query'})
+      } else {
+        throw data
+      }
+    },
   },
   reducers: {
 
-    showModal(state, {payload}) {
-      return {...state, ...payload, modalVisible: true}
+    showModal1(state, {payload}) {
+      return {...state, ...payload, modalVisible1: true}
+    },
+    showModal2(state, {payload}) {
+      return {...state, ...payload, modalVisible2: true}
     },
 
     hideModal(state) {
-      return {...state, modalVisible: false}
+      return {...state, modalVisible1: false,modalVisible2: false}
     },
 
   },
