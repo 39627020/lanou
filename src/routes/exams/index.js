@@ -7,7 +7,7 @@ import MultiChoiceEdit from '../../components/DataTable/MultiChoiceEdit';
 import Filter from './Filter';
 
 const Exams = ({exams, loading, app,dispatch, location}) => {
-  const {list, pagination, selectedRowKeys} = exams;
+  const {list, pagination, selectedRowKeys, modalVisible, modalType, currentItem} = exams;
   const {query = {}, pathname} = location;
   const {subjects} =app;
   /**
@@ -29,17 +29,41 @@ const Exams = ({exams, loading, app,dispatch, location}) => {
     },
     onAdd() {
       dispatch({
-        type: 'users/showModal',
+        type: 'exams/showModal',
         payload: {
           modalType: 'create',
         },
       });
     },
   };
+  const modalProps = {
+    item: modalType === 'create' ? {} : currentItem,
+    type: modalType,
+    visible: modalVisible,
+    maskClosable: false,
+    confirmLoading: loading.effects['exams/update'],
+    title: `${modalType === 'create' ? '新建考试' : '修改考试'}`,
+    wrapClassName: 'vertical-center-modal',
+    onOk(data) {
+      dispatch({
+        type: `exams/${modalType}`,
+        payload: data,
+      });
+    },
+    onCancel() {
+      dispatch({
+        type: 'exams/hideModal',
+      });
+    },
+  };
+  /**
+   * 列表参数
+   * @type {{pagination: *, dataSource: *, loading, location: *, onChange: (function(*)), rowSelection: {selectedRowKeys: *, onChange: (function(*=))}}}
+   */
   const listProps = {
     pagination,
     dataSource: list,
-    loading: loading.effects['papers/queryMany'],
+    loading: loading.effects['exams/queryMany'],
     location,
     onChange: (page) => {
       dispatch(routerRedux.push({
@@ -62,6 +86,21 @@ const Exams = ({exams, loading, app,dispatch, location}) => {
         });
       },
     },
+    onDeleteItem(id) {
+      dispatch({
+        type: 'exams/delete',
+        payload: id,
+      });
+    },
+    onEditItem(item) {
+      dispatch({
+        type: 'exams/showModal',
+        payload: {
+          modalType: 'update',
+          currentItem: item,
+        },
+      });
+    }
   };
   const handleDeleteItems = () => {
     dispatch({

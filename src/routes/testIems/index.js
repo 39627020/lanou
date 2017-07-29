@@ -14,7 +14,7 @@ const TestItemEnum = {
 };
 
 const TestItems = ({testItems, loading, app, dispatch, location,}) => {
-  const {list, pagination, selectedRowKeys} = testItems;
+  const {list, pagination, selectedRowKeys, modalVisible, modalType, currentItem} = testItems;
   const {query, pathname} = location;
   const {subjects} = app;
   /**
@@ -49,18 +49,33 @@ const TestItems = ({testItems, loading, app, dispatch, location,}) => {
     },
     onAdd() {
       dispatch({
-        type: 'users/showModal',
+        type: 'testItems/showModal',
         payload: {
           modalType: 'create',
         },
       });
     },
   };
-  /**
-   * 模态框参数
-   * @type {{item: {}, type: *, visible: *, maskClosable: boolean, confirmLoading, title: string, wrapClassName: string, onOk: (function(*=)), onCancel: (function())}}
-   */
-  const modalProps = {};
+  const modalProps = {
+    item: modalType === 'create' ? {} : currentItem,
+    type: modalType,
+    visible: modalVisible,
+    maskClosable: false,
+    confirmLoading: loading.effects['testItems/update'],
+    title: `${modalType === 'create' ? '新建试题' : '修改试题'}`,
+    wrapClassName: 'vertical-center-modal',
+    onOk(data) {
+      dispatch({
+        type: `testItems/${modalType}`,
+        payload: data,
+      });
+    },
+    onCancel() {
+      dispatch({
+        type: 'testItems/hideModal',
+      });
+    },
+  };
   /**
    * 列表参数
    * @type {{pagination: *, dataSource: *, loading, location: *, onChange: (function(*)), rowSelection: {selectedRowKeys: *, onChange: (function(*=))}}}
@@ -91,6 +106,21 @@ const TestItems = ({testItems, loading, app, dispatch, location,}) => {
         });
       },
     },
+    onDeleteItem(id) {
+      dispatch({
+        type: 'testItems/delete',
+        payload: id,
+      });
+    },
+    onEditItem(item) {
+      dispatch({
+        type: 'testItems/showModal',
+        payload: {
+          modalType: 'update',
+          currentItem: item,
+        },
+      });
+    }
   };
 
   const quesitonPops = {

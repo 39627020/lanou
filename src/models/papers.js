@@ -7,6 +7,8 @@ export default modelExtend(pageModel, {
   state: {
     currentItem: {},
     selectedRowKeys:[],
+    modalVisible: false, //模态框是否可见
+    modalType: 'create', //模态框类型，create update
   },
   subscriptions: {
     setup({dispatch, history}) {
@@ -41,5 +43,15 @@ export default modelExtend(pageModel, {
       }
     }
   },
+  reducers: {
 
+    showModal(state, {payload}) {
+      return {...state, ...payload, modalVisible: true}
+    },
+
+    hideModal(state) {
+      return {...state, modalVisible: false}
+    },
+
+  },
 });

@@ -6,7 +6,7 @@ import List from './List';
 import MultiChoiceEdit from '../../components/DataTable/MultiChoiceEdit';
 import Filter from './Filter';
 const Papers = ({papers, loading, app,dispatch, location}) => {
-  const {list, pagination, selectedRowKeys} = papers;
+  const {list, pagination, selectedRowKeys, modalVisible, modalType, currentItem} = papers;
   const {query = {}, pathname} = location;
   const {subjects} =app;
   /**
@@ -28,13 +28,37 @@ const Papers = ({papers, loading, app,dispatch, location}) => {
     },
     onAdd() {
       dispatch({
-        type: 'users/showModal',
+        type: 'testItems/showModal',
         payload: {
           modalType: 'create',
         },
       });
     },
   };
+  const modalProps = {
+    item: modalType === 'create' ? {} : currentItem,
+    type: modalType,
+    visible: modalVisible,
+    maskClosable: false,
+    confirmLoading: loading.effects['papers/update'],
+    title: `${modalType === 'create' ? '新建试卷' : '修改试卷'}`,
+    wrapClassName: 'vertical-center-modal',
+    onOk(data) {
+      dispatch({
+        type: `papers/${modalType}`,
+        payload: data,
+      });
+    },
+    onCancel() {
+      dispatch({
+        type: 'papers/hideModal',
+      });
+    },
+  };
+  /**
+   * 列表参数
+   * @type {{pagination: *, dataSource: *, loading, location: *, onChange: (function(*)), rowSelection: {selectedRowKeys: *, onChange: (function(*=))}}}
+   */
   const listProps = {
     pagination,
     dataSource: list,
@@ -61,6 +85,21 @@ const Papers = ({papers, loading, app,dispatch, location}) => {
         });
       },
     },
+    onDeleteItem(id) {
+      dispatch({
+        type: 'papers/delete',
+        payload: id,
+      });
+    },
+    onEditItem(item) {
+      dispatch({
+        type: 'papers/showModal',
+        payload: {
+          modalType: 'update',
+          currentItem: item,
+        },
+      });
+    }
   };
   const handleDeleteItems = () => {
     dispatch({

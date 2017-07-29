@@ -43,5 +43,15 @@ export default modelExtend(pageModel, {
       }
     }
   },
+  reducers: {
 
+    showModal(state, {payload}) {
+      return {...state, ...payload, modalVisible: true}
+    },
+
+    hideModal(state) {
+      return {...state, modalVisible: false}
+    },
+
+  },
 });

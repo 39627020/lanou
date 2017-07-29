@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Form, Select, Button, Row, Col, Input} from 'antd';
+import {Form, Select, Button, Row, Col} from 'antd';
+import {FilterItem} from 'components';
 
-const FormItem = Form.Item;
 const Option = Select.Option;
 
 const Filter = ({
@@ -40,13 +40,18 @@ const Filter = ({
     handleSubmit();
   };
 
+  const ColProps = {
 
+    style: {
+      marginBottom: 16,
+    },
+  };
   return (
-    <Row gutter={24} style={{marginBottom: 16}}>
-      <Col sm={{span: 6}} xs={{span: 24}}>
-        <FormItem label="试题类型" labelCol={{span: 10}} wrapperCol={{span: 14}}>
+    <Row gutter={24}>
+      <Col {...ColProps} sm={{span: 6}} xs={{span: 24}}>
+        <FilterItem label="考试类型">
           {getFieldDecorator('subject')(
-            <Select  placeholder="请选择类别" style={{width: 120}} onChange={handleSelect}>
+            <Select size="large" placeholder="请选择类别" style={{width: 120}} onChange={handleSelect}>
               {
                 subjects.map(sub =>
                   <Option value={sub.type}>{sub.type}</Option>
@@ -54,17 +59,17 @@ const Filter = ({
               }
             </Select>
           )}
-        </FormItem>
+        </FilterItem>
       </Col>
-      <Col sm={{span: 6}} xs={{span: 16}}>
+      <Col {...ColProps} sm={{span: 6}} xs={{span: 16}}>
         <div>
           <Button type="primary" size="large" className="margin-right" onClick={handleSubmit}>搜索</Button>
           <Button size="large" onClick={handleReset}>重置</Button>
         </div>
       </Col>
-      <Col sm={{span: 6, offset: 6}} xs={{span: 8}}>
+      <Col {...ColProps} sm={{span: 6, offset: 6}} xs={{span: 8}}>
         <div style={{float: "right"}}>
-          <Button size="large" type="ghost" onClick={onAdd}>新增用户</Button>
+          <Button size="large" type="ghost" onClick={onAdd}>新增考试</Button>
         </div>
       </Col>
     </Row>
