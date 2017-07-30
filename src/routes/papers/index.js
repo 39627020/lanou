@@ -94,6 +94,7 @@ const Papers = ({papers, loading, app, dispatch, location}) => {
       });
     },
     onTestItemPageChange(page,type) {
+      console.log(type)
       dispatch({
         type: 'papers/queryTestItems',
         payload: {

@@ -65,8 +65,8 @@ const modal = ({
       onOk(data);
     });
   };
-  const handlePageChange1 = (page, type=1) => onTestItemPageChange(page, type);
-  const handlePageChange2 = (page, type=2) => onTestItemPageChange(page, type);
+  const handlePageChange1 = (page) => onTestItemPageChange(page, 1);
+  const handlePageChange2 = (page) => onTestItemPageChange(page, 2);
   const modalOpts = {
     ...modalProps,
     onOk: handleOk,
@@ -105,7 +105,7 @@ const modal = ({
           })(<Input type="textarea"/>)}
         </FormItem>
 
-        {type == "update" && modalItemVisible && <Table columns={columns} dataSource={item.testItems}/>}
+        {type == "update" && modalItemVisible && <Table columns={columns} pagination={false} dataSource={item.testItems}/>}
 
         <Collapse onChange={onChoiceItem}>
           <Panel header="选择包含的题目" key="1">
