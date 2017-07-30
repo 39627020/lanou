@@ -42,6 +42,7 @@ const Papers = ({papers, loading, app,dispatch, location}) => {
     },
   };
   const modalProps = {
+    currentItem:currentItem,
     subjects: subjects,
     item: modalType === 'create' ? {} : currentItem,
     type: modalType,
