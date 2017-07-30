@@ -16,7 +16,6 @@ const formItemLayout = {
 };
 
 const modal = ({
-                 type,
                  subjects = [],
                  item = {},
                  onOk,
@@ -28,17 +27,13 @@ const modal = ({
                  ...modalProps
                }) => {
 
-  const {modalType} = modalProps;
-  if (modalType == "create") {
-    item = {type: type == 1 ? "QUESTION" : "CHOICE"};
-  }
+
   const handleOk = () => {
     validateFields((errors) => {
       if (errors) {
         return;
       }
       const data = {
-        type: item.type,
         ...getFieldsValue(),
       };
       onOk(data);
@@ -53,17 +48,17 @@ const modal = ({
   return (
     <Modal {...modalOpts}>
       <Form layout="horizontal">
-        <FormItem label="试题类型" hasFeedback {...formItemLayout}>
+        <FormItem label="试卷类型" hasFeedback {...formItemLayout}>
           {getFieldDecorator('subject', {
             initialValue: item.subject,
             rules: [
               {
                 required: true,
-                message: "请选择试题类型",
+                message: "请选择试卷类型",
               },
             ],
           })(
-            <Select size="large" placeholder="请选择类别">
+            <Select size="large" placeholder="请选择类型">
               {
                 subjects.map(sub =>
                   <Option value={sub.type}>{sub.type}</Option>
@@ -72,25 +67,25 @@ const modal = ({
             </Select>
           )}
         </FormItem>
-        <FormItem label="试题问题" hasFeedback {...formItemLayout}>
-          {getFieldDecorator('question', {
-            initialValue: item.question,
+        <FormItem label="试卷描述" hasFeedback {...formItemLayout}>
+          {getFieldDecorator('description', {
+            initialValue: item.description,
             rules: [
               {
                 required: true,
-                message: '问题不能为空!',
+                message: '试卷描述不能为空!',
               },
             ],
           })(<Input/>)}
         </FormItem>
 
-        <FormItem label="试题答案" hasFeedback {...formItemLayout}>
-          {getFieldDecorator('answer', {
-            initialValue: item.answer,
+        <FormItem label="试卷题目" hasFeedback {...formItemLayout}>
+          {getFieldDecorator('testItems', {
+            initialValue: '',
             rules: [
               {
                 required: true,
-                message: '答案不能为空!',
+                message: '试卷题目不能为空!',
               },
             ],
           })(<Input/>)}

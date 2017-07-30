@@ -34,7 +34,7 @@ const List = ({...tableProps}) => {
       title: '试卷分类',
       dataIndex: 'subject',
       className:`subject-type`,
-      render: (text) => text.type,
+      render: (text) => text,
     },
     {
       title: '试卷简介',

@@ -5,10 +5,16 @@ import {connect} from 'dva';
 import List from './List';
 import MultiChoiceEdit from '../../components/DataTable/MultiChoiceEdit';
 import Filter from './Filter';
+import Modal from './Modal';
+import lodash from 'lodash';
 const Papers = ({papers, loading, app,dispatch, location}) => {
   const {list, pagination, selectedRowKeys, modalVisible, modalType, currentItem} = papers;
   const {query = {}, pathname} = location;
   const {subjects} =app;
+  const cloneList = lodash.cloneDeep(list).map(i => {
+    i.subject = i.subject.type;
+    return i;
+  });
   /**
    * 搜索栏参数
    */
@@ -28,7 +34,7 @@ const Papers = ({papers, loading, app,dispatch, location}) => {
     },
     onAdd() {
       dispatch({
-        type: 'testItems/showModal',
+        type: 'papers/showModal',
         payload: {
           modalType: 'create',
         },
@@ -61,7 +67,7 @@ const Papers = ({papers, loading, app,dispatch, location}) => {
    */
   const listProps = {
     pagination,
-    dataSource: list,
+    dataSource: cloneList,
     loading: loading.effects['papers/queryMany'],
     location,
     onChange: (page) => {
@@ -125,6 +131,7 @@ const Papers = ({papers, loading, app,dispatch, location}) => {
       }
       <Filter {...filterProps}/>
       <List {...listProps} />
+      {modalVisible && <Modal  {...modalProps} />}
     </div>
   );
 };
