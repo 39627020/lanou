@@ -3,7 +3,7 @@ import {Table, Modal} from 'antd';
 import styles from './List.less';
 import {DropOption} from 'components';
 import PropTypes from 'prop-types';
-
+import { Avatar } from 'antd';
 const confirm = Modal.confirm;
 
 
@@ -61,6 +61,11 @@ const List = ({...tableProps}) => {
   };
 
   const columns = [
+    {
+      title: '图标',
+      width: 64,
+      render: (text) =>  <Avatar style={{ backgroundColor: '#7f93d0' }} icon="database" />,
+    },
     {
       title: '试题分类',
       dataIndex: 'subject',

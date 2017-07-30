@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Form, Input, InputNumber, Radio, Modal, Cascader, Select} from 'antd';
-import city from '../../utils/city';
+import {Form, Input,  Modal, Select} from 'antd';
 
 const Option = Select.Option;
 const FormItem = Form.Item;

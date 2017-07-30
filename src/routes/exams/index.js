@@ -42,6 +42,7 @@ const Exams = ({exams, loading, app,dispatch, location}) => {
     },
   };
   const modalProps = {
+    subjects: subjects,
     item: modalType === 'create' ? {} : currentItem,
     type: modalType,
     visible: modalVisible,

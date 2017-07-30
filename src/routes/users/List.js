@@ -6,7 +6,7 @@ import classnames from 'classnames'
 import AnimTableBody from '../../components/DataTable/AnimTableBody'
 import { DropOption } from 'components'
 import { Link } from 'dva/router'
-
+import { Avatar } from 'antd';
 const confirm = Modal.confirm
 
 const List = ({ onDeleteItem, onEditItem, isMotion, location, ...tableProps }) => {
@@ -27,11 +27,8 @@ const List = ({ onDeleteItem, onEditItem, isMotion, location, ...tableProps }) =
   const columns = [
     {
       title: '头像',
-      dataIndex: 'avatar',
-      key: 'avatar',
       width: 64,
-      className: styles.avatar,
-      render: (text) => <img alt={'avatar'} width={24} src={text} />,
+      render: (text) =>  <Avatar style={{ backgroundColor: '#87d068' }} icon="user" />,
     }, {
       title: '用户名',
       dataIndex: 'username',
