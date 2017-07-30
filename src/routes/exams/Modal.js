@@ -75,7 +75,7 @@ const modal = ({
                 message: '考试简介不能为空!',
               },
             ],
-          })(<Input/>)}
+          })(<Input type="textarea"/>)}
         </FormItem>
 
         <FormItem label="试卷选择" hasFeedback {...formItemLayout}>
@@ -89,6 +89,10 @@ const modal = ({
             ],
           })(<Input/>)}
         </FormItem>
+
+
+
+
       </Form>
     </Modal>
   );

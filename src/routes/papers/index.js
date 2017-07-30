@@ -106,6 +106,10 @@ const Papers = ({papers, loading, app,dispatch, location}) => {
           currentItem: item,
         },
       });
+
+      dispatch({
+        type: 'papers/loadCurItems',
+      });
     }
   };
   const handleDeleteItems = () => {

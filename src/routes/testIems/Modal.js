@@ -80,7 +80,7 @@ const modal = ({
                 message: '问题不能为空!',
               },
             ],
-          })(<Input/>)}
+          })(<Input type="textarea"/>)}
         </FormItem>
 
         <FormItem label="试题答案" hasFeedback {...formItemLayout}>
@@ -92,7 +92,7 @@ const modal = ({
                 message: '答案不能为空!',
               },
             ],
-          })(<Input/>)}
+          })(<Input type="textarea"/>)}
         </FormItem>
       </Form>
     </Modal>
