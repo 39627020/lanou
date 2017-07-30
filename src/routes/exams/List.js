@@ -47,8 +47,8 @@ const List = ({...tableProps}) => {
     },
     {
       title: '所属试卷',
-      dataIndex: 'papers',
-      render: (text) =><div>{text.map(i=><Link to={`papers/${i.id}`}>{i.description}</Link>)}</div>,
+      dataIndex: 'paper',
+      render: (text) =><Link to={`papers/${text.id}`}>{text.description}</Link>,
     },
     {
       title: '操作',

@@ -9,6 +9,7 @@ export default modelExtend(pageModel, {
     testItems: {
       list: [],
       pagination: {},
+      selectedRowKeys: [],
     },
     currentItem: {},
     selectedRowKeys: [],
@@ -59,6 +60,16 @@ export default modelExtend(pageModel, {
         throw data;
       }
     },
+    * create({payload}, {call, put}) {
+      const data = yield call(papersService.create, payload)
+      if (data.success) {
+        yield put({type: 'hideModal'})
+        yield put({type: 'query'})
+      } else {
+        throw data
+      }
+    },
+
     * loadCurItems({payload = {}}, {select, call, put}) {
       const currentItem = yield select(({papers}) => papers.currentItem);
       const id = currentItem.id;
@@ -77,14 +88,17 @@ export default modelExtend(pageModel, {
         throw data;
       }
     },
-    * queryTestItems({payload = {}}, {put, call}) {
+    * queryTestItems({payload = {}}, {select, put, call}) {
+      const testItems = yield select(({papers}) => papers.testItems);
       const data = yield call(itemService.queryMany, payload);
       //获取到消息,开始分页
       if (data.success) {
         yield put({
           type: 'updateState',
           payload: {
+            modalItemVisible: false,
             testItems: {
+              ...testItems,
               list: data.content,
               pagination: {
                 current: Number(payload.page) || data.number + 1,//服务器是从0开始算页码
@@ -100,19 +114,17 @@ export default modelExtend(pageModel, {
   reducers: {
 
     showModal(state, {payload}) {
-      return {...state, ...payload, modalVisible: true};
+      return {...state, ...payload, modalVisible: true, modalItemVisible: true};
     },
 
     hideModal(state) {
-      return {...state, modalVisible: false};
+      return {
+        ...state, modalVisible: false, testItems: {
+          list: [],
+          pagination: {},
+          selectedRowKeys: [],
+        }
+      };
     },
-    showModalItem(state) {
-      return {...state, modalItemVisible: true};
-    },
-
-    hideModalItem(state) {
-      return {...state, modalItemVisible: false};
-    },
-
   },
 });

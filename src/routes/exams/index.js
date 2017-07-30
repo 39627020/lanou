@@ -7,10 +7,11 @@ import MultiChoiceEdit from '../../components/DataTable/MultiChoiceEdit';
 import Filter from './Filter';
 import lodash from 'lodash';
 import Modal from './Modal';
-const Exams = ({exams, loading, app,dispatch, location}) => {
-  const {list, pagination, selectedRowKeys, modalVisible, modalType, currentItem} = exams;
+
+const Exams = ({exams, loading, app, dispatch, location}) => {
+  const {list, pagination, selectedRowKeys, modalVisible, modalType, currentItem, currentPaper, papers} = exams;
   const {query = {}, pathname} = location;
-  const {subjects} =app;
+  const {subjects} = app;
   const cloneList = lodash.cloneDeep(list).map(i => {
     i.subject = i.subject.type;
     return i;
@@ -42,6 +43,8 @@ const Exams = ({exams, loading, app,dispatch, location}) => {
     },
   };
   const modalProps = {
+    papers,
+    currentPaper,
     subjects: subjects,
     item: modalType === 'create' ? {} : currentItem,
     type: modalType,
@@ -51,15 +54,35 @@ const Exams = ({exams, loading, app,dispatch, location}) => {
     title: `${modalType === 'create' ? '新增考试' : '修改考试'}`,
     wrapClassName: 'vertical-center-modal',
     onOk(data) {
+      let newData = {
+        ...data,
+        paperId: papers.selectedRowKeys[0]
+      };
       dispatch({
         type: `exams/${modalType}`,
-        payload: data,
+        payload: newData,
       });
     },
     onCancel() {
       dispatch({
         type: 'exams/hideModal',
       });
+    },
+    rowSelection: {
+      type: 'radio',
+      selectedRowKeys: papers.selectedRowKeys.length > 0 ? papers.selectedRowKeys : [currentPaper.id],
+      onChange: (keys) => {
+
+        dispatch({
+          type: 'exams/updateState',
+          payload: {
+            papers: {
+              ...papers,
+              selectedRowKeys: keys,
+            }
+          },
+        });
+      },
     },
   };
   /**
@@ -100,10 +123,14 @@ const Exams = ({exams, loading, app,dispatch, location}) => {
     },
     onEditItem(item) {
       dispatch({
+        type: 'exams/queryPapers',
+      });
+      dispatch({
         type: 'exams/showModal',
         payload: {
           modalType: 'update',
           currentItem: item,
+          currentPaper: item.paper,
         },
       });
     }
@@ -128,7 +155,8 @@ const Exams = ({exams, loading, app,dispatch, location}) => {
     <div className="content-inner">
       {
         selectedRowKeys.length > 0 &&
-        <MultiChoiceEdit selectedRowKeys={selectedRowKeys} handleCancelMultiChoice={handleCancelMultiChoice} handleDeleteItems={handleDeleteItems}/>
+        <MultiChoiceEdit selectedRowKeys={selectedRowKeys} handleCancelMultiChoice={handleCancelMultiChoice}
+                         handleDeleteItems={handleDeleteItems}/>
       }
       <Filter {...filterProps}/>
       <List {...listProps} />
@@ -144,4 +172,4 @@ Exams.propTypes = {
 };
 
 
-export default connect(({exams, loading,app}) => ({exams, loading,app}))(Exams);
+export default connect(({exams, loading, app}) => ({exams, loading, app}))(Exams);

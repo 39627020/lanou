@@ -1,13 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Form, Input, Modal, Select, Collapse, Tabs} from 'antd';
+import {Form, Input, Modal, Select, Collapse, Tabs, Table} from 'antd';
 
 const TabPane = Tabs.TabPane;
-
 const Panel = Collapse.Panel;
 const Option = Select.Option;
 const FormItem = Form.Item;
-import {Table} from 'antd';
+
 
 const formItemLayout = {
   labelCol: {
@@ -33,7 +32,7 @@ const modal = ({
                  },
                  ...modalProps
                }) => {
-  const {modalItemVisible, testItemList, testItemPagination,} = modalProps;
+  const {modalItemVisible, testItemList, testItemPagination, rowSelection,} = modalProps;
   const columns = [
     {
       title: '题型',
@@ -105,17 +104,30 @@ const modal = ({
           })(<Input type="textarea"/>)}
         </FormItem>
 
-        {type == "update" && modalItemVisible && <Table columns={columns} pagination={false} dataSource={item.testItems}/>}
+        {type == "update" && modalItemVisible &&
+        <Table columns={columns} pagination={false} dataSource={item.testItems}/>}
 
         <Collapse onChange={onChoiceItem}>
           <Panel header="选择包含的题目" key="1">
             <Tabs defaultActiveKey="1" onChange={handleSwitchItem}>
-              <TabPane tab="问答题" key="1"><Table columns={columns} pagination={testItemPagination}
-                                                onChange={handlePageChange1}
-                                                dataSource={testItemList}/></TabPane>
-              <TabPane tab="选择题" key="2"><Table columns={columns} pagination={testItemPagination}
-                                                onChange={handlePageChange2}
-                                                dataSource={testItemList}/></TabPane>
+              <TabPane tab="问答题" key="1">
+                <Table
+                  rowSelection={rowSelection}
+                  columns={columns}
+                  pagination={testItemPagination}
+                  onChange={handlePageChange1}
+                  rowKey={record => record.id}
+                  dataSource={testItemList}/>
+              </TabPane>
+              <TabPane tab="选择题" key="2">
+                <Table
+                  rowSelection={rowSelection}
+                  columns={columns}
+                  pagination={testItemPagination}
+                  onChange={handlePageChange2}
+                  dataSource={testItemList}
+                  rowKey={record => record.id}/>
+              </TabPane>
             </Tabs>
           </Panel>
         </Collapse>

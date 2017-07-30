@@ -61,40 +61,35 @@ const Papers = ({papers, loading, app, dispatch, location}) => {
     title: `${modalType === 'create' ? '新增试卷' : '修改试卷'}`,
     wrapClassName: 'vertical-center-modal',
     onOk(data) {
-      dispatch({
-        type: 'papers/showModalItem',
-      });
+      let newData = {
+        ...data,
+        testItemIds: testItems.selectedRowKeys
+      };
       dispatch({
         type: `papers/${modalType}`,
-        payload: data,
+        payload: newData,
       });
     },
     onCancel() {
       dispatch({
         type: 'papers/hideModal',
       });
-      dispatch({
-        type: 'papers/showModalItem',
-      });
     },
     onChoiceItem() {
       dispatch({
-        type: 'papers/hideModalItem',
-      });
-      dispatch({
         type: 'papers/queryTestItems',
       });
     },
-    onSwitchItem(type){
+    onSwitchItem(type) {
       dispatch({
         type: 'papers/queryTestItems',
-        payload:{
-          type:type,
+        payload: {
+          type: type,
         }
       });
     },
-    onTestItemPageChange(page,type) {
-      console.log(type)
+    onTestItemPageChange(page, type) {
+
       dispatch({
         type: 'papers/queryTestItems',
         payload: {
@@ -103,6 +98,20 @@ const Papers = ({papers, loading, app, dispatch, location}) => {
           pageSize: page.pageSize,
         }
       });
+    },
+    rowSelection: {
+      selectedRowKeys: testItems.selectedRowKeys,
+      onChange: (keys) => {
+        dispatch({
+          type: 'papers/updateState',
+          payload: {
+            testItems: {
+              ...testItems,
+              selectedRowKeys: keys,
+            }
+          },
+        });
+      },
     },
   };
   /**

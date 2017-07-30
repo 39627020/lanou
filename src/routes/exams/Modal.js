@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Form, Input,  Modal, Select} from 'antd';
+import {Form, Input, Modal, Select, Table} from 'antd';
+import {Link} from 'dva/router';
 
 const Option = Select.Option;
 const FormItem = Form.Item;
@@ -15,6 +16,9 @@ const formItemLayout = {
 };
 
 const modal = ({
+
+                 papers,
+                 currentPaper,
                  subjects = [],
                  item = {},
                  onOk,
@@ -26,7 +30,7 @@ const modal = ({
                  ...modalProps
                }) => {
 
-
+  const { rowSelection,} = modalProps;
   const handleOk = () => {
     validateFields((errors) => {
       if (errors) {
@@ -43,7 +47,18 @@ const modal = ({
     ...modalProps,
     onOk: handleOk,
   };
+  const columns = [
 
+    {
+      title: '试卷类型',
+      dataIndex: 'subject',
+      render: text => text.type
+    },
+    {
+      title: '试卷简介',
+      dataIndex: 'description',
+    },
+  ];
   return (
     <Modal {...modalOpts}>
       <Form layout="horizontal">
@@ -77,23 +92,15 @@ const modal = ({
             ],
           })(<Input type="textarea"/>)}
         </FormItem>
-
-        <FormItem label="试卷选择" hasFeedback {...formItemLayout}>
-          {getFieldDecorator('papers', {
-            initialValue: '',
-            rules: [
-              {
-                required: true,
-                message: '试卷不能为空!',
-              },
-            ],
-          })(<Input/>)}
+        <FormItem label="试卷链接"  {...formItemLayout}>
+          <Link to={`papers/${currentPaper.id}`}>{currentPaper.description}</Link>
         </FormItem>
-
-
-
-
       </Form>
+      <Table
+        rowSelection={rowSelection}
+        columns={columns}
+        dataSource={papers.list}
+        rowKey={record => record.id}/>
     </Modal>
   );
 };
