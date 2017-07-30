@@ -7,10 +7,17 @@ import MultiChoiceEdit from '../../components/DataTable/MultiChoiceEdit';
 import Filter from './Filter';
 import Modal from './Modal';
 import lodash from 'lodash';
-const Papers = ({papers, loading, app,dispatch, location}) => {
-  const {list, pagination, selectedRowKeys, modalVisible, modalType, currentItem} = papers;
+
+const Papers = ({papers, loading, app, dispatch, location}) => {
+  const {list, pagination, selectedRowKeys, modalVisible, modalItemVisible, modalType, currentItem, testItems} = papers;
   const {query = {}, pathname} = location;
-  const {subjects} =app;
+  const {subjects} = app;
+  const testItemList = lodash.cloneDeep(testItems.list).map(i => {
+    i.subject = i.subject.type;
+    return i;
+  });
+
+  const testItemPagination = testItems.pagination;
   const cloneList = lodash.cloneDeep(list).map(i => {
     i.subject = i.subject.type;
     return i;
@@ -42,7 +49,9 @@ const Papers = ({papers, loading, app,dispatch, location}) => {
     },
   };
   const modalProps = {
-    currentItem:currentItem,
+    testItemList,
+    testItemPagination,
+    modalItemVisible: modalItemVisible,
     subjects: subjects,
     item: modalType === 'create' ? {} : currentItem,
     type: modalType,
@@ -53,6 +62,9 @@ const Papers = ({papers, loading, app,dispatch, location}) => {
     wrapClassName: 'vertical-center-modal',
     onOk(data) {
       dispatch({
+        type: 'papers/showModalItem',
+      });
+      dispatch({
         type: `papers/${modalType}`,
         payload: data,
       });
@@ -60,6 +72,35 @@ const Papers = ({papers, loading, app,dispatch, location}) => {
     onCancel() {
       dispatch({
         type: 'papers/hideModal',
+      });
+      dispatch({
+        type: 'papers/showModalItem',
+      });
+    },
+    onChoiceItem() {
+      dispatch({
+        type: 'papers/hideModalItem',
+      });
+      dispatch({
+        type: 'papers/queryTestItems',
+      });
+    },
+    onSwitchItem(type){
+      dispatch({
+        type: 'papers/queryTestItems',
+        payload:{
+          type:type,
+        }
+      });
+    },
+    onTestItemPageChange(page,type) {
+      dispatch({
+        type: 'papers/queryTestItems',
+        payload: {
+          type: type,
+          page: page.current,
+          pageSize: page.pageSize,
+        }
       });
     },
   };
@@ -133,7 +174,8 @@ const Papers = ({papers, loading, app,dispatch, location}) => {
     <div className="content-inner">
       {
         selectedRowKeys.length > 0 &&
-        <MultiChoiceEdit selectedRowKeys={selectedRowKeys} handleCancelMultiChoice={handleCancelMultiChoice} handleDeleteItems={handleDeleteItems}/>
+        <MultiChoiceEdit selectedRowKeys={selectedRowKeys} handleCancelMultiChoice={handleCancelMultiChoice}
+                         handleDeleteItems={handleDeleteItems}/>
       }
       <Filter {...filterProps}/>
       <List {...listProps} />
@@ -149,4 +191,4 @@ Papers.propTypes = {
 };
 
 
-export default connect(({papers, loading,app}) => ({papers, loading,app}))(Papers);
+export default connect(({papers, loading, app}) => ({papers, loading, app}))(Papers);

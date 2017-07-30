@@ -1,13 +1,19 @@
 import {pageModel} from './common';
 import modelExtend from 'dva-model-extend';
 import * as papersService from '../services/papers';
+import * as itemService from '../services/testItems';
 
 export default modelExtend(pageModel, {
   namespace: "papers",
   state: {
+    testItems: {
+      list: [],
+      pagination: {},
+    },
     currentItem: {},
     selectedRowKeys: [],
     modalVisible: false, //模态框是否可见
+    modalItemVisible: true,
     modalType: 'create', //模态框类型，create update
   },
   subscriptions: {
@@ -54,22 +60,40 @@ export default modelExtend(pageModel, {
       }
     },
     * loadCurItems({payload = {}}, {select, call, put}) {
-
       const currentItem = yield select(({papers}) => papers.currentItem);
-      const id = currentItem.id
-      const newItem = {...payload,id};
-      console.log(newItem)
+      const id = currentItem.id;
+      const newItem = {...payload, id};
+      console.log(newItem);
       const data = yield call(papersService.queryOneById, newItem);
       if (data.success) {
         yield put({
             type: 'updateState',
             payload: {
-              currentItem: {...currentItem,testItems: data.testItems}
+              currentItem: {...currentItem, testItems: data.testItems}
             },
           }
         );
       } else {
         throw data;
+      }
+    },
+    * queryTestItems({payload = {}}, {put, call}) {
+      const data = yield call(itemService.queryMany, payload);
+      //获取到消息,开始分页
+      if (data.success) {
+        yield put({
+          type: 'updateState',
+          payload: {
+            testItems: {
+              list: data.content,
+              pagination: {
+                current: Number(payload.page) || data.number + 1,//服务器是从0开始算页码
+                pageSize: Number(payload.pageSize) || data.size,
+                total: data.totalElements,
+              },
+            }
+          },
+        });
       }
     },
   },
@@ -81,6 +105,13 @@ export default modelExtend(pageModel, {
 
     hideModal(state) {
       return {...state, modalVisible: false};
+    },
+    showModalItem(state) {
+      return {...state, modalItemVisible: true};
+    },
+
+    hideModalItem(state) {
+      return {...state, modalItemVisible: false};
     },
 
   },

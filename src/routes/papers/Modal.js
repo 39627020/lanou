@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Form, Input, Modal, Select} from 'antd';
+import {Form, Input, Modal, Select, Collapse, Tabs} from 'antd';
 
+const TabPane = Tabs.TabPane;
+
+const Panel = Collapse.Panel;
 const Option = Select.Option;
 const FormItem = Form.Item;
 import {Table} from 'antd';
@@ -16,9 +19,13 @@ const formItemLayout = {
 };
 
 const modal = ({
+                 onTestItemPageChange,
+                 onSwitchItem,
+                 type,
                  subjects = [],
                  item = {},
                  onOk,
+                 onChoiceItem,
                  form: {
                    getFieldDecorator,
                    validateFields,
@@ -26,21 +33,27 @@ const modal = ({
                  },
                  ...modalProps
                }) => {
-  const {currentItem} = modalProps;
-  const columns = [{
-    title: '题型',
-    dataIndex: 'type',
-    render: text => text == "QUESTION" ? '问答题' : '选择题'
-  },
+  const {modalItemVisible, testItemList, testItemPagination,} = modalProps;
+  const columns = [
+    {
+      title: '题型',
+      dataIndex: 'type',
+      render: text => text == "QUESTION" ? '问答题' : '选择题'
+    },
+    {
+      title: '类型',
+      dataIndex: 'subject',
+      render: text => text.type
+    },
     {
       title: '题干',
       dataIndex: 'question',
-    }, {
+    },
+    {
       title: '答案',
       dataIndex: 'answer',
     }];
-  const data = currentItem.testItems;
-
+  const handleSwitchItem = key => onSwitchItem(key);
   const handleOk = () => {
     validateFields((errors) => {
       if (errors) {
@@ -52,12 +65,12 @@ const modal = ({
       onOk(data);
     });
   };
-
+  const handlePageChange1 = (page, type=1) => onTestItemPageChange(page, type);
+  const handlePageChange2 = (page, type=2) => onTestItemPageChange(page, type);
   const modalOpts = {
     ...modalProps,
     onOk: handleOk,
   };
-
   return (
     <Modal {...modalOpts}>
       <Form layout="horizontal">
@@ -91,7 +104,21 @@ const modal = ({
             ],
           })(<Input type="textarea"/>)}
         </FormItem>
-        <Table columns={columns} dataSource={data}/>
+
+        {type == "update" && modalItemVisible && <Table columns={columns} dataSource={item.testItems}/>}
+
+        <Collapse onChange={onChoiceItem}>
+          <Panel header="选择包含的题目" key="1">
+            <Tabs defaultActiveKey="1" onChange={handleSwitchItem}>
+              <TabPane tab="问答题" key="1"><Table columns={columns} pagination={testItemPagination}
+                                                onChange={handlePageChange1}
+                                                dataSource={testItemList}/></TabPane>
+              <TabPane tab="选择题" key="2"><Table columns={columns} pagination={testItemPagination}
+                                                onChange={handlePageChange2}
+                                                dataSource={testItemList}/></TabPane>
+            </Tabs>
+          </Panel>
+        </Collapse>
       </Form>
 
     </Modal>

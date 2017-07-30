@@ -5,7 +5,7 @@ import {DropOption} from 'components';
 import PropTypes from 'prop-types';
 import { Avatar } from 'antd';
 const confirm = Modal.confirm;
-
+import { Link } from 'dva/router'
 const List = ({...tableProps}) => {
 
   const {onEditItem, onDeleteItem} = tableProps;
@@ -44,6 +44,11 @@ const List = ({...tableProps}) => {
       title: '考试简介',
       dataIndex: 'description',
       render: (text) => text,
+    },
+    {
+      title: '所属试卷',
+      dataIndex: 'papers',
+      render: (text) =><div>{text.map(i=><Link to={`papers/${i.id}`}>{i.description}</Link>)}</div>,
     },
     {
       title: '操作',
