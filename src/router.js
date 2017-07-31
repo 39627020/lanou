@@ -2,15 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Router} from 'dva/router';
 import App from './routes/app';
+import Home from './routes/Home';
 
 const registerModel = (app, model) => {
   if (!(app._models.filter(m => m.namespace === model.namespace).length === 1)) {
     app.model(model);
   }
 };
-const Home = () => {
-  return (<div>{"首页"}</div>);
-};
+
 const Routers = function ({history, app}) {
   const routes = [
     {
