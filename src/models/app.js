@@ -65,7 +65,6 @@ export default modelExtend(model, {
         //加载subject分类
         const subjectData = yield call(subjectService.queryMany)
         let subjects = subjectData.list
-
         const {permissions} = user;
         //todo:修改逻辑 符合后台登录要求
         // const menuData = yield call(menusService.queryMany)

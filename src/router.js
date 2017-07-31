@@ -8,9 +8,15 @@ const registerModel = (app, model) => {
     app.model(model)
   }
 }
-
+const Home = ()=>{
+  return (<div>{"首页"}</div>)
+}
 const Routers = function ({history, app}) {
   const routes = [
+    {
+      path: '/home',
+      component: Home,
+    },
     {
       path: '/',
       component: App,
