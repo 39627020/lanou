@@ -1,37 +1,40 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'dva'
-import { Button, Row, Form, Input } from 'antd'
-import { config } from 'utils'
-import styles from './index.less'
+import React from 'react';
+import PropTypes from 'prop-types';
+import {connect} from 'dva';
+import {Button, Row, Form, Input} from 'antd';
+import {config} from 'utils';
+import styles from './index.less';
+import {Link} from 'dva/router';
 
-const FormItem = Form.Item
+const FormItem = Form.Item;
 
 const Login = ({
-  login,
-  dispatch,
-  form: {
-    getFieldDecorator,
-    validateFieldsAndScroll,
-  },
-}) => {
-  const { loginLoading } = login
+                 login,
+                 dispatch,
+                 form: {
+                   getFieldDecorator,
+                   validateFieldsAndScroll,
+                 },
+               }) => {
+  const {loginLoading} = login;
 
-  function handleOk () {
+  function handleOk() {
     validateFieldsAndScroll((errors, values) => {
       if (errors) {
-        return
+        return;
       }
-      dispatch({ type: 'login/login', payload: values })
-    })
+      dispatch({type: 'login/login', payload: values});
+    });
   }
 
   return (
     <div className={styles.form}>
-      <div className={styles.logo}>
-        <img alt={'logo'} src={config.logo} />
-        <span>{config.name}</span>
-      </div>
+      <Link to={"/home"}>
+        <div className={styles.logo}>
+          <img alt={'logo'} src={config.logo}/>
+          <span>{config.name}</span>
+        </div>
+      </Link>
       <form>
         <FormItem hasFeedback>
           {getFieldDecorator('username', {
@@ -40,7 +43,7 @@ const Login = ({
                 required: true,
               },
             ],
-          })(<Input size="large" onPressEnter={handleOk} placeholder="用户姓名" />)}
+          })(<Input size="large" onPressEnter={handleOk} placeholder="用户姓名"/>)}
         </FormItem>
         <FormItem hasFeedback>
           {getFieldDecorator('password', {
@@ -49,7 +52,7 @@ const Login = ({
                 required: true,
               },
             ],
-          })(<Input size="large" type="password" onPressEnter={handleOk} placeholder="用户密码" />)}
+          })(<Input size="large" type="password" onPressEnter={handleOk} placeholder="用户密码"/>)}
         </FormItem>
         <Row>
           <Button type="primary" size="large" onClick={handleOk} loading={loginLoading}>
@@ -63,13 +66,13 @@ const Login = ({
 
       </form>
     </div>
-  )
-}
+  );
+};
 
 Login.propTypes = {
   form: PropTypes.object,
   login: PropTypes.object,
   dispatch: PropTypes.func,
-}
+};
 
-export default connect(({ login }) => ({ login }))(Form.create()(Login))
+export default connect(({login}) => ({login}))(Form.create()(Login));

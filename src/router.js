@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Router} from 'dva/router';
-import App from './routes/app';
-import Home from './routes/Home';
 
 const registerModel = (app, model) => {
   if (!(app._models.filter(m => m.namespace === model.namespace).length === 1)) {
@@ -14,11 +12,32 @@ const Routers = function ({history, app}) {
   const routes = [
     {
       path: '/home',
-      component: Home,
+      getComponent(nextState, cb) {
+        require.ensure([], require => {
+          registerModel(app, require('./models/home'));
+          cb(null, require('./routes/home/'));
+        }, 'dashboard');
+      },
     },
     {
+      path: '/start',
+      getComponent(nextState, cb) {
+        require.ensure([], require => {
+          registerModel(app, require('./models/app'));
+          registerModel(app, require('./models/start'));
+          cb(null, require('./routes/start/'));
+        }, 'dashboard');
+      },
+    },
+
+    {
       path: '/',
-      component: App,
+      getComponent(nextState, cb) {
+        require.ensure([], require => {
+          registerModel(app, require('./models/app'));
+          cb(null, require('./routes/app'));
+        }, 'dashboard');
+      },
       getIndexRoute(nextState, cb) {
         require.ensure([], require => {
           registerModel(app, require('./models/dashboard'));

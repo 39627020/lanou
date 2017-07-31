@@ -1,6 +1,7 @@
 import React from 'react';
 import enquire from 'enquire.js';
 import {scrollScreen} from 'rc-scroll-anim';
+import {connect} from 'dva';
 
 import Nav from './Nav';
 import Content0 from './Content0';
@@ -14,7 +15,7 @@ import Point from './Point';
 
 import './less/antMotion_style.less';
 
-export default class Home extends React.Component {
+class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -45,7 +46,6 @@ export default class Home extends React.Component {
   render() {
     const children = [
       <Nav id="nav_1_0" key="nav_1_0" isMode={this.state.isMode}/>,
-
       <Content0 id="content_10_0" key="content_10_0" isMode={this.state.isMode}/>,
       <Content4 id="content_6_0" key="content_6_0" isMode={this.state.isMode}/>,
       <Content1 id="content_2_0" key="content_2_0" isMode={this.state.isMode}/>,
@@ -63,3 +63,5 @@ export default class Home extends React.Component {
     );
   }
 }
+
+export default connect(({home, loading, app}) => ({home, loading, app}))(Home);

@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TweenOne from 'rc-tween-one';
-import { Menu, Icon } from 'antd';
+import {Menu, Icon} from 'antd';
+import {Link} from 'dva/router';
+import {config} from '../../utils';
 
 const Item = Menu.Item;
 const SubMenu = Menu.SubMenu;
@@ -18,16 +20,17 @@ class Header extends React.Component {
     this.setState({
       phoneOpen: !this.state.phoneOpen,
     });
-  }
+  };
 
   render() {
-    const props = { ...this.props };
+    const props = {...this.props};
     const isMode = props.isMode;
     delete props.isMode;
-    const navData = { menu1: '导航一', menu2: '导航二', menu3: '导航三', menu4: '导航四' };
-    const navChildren = Object.keys(navData).map((key, i) => (<Item key={i}>
-      {navData[key]}
-    </Item>));
+    const navChildren = [
+      <Item><Link style={{color: "white"}} to={"/home"}>首页</Link></Item>,
+      <Item><Link style={{color: "white"}} to={"/start"}>开始答题</Link></Item>,
+      <Item> <Link style={{color: "white"}} to={"/"}>控制台</Link></Item>,
+    ];
     const userTitle = (<div>
       <span className="img">
         <img
@@ -35,13 +38,11 @@ class Header extends React.Component {
           width="30"
           height="30"
         />
+
       </span>
       <span>用户名</span>
     </div>);
-    navChildren.push((<Item className="help" key="help">
-        <Icon type="question-circle-o" />
-        <span>帮助</span>
-      </Item>),
+    navChildren.push(
       (<SubMenu className="user" title={userTitle} key="user">
         <Item key="a">用户中心</Item>
         <Item key="b">修改密码</Item>
@@ -49,15 +50,20 @@ class Header extends React.Component {
       </SubMenu>));
     return (<TweenOne
       component="header"
-      animation={{ opacity: 0, type: 'from' }}
+      animation={{opacity: 0, type: 'from'}}
       {...props}
     >
       <TweenOne
         className={`${this.props.className}-logo`}
-        animation={{ x: -30, delay: 100, type: 'from', ease: 'easeOutQuad' }}
+        animation={{x: -30, delay: 100, type: 'from', ease: 'easeOutQuad'}}
         id={`${this.props.id}-logo`}
       >
-        <img width="100%" src="https://os.alipayobjects.com/rmsportal/mlcYmsRilwraoAe.svg" />
+        <Link to={"/home"}>
+          <div>
+            <img style={{width: 40, "margin-right": 8}} alt={'logo'} src={config.logo}/>
+            <span>{config.name}</span>
+          </div>
+        </Link>
       </TweenOne>
       {isMode ? (<div
           className={`${this.props.className}-phone-nav${this.state.phoneOpen ? ' open' : ''}`}
@@ -69,9 +75,9 @@ class Header extends React.Component {
               this.phoneClick();
             }}
           >
-            <em />
-            <em />
-            <em />
+            <em/>
+            <em/>
+            <em/>
           </div>
           <div
             className={`${this.props.className}-phone-nav-text`}
@@ -86,7 +92,7 @@ class Header extends React.Component {
           </div>
         </div>) :
         <TweenOne
-          animation={{ x: 30, delay: 100, opacity: 0, type: 'from', ease: 'easeOutQuad' }}
+          animation={{x: 30, delay: 100, opacity: 0, type: 'from', ease: 'easeOutQuad'}}
           className={`${this.props.className}-nav`}
         >
           <Menu
