@@ -64,7 +64,7 @@ const Papers = ({papers, loading, app, dispatch, location}) => {
     onOk(data) {
       let newData = {
         ...data,
-        testItemIds: testItems.selectedRowKeys.length > 0 ? testItems.selectedRowKeys : currentItem.testItems.map(i => i.id)
+        testItemIds: testItems.selectedRowKeys
       };
       dispatch({
         type: `papers/${modalType}`,

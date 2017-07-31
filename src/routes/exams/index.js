@@ -35,6 +35,9 @@ const Exams = ({exams, loading, app, dispatch, location}) => {
     },
     onAdd() {
       dispatch({
+        type: 'exams/queryPapers',
+      });
+      dispatch({
         type: 'exams/showModal',
         payload: {
           modalType: 'create',

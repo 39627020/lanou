@@ -142,6 +142,7 @@ export default modelExtend(pageModel, {
       return {
         ...state,
         modalVisible: false,
+        currentItem:{},
         testItems: {
           list: [],
           pagination: {},

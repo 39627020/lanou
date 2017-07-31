@@ -125,6 +125,7 @@ export default modelExtend(pageModel, {
     hideModal(state) {
       return {
         ...state,
+        currentItem:{},
         modalVisible: false,
         papers: {
           list: [],

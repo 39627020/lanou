@@ -3,9 +3,11 @@ import {Table, Modal} from 'antd';
 import styles from './List.less';
 import {DropOption} from 'components';
 import PropTypes from 'prop-types';
-import { Avatar } from 'antd';
+import {Avatar} from 'antd';
+
 const confirm = Modal.confirm;
-import { Link } from 'dva/router'
+import {Link} from 'dva/router';
+
 const List = ({...tableProps}) => {
 
   const {onEditItem, onDeleteItem} = tableProps;
@@ -32,12 +34,12 @@ const List = ({...tableProps}) => {
     {
       title: '图标',
       width: 64,
-      render: (text) =>  <Avatar style={{ backgroundColor: '#d04b60' }} icon="book" />,
+      render: (text) => <Avatar style={{backgroundColor: '#d04b60'}} icon="book"/>,
     },
     {
       title: '考试分类',
       dataIndex: 'subject',
-      className:`subject-type`,
+      className: `subject-type`,
       render: (text) => text,
     },
     {
@@ -48,7 +50,7 @@ const List = ({...tableProps}) => {
     {
       title: '所属试卷',
       dataIndex: 'paper',
-      render: (text) =><Link to={`papers/${text.id}`}>{text.description}</Link>,
+      render: (text) => text == null ? "" : <Link to={`papers/${text.id}`}>{text.description}</Link>,
     },
     {
       title: '操作',
