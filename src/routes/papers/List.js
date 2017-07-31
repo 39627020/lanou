@@ -1,9 +1,9 @@
 import React from 'react';
-import {Table, Modal} from 'antd';
+import {Table, Modal,Avatar} from 'antd';
 import styles from './List.less';
 import {DropOption} from 'components';
 import PropTypes from 'prop-types';
-import { Avatar } from 'antd';
+
 const confirm = Modal.confirm;
 
 

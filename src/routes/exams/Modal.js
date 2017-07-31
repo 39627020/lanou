@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Form, Input, Modal, Select, Table} from 'antd';
+import {Form, Input, Modal, Select, Table,Avatar} from 'antd';
 import {Link} from 'dva/router';
 
 const Option = Select.Option;
@@ -15,10 +15,9 @@ const formItemLayout = {
   },
 };
 
-const modal = ({
 
+const modal = ({
                  papers,
-                 currentPaper,
                  subjects = [],
                  item = {},
                  onOk,
@@ -30,7 +29,7 @@ const modal = ({
                  ...modalProps
                }) => {
 
-  const { rowSelection,papersLoading} = modalProps;
+  const {rowSelection, papersLoading} = modalProps;
   const handleOk = () => {
     validateFields((errors) => {
       if (errors) {
@@ -93,7 +92,7 @@ const modal = ({
           })(<Input type="textarea"/>)}
         </FormItem>
         <FormItem label="试卷链接"  {...formItemLayout}>
-          <Link to={`papers/${currentPaper.id}`}>{currentPaper.description}</Link>
+          {item.paper &&<div> <Avatar style={{ backgroundColor: '#d0aa3d' }} icon="switcher" /> <Link to={`papers/${item.paper.id}`}>{item.paper.description}</Link></div>}
         </FormItem>
       </Form>
       <Table

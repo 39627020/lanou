@@ -9,7 +9,7 @@ import lodash from 'lodash';
 import Modal from './Modal';
 
 const Exams = ({exams, loading, app, dispatch, location}) => {
-  const {list, pagination, selectedRowKeys, modalVisible, modalType, currentItem, currentPaper, papers} = exams;
+  const {list, pagination, selectedRowKeys, modalVisible, modalType, currentItem, papers} = exams;
   const {query = {}, pathname} = location;
   const {subjects} = app;
   const cloneList = lodash.cloneDeep(list).map(i => {
@@ -45,7 +45,6 @@ const Exams = ({exams, loading, app, dispatch, location}) => {
   const modalProps = {
     papersLoading:loading.effects['exams/queryPapers'],
     papers,
-    currentPaper,
     subjects: subjects,
     item: modalType === 'create' ? {} : currentItem,
     type: modalType,
@@ -71,9 +70,8 @@ const Exams = ({exams, loading, app, dispatch, location}) => {
     },
     rowSelection: {
       type: 'radio',
-      selectedRowKeys: papers.selectedRowKeys.length > 0 ? papers.selectedRowKeys : [currentPaper.id],
+      selectedRowKeys: papers.selectedRowKeys.length > 0 ? papers.selectedRowKeys : currentItem.paper ?[currentItem.paper.id]:[],
       onChange: (keys) => {
-
         dispatch({
           type: 'exams/updateState',
           payload: {
@@ -131,7 +129,6 @@ const Exams = ({exams, loading, app, dispatch, location}) => {
         payload: {
           modalType: 'update',
           currentItem: item,
-          currentPaper: item.paper,
         },
       });
     }

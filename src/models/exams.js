@@ -12,7 +12,6 @@ export default modelExtend(pageModel, {
       selectedRowKeys: [],
     },
     currentItem: {},
-    currentPaper: {},
     selectedRowKeys: [],
     modalVisible: false, //模态框是否可见
     modalType: 'create', //模态框类型，create update
@@ -82,33 +81,33 @@ export default modelExtend(pageModel, {
       }
     },
     * create({payload}, {call, put}) {
-      const data = yield call(examService.create, payload)
+      const data = yield call(examService.create, payload);
       if (data.success) {
-        yield put({type: 'hideModal'})
-        yield put({type: 'query'})
+        yield put({type: 'hideModal'});
+        yield put({type: 'query'});
       } else {
-        throw data
+        throw data;
       }
     },
     * 'delete'({payload}, {call, put, select}) {
       //多选时删除一个，保留选择记录
-      const {selectedRowKeys} = yield select(_ => _.exams)
-      const data = yield call(examService.removeOneById, {id: payload})
+      const {selectedRowKeys} = yield select(_ => _.exams);
+      const data = yield call(examService.removeOneById, {id: payload});
       if (data.success) {
-        yield put({type: 'updateState', payload: {selectedRowKeys: selectedRowKeys.filter(_ => _ !== payload)}})
-        yield put({type: 'query'})
+        yield put({type: 'updateState', payload: {selectedRowKeys: selectedRowKeys.filter(_ => _ !== payload)}});
+        yield put({type: 'query'});
       } else {
-        throw data
+        throw data;
       }
     },
 
     * 'multiDelete'({payload}, {call, put}) {
-      const data = yield call(examService.removeMany, payload)
+      const data = yield call(examService.removeMany, payload);
       if (data.success) {
-        yield put({type: 'updateState', payload: {selectedRowKeys: []}})
-        yield put({type: 'query'})
+        yield put({type: 'updateState', payload: {selectedRowKeys: []}});
+        yield put({type: 'query'});
       } else {
-        throw data
+        throw data;
       }
     },
 
@@ -118,10 +117,21 @@ export default modelExtend(pageModel, {
     showModal(state, {payload}) {
       return {...state, ...payload, modalVisible: true};
     },
-
+    /**
+     * 关闭时要清空papers，否则会有bug
+     * @param state
+     * @returns {{modalVisible: boolean, paperss: {list: Array, pagination: {}, selectedRowKeys: Array}}}
+     */
     hideModal(state) {
-      return {...state, modalVisible: false};
+      return {
+        ...state,
+        modalVisible: false,
+        papers: {
+          list: [],
+          pagination: {},
+          selectedRowKeys: [],
+        }
+      };
     },
-
   },
 });

@@ -140,7 +140,9 @@ export default modelExtend(pageModel, {
 
     hideModal(state) {
       return {
-        ...state, modalVisible: false, testItems: {
+        ...state,
+        modalVisible: false,
+        testItems: {
           list: [],
           pagination: {},
           selectedRowKeys: [],
