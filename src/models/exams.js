@@ -90,6 +90,27 @@ export default modelExtend(pageModel, {
         throw data
       }
     },
+    * 'delete'({payload}, {call, put, select}) {
+      //多选时删除一个，保留选择记录
+      const {selectedRowKeys} = yield select(_ => _.exams)
+      const data = yield call(examService.removeOneById, {id: payload})
+      if (data.success) {
+        yield put({type: 'updateState', payload: {selectedRowKeys: selectedRowKeys.filter(_ => _ !== payload)}})
+        yield put({type: 'query'})
+      } else {
+        throw data
+      }
+    },
+
+    * 'multiDelete'({payload}, {call, put}) {
+      const data = yield call(examService.removeMany, payload)
+      if (data.success) {
+        yield put({type: 'updateState', payload: {selectedRowKeys: []}})
+        yield put({type: 'query'})
+      } else {
+        throw data
+      }
+    },
 
   },
   reducers: {

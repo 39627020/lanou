@@ -110,6 +110,27 @@ export default modelExtend(pageModel, {
         });
       }
     },
+    * 'delete'({payload}, {call, put, select}) {
+      //多选时删除一个，保留选择记录
+      const {selectedRowKeys} = yield select(_ => _.papers)
+      const data = yield call(papersService.removeOneById, {id: payload})
+      if (data.success) {
+        yield put({type: 'updateState', payload: {selectedRowKeys: selectedRowKeys.filter(_ => _ !== payload)}})
+        yield put({type: 'query'})
+      } else {
+        throw data
+      }
+    },
+
+    * 'multiDelete'({payload}, {call, put}) {
+      const data = yield call(papersService.removeMany, payload)
+      if (data.success) {
+        yield put({type: 'updateState', payload: {selectedRowKeys: []}})
+        yield put({type: 'query'})
+      } else {
+        throw data
+      }
+    },
   },
   reducers: {
 

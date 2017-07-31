@@ -25,3 +25,17 @@ export async function create(params) {
     data: params,
   });
 }
+export async function removeOneById (params) {
+  return request({
+    url: exam,
+    method: 'delete',
+    data: params,
+  })
+}
+export async function removeMany (params) {
+  return request({
+    url: exam.replace('/:id',""),
+    method: 'delete',
+    data: params,
+  })
+}

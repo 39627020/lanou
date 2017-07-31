@@ -35,3 +35,17 @@ export async function queryOneById(params) {
     data: params,
   });
 }
+export async function removeOneById (params) {
+  return request({
+    url: paper,
+    method: 'delete',
+    data: params,
+  })
+}
+export async function removeMany (params) {
+  return request({
+    url: paper.replace('/:id',""),
+    method: 'delete',
+    data: params,
+  })
+}
