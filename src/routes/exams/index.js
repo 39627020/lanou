@@ -43,6 +43,7 @@ const Exams = ({exams, loading, app, dispatch, location}) => {
     },
   };
   const modalProps = {
+    papersLoading:loading.effects['exams/queryPapers'],
     papers,
     currentPaper,
     subjects: subjects,

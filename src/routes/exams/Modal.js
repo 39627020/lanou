@@ -30,7 +30,7 @@ const modal = ({
                  ...modalProps
                }) => {
 
-  const { rowSelection,} = modalProps;
+  const { rowSelection,papersLoading} = modalProps;
   const handleOk = () => {
     validateFields((errors) => {
       if (errors) {
@@ -97,6 +97,7 @@ const modal = ({
         </FormItem>
       </Form>
       <Table
+        loading={papersLoading}
         rowSelection={rowSelection}
         columns={columns}
         dataSource={papers.list}

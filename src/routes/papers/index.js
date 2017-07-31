@@ -49,6 +49,7 @@ const Papers = ({papers, loading, app, dispatch, location}) => {
     },
   };
   const modalProps = {
+    testItemsLoading:loading.effects['papers/queryTestItems'],
     testItemList,
     testItemPagination,
     modalItemVisible: modalItemVisible,

@@ -32,7 +32,7 @@ const modal = ({
                  },
                  ...modalProps
                }) => {
-  const {modalItemVisible, testItemList, testItemPagination, rowSelection,} = modalProps;
+  const {modalItemVisible, testItemList, testItemPagination, rowSelection,testItemsLoading} = modalProps;
   const columns = [
     {
       title: '题型',
@@ -112,6 +112,7 @@ const modal = ({
             <Tabs defaultActiveKey="1" onChange={handleSwitchItem}>
               <TabPane tab="问答题" key="1">
                 <Table
+                  loading={testItemsLoading}
                   rowSelection={rowSelection}
                   columns={columns}
                   pagination={testItemPagination}
@@ -121,6 +122,7 @@ const modal = ({
               </TabPane>
               <TabPane tab="选择题" key="2">
                 <Table
+                  loading={testItemsLoading}
                   rowSelection={rowSelection}
                   columns={columns}
                   pagination={testItemPagination}
