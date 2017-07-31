@@ -104,32 +104,87 @@ export default modelExtend(model, {
             route: '/testItems'
           },
           {
-            id: '8',
+            id: '6',
             bpid: '1',
-            name: 'Recharts',
+            name: '数据统计',
             icon: 'code-o'
           }, {
-            id: '51',
-            bpid: '8',
-            mpid: '8',
+            id: '61',
+            bpid: '6',
+            mpid: '6',
             name: 'LineChart',
             icon: 'line-chart',
             route: '/chart/lineChart'
           }, {
-            id: '52',
-            bpid: '8',
-            mpid: '8',
+            id: '62',
+            bpid: '6',
+            mpid: '6',
             name: 'BarChart',
             icon: 'bar-chart',
             route: '/chart/barChart'
           }, {
-            id: '53',
-            bpid: '8',
-            mpid: '8',
+            id: '63',
+            bpid: '6',
+            mpid: '6',
             name: 'AreaChart',
             icon: 'area-chart',
             route: '/chart/areaChart'
-          }];
+          },
+          {
+            id: '7',
+            bpid: '1',
+            name: 'UI Element',
+            icon: 'camera-o',
+          },
+          {
+            id: '71',
+            bpid: '7',
+            mpid: '7',
+            name: 'IconFont',
+            icon: 'heart-o',
+            route: '/UIElement/iconfont',
+          },
+          {
+            id: '72',
+            bpid: '7',
+            mpid: '7',
+            name: 'DataTable',
+            icon: 'database',
+            route: '/UIElement/dataTable',
+          },
+          {
+            id: '73',
+            bpid: '7',
+            mpid: '7',
+            name: 'DropOption',
+            icon: 'bars',
+            route: '/UIElement/dropOption',
+          },
+          {
+            id: '74',
+            bpid: '7',
+            mpid: '7',
+            name: 'Search',
+            icon: 'search',
+            route: '/UIElement/search',
+          },
+          {
+            id: '75',
+            bpid: '7',
+            mpid: '7',
+            name: 'Editor',
+            icon: 'edit',
+            route: '/UIElement/editor',
+          },
+          {
+            id: '76',
+            bpid: '7',
+            mpid: '7',
+            name: 'layer (Function)',
+            icon: 'credit-card',
+            route: '/UIElement/layer',
+          },
+        ];
         let menu = list;
         if (permissions.roles.includes(EnumRoleType.ADMIN) || permissions.roles.includes(EnumRoleType.DEVELOPER)) {
           //访问全部菜单
