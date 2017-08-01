@@ -1,7 +1,6 @@
-import * as appService from '../services/app';
+import * as loginService from '../services/login';
 import modelExtend from 'dva-model-extend';
 import {model} from './common';
-
 import * as subjectService from '../services/subject';
 import {routerRedux} from 'dva/router';
 import {parse} from 'qs';
@@ -60,7 +59,7 @@ export default modelExtend(model, {
                  payload,
                }, {call, put}) {
 
-      const {success, user} = yield call(appService.queryOneByUserName, payload);
+      const {success, user} = yield call(loginService.loginByLocalStorage, payload);
       if (success && user) {
         //加载subject分类
         const subjectData = yield call(subjectService.queryMany);
@@ -229,7 +228,7 @@ export default modelExtend(model, {
      */* logout({
                   payload,
                 }, {call, put}) {
-      const data = yield call(appService.logout, parse(payload));
+      const data = yield call(loginService.logout, parse(payload));
       if (data.success) {
         yield put({type: 'query'});
       } else {

@@ -1,7 +1,7 @@
 import React from 'react';
 import enquire from 'enquire.js';
 import {scrollScreen} from 'rc-scroll-anim';
-import {connect} from 'dva';
+import {connect,dispatch} from 'dva';
 
 import Nav from './Nav';
 import Content0 from './Content0';
@@ -64,4 +64,4 @@ class Home extends React.Component {
   }
 }
 
-export default connect(({home, loading, app}) => ({home, loading, app}))(Home);
+export default Home;
