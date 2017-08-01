@@ -79,7 +79,7 @@ export default modelExtend(pageModel, {
 
     * create({payload}, {call, put}) {
       const data = yield call(usersService.create, payload)
-      if (data.success) {
+      if (data.success && data.token) {
         yield put({type: 'hideModal'})
         yield put({type: 'query'})
       } else {

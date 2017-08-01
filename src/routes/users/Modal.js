@@ -13,7 +13,6 @@ const formItemLayout = {
     span: 14,
   },
 }
-
 const modal = ({
                  rolesList,
                  item = {},
@@ -38,7 +37,6 @@ const modal = ({
       onOk(data)
     })
   }
-
   const modalOpts = {
     ...modalProps,
     onOk: handleOk,
@@ -47,12 +45,11 @@ const modal = ({
   return (
     <Modal {...modalOpts}>
       <Form layout="horizontal">
-
         <FormItem label="用户" hasFeedback {...formItemLayout}>
           {
             modalOpts.type === "create" ?
               getFieldDecorator('username', {
-                initialValue: item.username,
+                initialValue: item.username, validateStatus: "validating",
                 rules: [
                   {
                     required: true,
@@ -169,7 +166,7 @@ const modal = ({
             ],
           })(
             <Select
-              mode="tags"
+              mode="multiple"
               size="large"
               placeholder="请选择权限">
               {
@@ -192,4 +189,4 @@ modal.propTypes = {
   onOk: PropTypes.func,
 }
 
-export default Form.create()(modal)
+export default Form.create({})(modal)

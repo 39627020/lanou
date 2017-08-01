@@ -8,8 +8,7 @@ export default {
   effects: {
     * register({payload}, {call}) {
       const data = yield call(registerService.register, payload)
-      if (data.success) {
-        console.log(data)
+      if (data.success && data.token ) {
         localStorage.setItem(`${prefix}loginToken`, data.token)
         localStorage.setItem(`${prefix}loginUsername`, payload.username)
         window.location = `${location.origin}/home`;
