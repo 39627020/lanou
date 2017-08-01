@@ -14,7 +14,6 @@ const Routers = function ({history, app}) {
       path: '/home',
       getComponent(nextState, cb) {
         require.ensure([], require => {
-          registerModel(app, require('./models/home'));
           cb(null, require('./routes/home/'));
         }, 'dashboard');
       },
@@ -29,7 +28,19 @@ const Routers = function ({history, app}) {
         }, 'dashboard');
       },
     },
-
+    {
+      path: '/register',
+      getComponent(nextState, cb) {
+        require.ensure([], require => {
+          registerModel(app, require('./models/register'));
+          cb(null, require('./routes/register/'));
+        }, 'register');
+      },
+    },
+    /**
+     * 注意！
+     * 下面的路由是app组件下面的子组件，需要权限
+     */
     {
       path: '/',
       getComponent(nextState, cb) {
@@ -77,14 +88,7 @@ const Routers = function ({history, app}) {
               cb(null, require('./routes/login/'));
             }, 'login');
           },
-        }, {
-          path: 'request',
-          getComponent(nextState, cb) {
-            require.ensure([], require => {
-              cb(null, require('./routes/request/'));
-            }, 'request');
-          },
-        }, {
+        },  {
           path: 'testItems',
           getComponent(nextState, cb) {
             require.ensure([], require => {
