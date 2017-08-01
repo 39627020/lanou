@@ -44,7 +44,7 @@ const Users = ({location, dispatch, users, loading, app}) => {
   const listProps = {
 
     dataSource: cloneList,
-    loading: loading.effects['users/queryMany'],
+    loading:{spinning:loading.effects['users/query'],size:"large",tip:"请稍候..."},
     pagination,
     location,
     isMotion,

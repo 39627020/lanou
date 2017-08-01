@@ -94,7 +94,7 @@ const Exams = ({exams, loading, app, dispatch, location}) => {
   const listProps = {
     pagination,
     dataSource: cloneList,
-    loading: loading.effects['exams/queryMany'],
+    loading:{spinning:loading.effects['exams/query'],size:"large",tip:"请稍候..."},
     location,
     onChange: (page) => {
       dispatch(routerRedux.push({

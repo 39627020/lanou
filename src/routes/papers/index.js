@@ -122,7 +122,7 @@ const Papers = ({papers, loading, app, dispatch, location}) => {
   const listProps = {
     pagination,
     dataSource: cloneList,
-    loading: loading.effects['papers/queryMany'],
+    loading:{spinning:loading.effects['papers/query'],size:"large",tip:"请稍候..."},
     location,
     onChange: (page) => {
       dispatch(routerRedux.push({
