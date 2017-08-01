@@ -59,8 +59,9 @@ const Login = ({
             登录
           </Button>
           <p>
-            <span>Username：guest</span>
-            <span>Password：guest</span>
+            <span> <Link to="/register">注册账号</Link></span>
+
+            <span> <Link to="/home">找回密码</Link></span>
           </p>
         </Row>
 

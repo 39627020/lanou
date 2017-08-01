@@ -147,6 +147,7 @@ const modal = ({
             rules: [
               {
                 required: true,
+                message: '地址不能为空',
               },
             ],
           })(<Cascader
