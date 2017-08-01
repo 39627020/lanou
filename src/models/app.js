@@ -46,7 +46,7 @@ export default modelExtend(model, {
         clearTimeout(tid);
         tid = setTimeout(() => {
           dispatch({type: 'changeNavbar'});
-        }, 300);
+        }, 100);
       };
     },
 
@@ -257,7 +257,7 @@ export default modelExtend(model, {
                         payload,
                       }, {put, select}) {
       const {app} = yield select(_ => _);
-      const isNavbar = document.body.clientWidth < 769;
+      const isNavbar = document.body.clientWidth < 767;
       if (isNavbar !== app.isNavbar) {
         yield put({type: 'handleNavbar', payload: isNavbar});
       }
