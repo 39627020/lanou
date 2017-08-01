@@ -58,6 +58,7 @@ class Header extends React.Component {
     navChildren.push(
       (<SubMenu className="user" title={userTitle} key="user">
         <Item key="login">用户中心</Item>
+        <Item key="register">注册</Item>
         <Item key="logout">
           <div
             onClick={() => {
