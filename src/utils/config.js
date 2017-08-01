@@ -17,6 +17,7 @@ module.exports = {
     userLogin: `${APIV1}/auth/login`,
     userLogout: `${APIV1}/auth/logout`,
     userRegister:`${APIV1}/auth/register`,
+    userRole:`${APIV1}/userRoles`,
     user: `${APIV1}/users/:id`,
     testItem: `${APIV1}/testItems/:id`,
     paper: `${APIV1}/papers/:id`,

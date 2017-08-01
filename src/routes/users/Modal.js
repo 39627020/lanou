@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Form, Input, InputNumber, Radio, Modal, Cascader} from 'antd'
+import {Form, Input, InputNumber, Radio, Modal, Cascader, Select} from 'antd'
 import city from '../../utils/city'
 
 const FormItem = Form.Item
-
+const Option = Select.Option
 const formItemLayout = {
   labelCol: {
     span: 6,
@@ -15,6 +15,7 @@ const formItemLayout = {
 }
 
 const modal = ({
+                 rolesList,
                  item = {},
                  onOk,
                  form: {
@@ -156,6 +157,28 @@ const modal = ({
             options={city}
             placeholder="请选择地址"
           />)}
+        </FormItem>
+        <FormItem label="用户权限" hasFeedback {...formItemLayout}>
+          {getFieldDecorator('roles', {
+            initialValue: item.roles,
+            rules: [
+              {
+                required: true,
+                message: '权限不能为空',
+              },
+            ],
+          })(
+            <Select
+              mode="tags"
+              size="large"
+              placeholder="请选择权限">
+              {
+                rolesList.map(role =>
+                  <Option value={role.role}>{role.role}</Option>
+                )
+              }
+            </Select>
+          )}
         </FormItem>
       </Form>
     </Modal>

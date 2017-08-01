@@ -1,4 +1,5 @@
 import * as loginService from '../services/login';
+import * as roleService from '../services/uerRole';
 import modelExtend from 'dva-model-extend';
 import {model} from './common';
 import * as subjectService from '../services/subject';
@@ -13,6 +14,7 @@ export default modelExtend(model, {
   namespace: 'app',
   state: {
     user: {},
+    roles: [],
     subjects: [],
     permissions: {
       visit: [],
@@ -63,17 +65,27 @@ export default modelExtend(model, {
       if (success && user) {
         //加载subject分类
         const subjectData = yield call(subjectService.queryMany);
-        let subjects = subjectData.list;
+        const subjects = subjectData.list;
+        //加载权限列表
+        const roleData = yield call(roleService.queryMany);
+        const roles = roleData.list;
         const {permissions} = user;
         //todo:修改逻辑 符合后台登录要求
         // const menuData = yield call(menusService.queryMany)
-        const list = [{id: '1', icon: 'laptop', name: '系统概况', route: '/dashboard'}, {
-          id: '2',
-          bpid: '1',
-          name: '用户管理',
-          icon: 'user',
-          route: '/users'
-        },
+        const list = [
+          {
+            id: '1',
+            icon: 'laptop',
+            name: '系统概况',
+            route: '/dashboard'
+          },
+          {
+            id: '2',
+            bpid: '1',
+            name: '用户管理',
+            icon: 'user',
+            route: '/users'
+          },
           {
             id: '21',
             mpid: '-1',
@@ -204,6 +216,7 @@ export default modelExtend(model, {
         yield put({
           type: 'updateState',
           payload: {
+            roles,
             user,
             permissions,
             menu,
@@ -216,7 +229,7 @@ export default modelExtend(model, {
       } else {
         if (config.openPages && config.openPages.indexOf(location.pathname) < 0) {
           let from = location.pathname;
-            window.location = `${location.origin}/login?from=${from}`;
+          window.location = `${location.origin}/login?from=${from}`;
         }
       }
     },

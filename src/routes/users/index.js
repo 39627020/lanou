@@ -6,11 +6,21 @@ import List from './List';
 import Filter from './Filter';
 import Modal from './Modal';
 import MultiChoiceEdit from '../../components/DataTable/MultiChoiceEdit';
-const Users = ({location, dispatch, users, loading}) => {
+import lodash from 'lodash';
+
+const Users = ({location, dispatch, users, loading, app}) => {
   const {list, pagination, currentItem, modalVisible, modalType, isMotion, selectedRowKeys} = users;
   const {pageSize} = pagination;
-
+  const {roles} = app;
+  const cloneList = lodash.cloneDeep(list).map(i => {
+    if (i.roles.length > 0)
+      i.roles = i.roles.map(item => {
+        return item.role
+      })
+    return i;
+  });
   const modalProps = {
+    rolesList: roles,
     item: modalType === 'create' ? {} : currentItem,
     type: modalType,
     visible: modalVisible,
@@ -32,7 +42,8 @@ const Users = ({location, dispatch, users, loading}) => {
   };
 
   const listProps = {
-    dataSource: list,
+
+    dataSource: cloneList,
     loading: loading.effects['users/queryMany'],
     pagination,
     location,
@@ -136,7 +147,8 @@ const Users = ({location, dispatch, users, loading}) => {
       <Filter {...filterProps} />
       {
         selectedRowKeys.length > 0 &&
-        <MultiChoiceEdit selectedRowKeys={selectedRowKeys} handleCancelMultiChoice={handleCancelMultiChoice} handleDeleteItems={handleDeleteItems}/>
+        <MultiChoiceEdit selectedRowKeys={selectedRowKeys} handleCancelMultiChoice={handleCancelMultiChoice}
+                         handleDeleteItems={handleDeleteItems}/>
       }
       <List {...listProps} />
       {modalVisible && <Modal {...modalProps} />}
@@ -151,4 +163,4 @@ Users.propTypes = {
   loading: PropTypes.object,
 };
 
-export default connect(({users, loading}) => ({users, loading}))(Users);
+export default connect(({users, loading, app}) => ({users, loading, app}))(Users);
