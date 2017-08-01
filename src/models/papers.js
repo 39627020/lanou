@@ -19,6 +19,7 @@ export default modelExtend(pageModel, {
   },
   subscriptions: {
     setup({dispatch, history}) {
+
       history.listen(location => {
         if (location.pathname === '/papers') {
           dispatch({
@@ -117,7 +118,8 @@ export default modelExtend(pageModel, {
         yield put({type: 'updateState', payload: {selectedRowKeys: selectedRowKeys.filter(_ => _ !== payload)}})
         yield put({type: 'query'})
       } else {
-        throw data
+        const error = {message: "存在依赖，删除失败！"}
+        throw error
       }
     },
 
@@ -127,7 +129,8 @@ export default modelExtend(pageModel, {
         yield put({type: 'updateState', payload: {selectedRowKeys: []}})
         yield put({type: 'query'})
       } else {
-        throw data
+        const error = {message: "存在依赖，删除失败！"}
+        throw error
       }
     },
   },
@@ -141,7 +144,7 @@ export default modelExtend(pageModel, {
       return {
         ...state,
         modalVisible: false,
-        currentItem:{},
+        currentItem: {},
         testItems: {
           list: [],
           pagination: {},

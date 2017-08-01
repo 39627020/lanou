@@ -72,7 +72,8 @@ export default modelExtend(pageModel, {
         yield put({type: 'updateState', payload: {selectedRowKeys: selectedRowKeys.filter(_ => _ !== payload)}})
         yield put({type: 'query'})
       } else {
-        throw data
+        const error = {message:"存在依赖，删除失败！"}
+        throw error
       }
     },
 
@@ -82,7 +83,8 @@ export default modelExtend(pageModel, {
         yield put({type: 'updateState', payload: {selectedRowKeys: []}})
         yield put({type: 'query'})
       } else {
-        throw data
+        const error = {message:"存在依赖，删除失败！"}
+        throw error
       }
     },
   },
