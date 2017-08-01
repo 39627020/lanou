@@ -54,7 +54,7 @@ class Home extends React.Component {
       <Footer id="footer_0_0" key="footer_0_0" isMode={this.state.isMode}/>,
       // 导航和页尾不进入锚点区，如果需要，自行添加;
       <Point key="list" ref="list"
-             data={['content_10_0', 'content_2_0', 'content_3_0', 'content_4_0', 'content_6_0']}/>,
+             data={['content_10_0','content_6_0', 'content_2_0', 'content_3_0', 'content_4_0' ]}/>,
     ];
     return (
       <div className="templates-wrapper">

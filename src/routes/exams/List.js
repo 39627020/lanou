@@ -70,7 +70,7 @@ const List = ({...tableProps}) => {
         bordered
         simple
         {...tableProps}
-        scroll={{x: 800}}
+        scroll={{x: 600}}
         columns={columns}
         className={styles.table}
         rowKey={record => record.id}
