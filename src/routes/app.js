@@ -77,6 +77,7 @@ const App = ({ children, dispatch, app, loading, location }) => {
   }
   return (
     <div>
+      <Loader spinning={loading.effects['app/query']} />
       <Helmet>
         <title>蓝鸥IT 后台管理系统</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />

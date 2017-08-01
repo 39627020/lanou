@@ -10,33 +10,7 @@ const registerModel = (app, model) => {
 
 const Routers = function ({history, app}) {
   const routes = [
-    {
-      path: '/home',
-      getComponent(nextState, cb) {
-        require.ensure([], require => {
-          cb(null, require('./routes/home/'));
-        }, 'dashboard');
-      },
-    },
-    {
-      path: '/start',
-      getComponent(nextState, cb) {
-        require.ensure([], require => {
-          registerModel(app, require('./models/app'));
-          registerModel(app, require('./models/start'));
-          cb(null, require('./routes/start/'));
-        }, 'dashboard');
-      },
-    },
-    {
-      path: '/register',
-      getComponent(nextState, cb) {
-        require.ensure([], require => {
-          registerModel(app, require('./models/register'));
-          cb(null, require('./routes/register/'));
-        }, 'register');
-      },
-    },
+
     /**
      * 注意！
      * 下面的路由是app组件下面的子组件，需要权限
@@ -56,6 +30,33 @@ const Routers = function ({history, app}) {
         }, 'dashboard');
       },
       childRoutes: [
+        {
+          path: 'home',
+          getComponent(nextState, cb) {
+            require.ensure([], require => {
+              cb(null, require('./routes/home/'));
+            }, 'dashboard');
+          },
+        },
+
+        {
+          path: 'start',
+          getComponent(nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/start'));
+              cb(null, require('./routes/start/'));
+            }, 'dashboard');
+          },
+        },
+        {
+          path: 'register',
+          getComponent(nextState, cb) {
+            require.ensure([], require => {
+              registerModel(app, require('./models/register'));
+              cb(null, require('./routes/register/'));
+            }, 'register');
+          },
+        },
         {
           path: 'dashboard',
           getComponent(nextState, cb) {
