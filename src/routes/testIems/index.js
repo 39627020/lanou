@@ -99,7 +99,7 @@ const TestItems = ({testItems, loading, app, dispatch, location,}) => {
    */
   const listProps = {
     pagination,
-    loading: loading.effects['testItems/query'],
+    loading:{spinning:loading.effects['testItems/query'],size:"large",tip:"请稍候..."},
     location,
     onChange: (page) => {
       dispatch(routerRedux.push({
