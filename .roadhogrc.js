@@ -13,7 +13,7 @@ export default {
   "proxy": {
     "/api/v1": {
       "target": "http://119.29.88.16:8888",
-      "changeOrigin": false,
+      "changeOrigin": true,
       "pathRewrite": {"^/api/v1": "/api/v1"}
     },
   },
