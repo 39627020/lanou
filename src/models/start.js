@@ -6,6 +6,7 @@ import *as paperService from '../services/papers'
 export default modelExtend(model, {
     namespace: 'start',
     state: {
+      isAnswer: false,
       exams: [],
       currentPaper: {}
     },
