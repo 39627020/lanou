@@ -6,8 +6,10 @@ import NProgress from 'nprogress'
 import style from './index.less'
 import Paper from './Paper'
 import Exams from './Exams'
+import lodash from 'lodash';
+import {query} from "../../services/dashboard";
 
-const Start = ({loading, start, app,dispatch}) => {
+const Start = ({loading, start, app, dispatch}) => {
   //界面上的加载条
   let lastHref
   const href = window.location.href
@@ -18,15 +20,15 @@ const Start = ({loading, start, app,dispatch}) => {
       lastHref = href
     }
   }
-  const {exams, currentPaper,currentExam, doPaper} = start
+  const {exams, currentPaper, currentExam, doPaper} = start
   const {isNavbar, subjects} = app
   const examsProps = {
     subjects,
     exams,
     doExam: (exam) => {
       dispatch({
-        type:'start/startExam',
-        payload:exam,
+        type: 'start/startExam',
+        payload: exam,
       })
     },
     showExamInfo: (exam) => {
@@ -36,10 +38,19 @@ const Start = ({loading, start, app,dispatch}) => {
       console.log(examSubject)
     },
   }
-  const paperProps ={
+  const paperProps = {
     currentPaper,
     currentExam,
-
+    onOk: (exam) => {
+      console.log(exam)
+    },
+    onCancel: () => {
+      dispatch(
+        {
+          type: "start/endExam"
+        }
+      )
+    },
   }
 
   return (

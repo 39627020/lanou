@@ -38,7 +38,11 @@ export default modelExtend(model, {
               payload: {
                 currentPaper: {
                   ...payload,
-                  testItems: data.testItems,
+                  testItems: data.testItems.map(_ => {
+                    if (_.type == "CHOICE")
+                      _.question = JSON.parse(_.question)
+                    return _
+                  }),
                 }
               },
             }
