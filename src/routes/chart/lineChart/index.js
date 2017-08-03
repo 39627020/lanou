@@ -58,20 +58,28 @@ const colProps = {
 
 const SimpleLineChart = () => (
   <Container>
-    <LineChart data={data} margin={{
-      top: 5,
-      right: 30,
-      left: 20,
-      bottom: 5,
-    }}>
+    <LineChart
+      data={data}
+      margin={{
+        top: 5,
+        right: 30,
+        left: 20,
+        bottom: 5,
+      }}
+    >
       <XAxis dataKey="name" />
       <YAxis />
       <CartesianGrid strokeDasharray="3 3" />
       <Tooltip />
       <Legend />
-      <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{
-        r: 8,
-      }} />
+      <Line
+        type="monotone"
+        dataKey="pv"
+        stroke="#8884d8"
+        activeDot={{
+          r: 8,
+        }}
+      />
       <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
     </LineChart>
   </Container>
@@ -79,12 +87,18 @@ const SimpleLineChart = () => (
 
 const VerticalLineChart = () => (
   <Container>
-    <LineChart layout="vertical" width={600} height={300} data={data} margin={{
-      top: 20,
-      right: 30,
-      left: 20,
-      bottom: 5,
-    }}>
+    <LineChart
+      layout="vertical"
+      width={600}
+      height={300}
+      data={data}
+      margin={{
+        top: 20,
+        right: 30,
+        left: 20,
+        bottom: 5,
+      }}
+    >
       <XAxis type="number" />
       <YAxis dataKey="name" type="category" />
       <CartesianGrid strokeDasharray="3 3" />
@@ -98,12 +112,17 @@ const VerticalLineChart = () => (
 
 const DashedLineChart = () => (
   <Container>
-    <LineChart width={600} height={300} data={data} margin={{
-      top: 5,
-      right: 30,
-      left: 20,
-      bottom: 5,
-    }}>
+    <LineChart
+      width={600}
+      height={300}
+      data={data}
+      margin={{
+        top: 5,
+        right: 30,
+        left: 20,
+        bottom: 5,
+      }}
+    >
       <XAxis dataKey="name" />
       <YAxis />
       <CartesianGrid strokeDasharray="3 3" />
@@ -140,18 +159,23 @@ CustomizedDot.propTypes = {
 
 const CustomizedDotLineChart = () => (
   <Container>
-    <LineChart width={600} height={300} data={data} margin={{
-      top: 5,
-      right: 30,
-      left: 20,
-      bottom: 5,
-    }}>
+    <LineChart
+      width={600}
+      height={300}
+      data={data}
+      margin={{
+        top: 5,
+        right: 30,
+        left: 20,
+        bottom: 5,
+      }}
+    >
       <XAxis dataKey="name" />
       <YAxis />
       <CartesianGrid strokeDasharray="3 3" />
       <Tooltip />
       <Legend />
-      <Line type="monotone" dataKey="pv" stroke="#8884d8" dot={< CustomizedDot />} />
+      <Line type="monotone" dataKey="pv" stroke="#8884d8" dot={<CustomizedDot />} />
       <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
     </LineChart>
   </Container>
@@ -159,11 +183,15 @@ const CustomizedDotLineChart = () => (
 
 const EditorPage = () => (
   <div className="content-inner">
-    <Button type="primary" size="large" style={{
-      position: 'absolute',
-      right: 0,
-      top: -48,
-    }}>
+    <Button
+      type="primary"
+      size="large"
+      style={{
+        position: 'absolute',
+        right: 0,
+        top: -48,
+      }}
+    >
       <a href="http://recharts.org/#/en-US/examples/TinyBarChart" target="blank">Show More</a>
     </Button>
     <Row gutter={32}>

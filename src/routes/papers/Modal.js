@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {Form, Input, Modal, Select, Collapse, Tabs, Table} from 'antd';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Form, Input, Modal, Select, Collapse, Tabs, Table } from 'antd'
 
-const TabPane = Tabs.TabPane;
-const Panel = Collapse.Panel;
-const Option = Select.Option;
-const FormItem = Form.Item;
+const TabPane = Tabs.TabPane
+const Panel = Collapse.Panel
+const Option = Select.Option
+const FormItem = Form.Item
 
 
 const formItemLayout = {
@@ -15,34 +15,34 @@ const formItemLayout = {
   wrapperCol: {
     span: 14,
   },
-};
+}
 
 const modal = ({
-                 onTestItemPageChange,
-                 onSwitchItem,
-                 type,
-                 subjects = [],
-                 item = {},
-                 onOk,
-                 onChoiceItem,
-                 form: {
-                   getFieldDecorator,
-                   validateFields,
-                   getFieldsValue,
-                 },
-                 ...modalProps
-               }) => {
-  const {modalItemVisible, testItemList, testItemPagination, rowSelection,testItemsLoading} = modalProps;
+  onTestItemPageChange,
+  onSwitchItem,
+  type,
+  subjects = [],
+  item = {},
+  onOk,
+  onChoiceItem,
+  form: {
+    getFieldDecorator,
+    validateFields,
+    getFieldsValue,
+  },
+  ...modalProps
+}) => {
+  const { modalItemVisible, testItemList, testItemPagination, rowSelection, testItemsLoading } = modalProps
   const columns = [
     {
       title: '题型',
       dataIndex: 'type',
-      render: text => text == "QUESTION" ? '问答题' : '选择题'
+      render: text => (text == 'QUESTION' ? '问答题' : '选择题'),
     },
     {
       title: '类型',
       dataIndex: 'subject',
-      render: text => text.type
+      render: text => text.type,
     },
     {
       title: '题干',
@@ -51,25 +51,25 @@ const modal = ({
     {
       title: '答案',
       dataIndex: 'answer',
-    }];
-  const handleSwitchItem = key => onSwitchItem(key);
+    }]
+  const handleSwitchItem = key => onSwitchItem(key)
   const handleOk = () => {
     validateFields((errors) => {
       if (errors) {
-        return;
+        return
       }
       const data = {
         ...getFieldsValue(),
-      };
-      onOk(data);
-    });
-  };
-  const handlePageChange1 = (page) => onTestItemPageChange(page, 1);
-  const handlePageChange2 = (page) => onTestItemPageChange(page, 2);
+      }
+      onOk(data)
+    })
+  }
+  const handlePageChange1 = page => onTestItemPageChange(page, 1)
+  const handlePageChange2 = page => onTestItemPageChange(page, 2)
   const modalOpts = {
     ...modalProps,
     onOk: handleOk,
-  };
+  }
   return (
     <Modal {...modalOpts}>
       <Form layout="horizontal">
@@ -79,7 +79,7 @@ const modal = ({
             rules: [
               {
                 required: true,
-                message: "请选择试卷类型",
+                message: '请选择试卷类型',
               },
             ],
           })(
@@ -101,11 +101,11 @@ const modal = ({
                 message: '试卷描述不能为空!',
               },
             ],
-          })(<Input type="textarea"/>)}
+          })(<Input type="textarea" />)}
         </FormItem>
 
-        {type == "update" && modalItemVisible &&
-        <Table columns={columns} pagination={false} dataSource={item.testItems}/>}
+        {type == 'update' && modalItemVisible &&
+        <Table columns={columns} pagination={false} dataSource={item.testItems} />}
 
         <Collapse onChange={onChoiceItem}>
           <Panel header="选择包含的题目" key="1">
@@ -118,7 +118,8 @@ const modal = ({
                   pagination={testItemPagination}
                   onChange={handlePageChange1}
                   rowKey={record => record.id}
-                  dataSource={testItemList}/>
+                  dataSource={testItemList}
+                />
               </TabPane>
               <TabPane tab="选择题" key="2">
                 <Table
@@ -128,7 +129,8 @@ const modal = ({
                   pagination={testItemPagination}
                   onChange={handlePageChange2}
                   dataSource={testItemList}
-                  rowKey={record => record.id}/>
+                  rowKey={record => record.id}
+                />
               </TabPane>
             </Tabs>
           </Panel>
@@ -136,8 +138,8 @@ const modal = ({
       </Form>
 
     </Modal>
-  );
-};
+  )
+}
 
 modal.propTypes = {
   form: PropTypes.object.isRequired,
@@ -145,6 +147,6 @@ modal.propTypes = {
   type: PropTypes.string,
   item: PropTypes.object,
   onOk: PropTypes.func,
-};
+}
 
-export default Form.create()(modal);
+export default Form.create()(modal)

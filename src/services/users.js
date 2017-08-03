@@ -1,10 +1,11 @@
 import { request, config } from 'utils'
+
 const { api } = config
-const { user ,userRegister } = api
+const { user, userRegister } = api
 
 export async function queryMany (params) {
   return request({
-    url: user.replace('/:id',""),
+    url: user.replace('/:id', ''),
     method: 'get',
     data: params,
   })
@@ -12,7 +13,7 @@ export async function queryMany (params) {
 
 export async function removeMany (params) {
   return request({
-    url: user.replace('/:id',""),
+    url: user.replace('/:id', ''),
     method: 'delete',
     data: params,
   })
@@ -34,7 +35,7 @@ export async function removeOneById (params) {
 
 export async function create (params) {
   return request({
-    url:userRegister,
+    url: userRegister,
     method: 'post',
     data: params,
   })

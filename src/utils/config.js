@@ -1,5 +1,5 @@
 const APIV1 = '/api/v1'
-//const APIV2 = '/api/v2'
+// const APIV2 = '/api/v2'
 
 module.exports = {
   name: '蓝鸥IT',
@@ -10,14 +10,14 @@ module.exports = {
   iconFontJS: '/iconfont.js',
   YQL: ['http://www.zuimeitianqi.com'],
   CORS: [],
-  openPages: ['/login','/register','/home','/start'],
+  openPages: ['/login', '/register', '/home', '/start'],
   apiPrefix: '/api/v1',
   api: {
     dashboard: `${APIV1}/dashboard`,
     userLogin: `${APIV1}/auth/login`,
     userLogout: `${APIV1}/auth/logout`,
-    userRegister:`${APIV1}/auth/register`,
-    userRole:`${APIV1}/userRoles`,
+    userRegister: `${APIV1}/auth/register`,
+    userRole: `${APIV1}/userRoles`,
     user: `${APIV1}/users/:id`,
     testItem: `${APIV1}/testItems/:id`,
     paper: `${APIV1}/papers/:id`,

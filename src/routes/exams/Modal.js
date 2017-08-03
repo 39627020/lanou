@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {Form, Input, Modal, Select, Table,Avatar} from 'antd';
-import {Link} from 'dva/router';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Form, Input, Modal, Select, Table, Avatar } from 'antd'
+import { Link } from 'dva/router'
 
-const Option = Select.Option;
-const FormItem = Form.Item;
+const Option = Select.Option
+const FormItem = Form.Item
 
 const formItemLayout = {
   labelCol: {
@@ -13,51 +13,50 @@ const formItemLayout = {
   wrapperCol: {
     span: 14,
   },
-};
+}
 
 
 const modal = ({
-                 papers,
-                 subjects = [],
-                 item = {},
-                 onOk,
-                 form: {
-                   getFieldDecorator,
-                   validateFields,
-                   getFieldsValue,
-                 },
-                 ...modalProps
-               }) => {
-
-  const {rowSelection, papersLoading} = modalProps;
+  papers,
+  subjects = [],
+  item = {},
+  onOk,
+  form: {
+    getFieldDecorator,
+    validateFields,
+    getFieldsValue,
+  },
+  ...modalProps
+}) => {
+  const { rowSelection, papersLoading } = modalProps
   const handleOk = () => {
     validateFields((errors) => {
       if (errors) {
-        return;
+        return
       }
       const data = {
         ...getFieldsValue(),
-      };
-      onOk(data);
-    });
-  };
+      }
+      onOk(data)
+    })
+  }
 
   const modalOpts = {
     ...modalProps,
     onOk: handleOk,
-  };
+  }
   const columns = [
 
     {
       title: '试卷类型',
       dataIndex: 'subject',
-      render: text => text.type
+      render: text => text.type,
     },
     {
       title: '试卷简介',
       dataIndex: 'description',
     },
-  ];
+  ]
   return (
     <Modal {...modalOpts}>
       <Form layout="horizontal">
@@ -67,7 +66,7 @@ const modal = ({
             rules: [
               {
                 required: true,
-                message: "请选择考试类型",
+                message: '请选择考试类型',
               },
             ],
           })(
@@ -89,10 +88,10 @@ const modal = ({
                 message: '考试简介不能为空!',
               },
             ],
-          })(<Input type="textarea"/>)}
+          })(<Input type="textarea" />)}
         </FormItem>
-        <FormItem label="试卷链接"  {...formItemLayout}>
-          {item.paper &&<div> <Avatar style={{ backgroundColor: '#d0aa3d' }} icon="switcher" /> <Link to={`papers/${item.paper.id}`}>{item.paper.description}</Link></div>}
+        <FormItem label="试卷链接" {...formItemLayout}>
+          {item.paper && <div> <Avatar style={{ backgroundColor: '#d0aa3d' }} icon="switcher" /> <Link to={`papers/${item.paper.id}`}>{item.paper.description}</Link></div>}
         </FormItem>
       </Form>
       <Table
@@ -100,10 +99,11 @@ const modal = ({
         rowSelection={rowSelection}
         columns={columns}
         dataSource={papers.list}
-        rowKey={record => record.id}/>
+        rowKey={record => record.id}
+      />
     </Modal>
-  );
-};
+  )
+}
 
 modal.propTypes = {
   form: PropTypes.object.isRequired,
@@ -111,6 +111,6 @@ modal.propTypes = {
   type: PropTypes.string,
   item: PropTypes.object,
   onOk: PropTypes.func,
-};
+}
 
-export default Form.create()(modal);
+export default Form.create()(modal)

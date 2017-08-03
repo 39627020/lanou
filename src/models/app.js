@@ -1,14 +1,14 @@
-import * as loginService from '../services/login';
-import * as roleService from '../services/uerRole';
-import modelExtend from 'dva-model-extend';
-import {model} from './common';
-import * as subjectService from '../services/subject';
-import {routerRedux} from 'dva/router';
-import {parse} from 'qs';
-import config from 'config';
-import {EnumRoleType} from 'enums';
+import { parse } from 'qs'
+import config from 'config'
+import { EnumRoleType } from 'enums'
+import modelExtend from 'dva-model-extend'
+import { routerRedux } from 'dva/router'
+import * as loginService from '../services/login'
+import * as roleService from '../services/uerRole'
+import { model } from './common'
+import * as subjectService from '../services/subject'
 
-const {prefix} = config;
+const { prefix } = config
 
 export default modelExtend(model, {
   namespace: 'app',
@@ -28,26 +28,26 @@ export default modelExtend(model, {
         router: '/dashboard',
       },
     ],
-    menuPopoverVisible: false, //侧边栏是否弹出，仅在宽度较小时有效
-    siderFold: localStorage.getItem(`${prefix}siderFold`) === 'true',// 侧边栏是否折叠，宽度教宽时有效
-    darkTheme: localStorage.getItem(`${prefix}darkTheme`) === 'true',//是否黑夜主题
-    isNavbar: document.body.clientWidth < 769,//是隐藏侧边栏，只显示导航栏
-    navOpenKeys: JSON.parse(localStorage.getItem(`${prefix}navOpenKeys`)) || [],//侧边栏子菜单的折叠情况
+    menuPopoverVisible: false, // 侧边栏是否弹出，仅在宽度较小时有效
+    siderFold: localStorage.getItem(`${prefix}siderFold`) === 'true', // 侧边栏是否折叠，宽度教宽时有效
+    darkTheme: localStorage.getItem(`${prefix}darkTheme`) === 'true', // 是否黑夜主题
+    isNavbar: document.body.clientWidth < 769, // 是隐藏侧边栏，只显示导航栏
+    navOpenKeys: JSON.parse(localStorage.getItem(`${prefix}navOpenKeys`)) || [], // 侧边栏子菜单的折叠情况
   },
   subscriptions: {
 
-    setup({dispatch}) {
-      dispatch({type: 'query'});
-      let tid;
+    setup ({ dispatch }) {
+      dispatch({ type: 'query' })
+      let tid
       /*
       窗口宽度改变时，自适应界面
        */
       window.onresize = () => {
-        clearTimeout(tid);
+        clearTimeout(tid)
         tid = setTimeout(() => {
-          dispatch({type: 'changeNavbar'});
-        }, 100);
-      };
+          dispatch({ type: 'changeNavbar' })
+        }, 100)
+      }
     },
 
   },
@@ -57,89 +57,88 @@ export default modelExtend(model, {
      * @param payload
      * @param call
      * @param put
-     */* query({
-                 payload,
-               }, {call, put}) {
-
-      const {success, user} = yield call(loginService.loginByLocalStorage, payload);
+     */* query ({
+      payload,
+    }, { call, put }) {
+      const { success, user } = yield call(loginService.loginByLocalStorage, payload)
       if (success && user) {
-        //加载subject分类
-        const subjectData = yield call(subjectService.queryMany);
-        const subjects = subjectData.list;
-        //加载权限列表
-        const roleData = yield call(roleService.queryMany);
-        const roles = roleData.list;
-        const {permissions} = user;
-        //todo:修改逻辑 符合后台登录要求
+        // 加载subject分类
+        const subjectData = yield call(subjectService.queryMany)
+        const subjects = subjectData.list
+        // 加载权限列表
+        const roleData = yield call(roleService.queryMany)
+        const roles = roleData.list
+        const { permissions } = user
+        // todo:修改逻辑 符合后台登录要求
         // const menuData = yield call(menusService.queryMany)
         const list = [
           {
             id: '1',
             icon: 'laptop',
             name: '系统概况',
-            route: '/dashboard'
+            route: '/dashboard',
           },
           {
             id: '2',
             bpid: '1',
             name: '用户管理',
             icon: 'user',
-            route: '/users'
+            route: '/users',
           },
           {
             id: '21',
             mpid: '-1',
             bpid: '2',
             name: '用户详情',
-            route: '/users/:id'
+            route: '/users/:id',
           },
           {
             id: '3',
             bpid: '1',
             name: '考试管理',
             icon: 'book',
-            route: '/exams'
+            route: '/exams',
           },
           {
             id: '4',
             bpid: '1',
             name: '试卷管理',
             icon: 'switcher',
-            route: '/papers'
+            route: '/papers',
           },
           {
             id: '5',
             bpid: '1',
             name: '题库管理',
             icon: 'database',
-            route: '/testItems'
+            route: '/testItems',
           },
           {
             id: '6',
             bpid: '1',
             name: '数据统计',
-            icon: 'code-o'
+            icon: 'code-o',
           }, {
             id: '61',
             bpid: '6',
             mpid: '6',
             name: 'LineChart',
             icon: 'line-chart',
-            route: '/chart/lineChart'
+            route: '/chart/lineChart',
           }, {
             id: '62',
             bpid: '6',
             mpid: '6',
             name: 'BarChart',
             icon: 'bar-chart',
-            route: '/chart/barChart'
+            route: '/chart/barChart',
           }, {
             id: '63',
             bpid: '6',
             mpid: '6',
             name: 'AreaChart',
             icon: 'area-chart',
-            route: '/chart/areaChart'
+            route: '/chart/areaChart',
           },
           {
             id: '7',
@@ -195,23 +194,23 @@ export default modelExtend(model, {
             icon: 'credit-card',
             route: '/UIElement/layer',
           },
-        ];
-        let menu = list;
+        ]
+        let menu = list
         if (permissions.roles.includes(EnumRoleType.ADMIN) || permissions.roles.includes(EnumRoleType.DEVELOPER)) {
-          //访问全部菜单
-          permissions.visit = list.map(item => item.id);
+          // 访问全部菜单
+          permissions.visit = list.map(item => item.id)
         } else {
-          //返回合适的item
-          menu = list.filter(item => {
-            //对每个item的验证条件
+          // 返回合适的item
+          menu = list.filter((item) => {
+            // 对每个item的验证条件
             const cases = [
               permissions.visit.includes(item.id),
               item.mpid ? permissions.visit.includes(item.mpid) || item.mpid === '-1' : true,
               item.bpid ? permissions.visit.includes(item.bpid) : true,
-            ];
-            //不满足就返回false
-            return cases.every(_ => _);
-          });
+            ]
+            // 不满足就返回false
+            return cases.every(_ => _)
+          })
         }
         yield put({
           type: 'updateState',
@@ -222,15 +221,13 @@ export default modelExtend(model, {
             menu,
             subjects,
           },
-        });
+        })
         if (location.pathname === '/login') {
-          yield put(routerRedux.push('/dashboard'));
+          yield put(routerRedux.push('/dashboard'))
         }
-      } else {
-        if (config.openPages && config.openPages.indexOf(location.pathname) < 0) {
-          let from = location.pathname;
-          window.location = `${location.origin}/login?from=${from}`;
-        }
+      } else if (config.openPages && config.openPages.indexOf(location.pathname) < 0) {
+        let from = location.pathname
+        window.location = `${location.origin}/login?from=${from}`
       }
     },
     /**
@@ -238,14 +235,14 @@ export default modelExtend(model, {
      * @param payload
      * @param call
      * @param put
-     */* logout({
-                  payload,
-                }, {call, put}) {
-      const data = yield call(loginService.logout, parse(payload));
+     */* logout ({
+      payload,
+    }, { call, put }) {
+      const data = yield call(loginService.logout, parse(payload))
       if (data.success) {
-        yield put({type: 'query'});
+        yield put({ type: 'query' })
       } else {
-        throw (data);
+        throw (data)
       }
     },
     /**
@@ -253,13 +250,13 @@ export default modelExtend(model, {
      * @param payload
      * @param put
      * @param select
-     */* changeNavbar({
-                        payload,
-                      }, {put, select}) {
-      const {app} = yield select(_ => _);
-      const isNavbar = document.body.clientWidth < 767;
+     */* changeNavbar ({
+      payload,
+    }, { put, select }) {
+      const { app } = yield select(_ => _)
+      const isNavbar = document.body.clientWidth < 767
       if (isNavbar !== app.isNavbar) {
-        yield put({type: 'handleNavbar', payload: isNavbar});
+        yield put({ type: 'handleNavbar', payload: isNavbar })
       }
     },
   },
@@ -269,35 +266,35 @@ export default modelExtend(model, {
      * @param state
      * @returns {{siderFold: boolean}}
      */
-    switchSider(state) {
-      localStorage.setItem(`${prefix}siderFold`, !state.siderFold);
+    switchSider (state) {
+      localStorage.setItem(`${prefix}siderFold`, !state.siderFold)
       return {
         ...state,
         siderFold: !state.siderFold,
-      };
+      }
     },
     /**
      * 更改侧边栏主题
      * @param state
      * @returns {{darkTheme: boolean}}
      */
-    switchTheme(state) {
-      localStorage.setItem(`${prefix}darkTheme`, !state.darkTheme);
+    switchTheme (state) {
+      localStorage.setItem(`${prefix}darkTheme`, !state.darkTheme)
       return {
         ...state,
         darkTheme: !state.darkTheme,
-      };
+      }
     },
     /**
      * 在页面很窄时，是否弹出菜单
      * @param state
      * @returns {{menuPopoverVisible: boolean}}
      */
-    switchMenuPopver(state) {
+    switchMenuPopver (state) {
       return {
         ...state,
         menuPopoverVisible: !state.menuPopoverVisible,
-      };
+      }
     },
     /**
      * 修改菜单的显示状态
@@ -305,11 +302,11 @@ export default modelExtend(model, {
      * @param payload
      * @returns {{isNavbar: *}}
      */
-    handleNavbar(state, {payload}) {
+    handleNavbar (state, { payload }) {
       return {
         ...state,
         isNavbar: payload,
-      };
+      }
     },
     /**
      * 侧边栏子菜单呢的折叠情况
@@ -317,11 +314,11 @@ export default modelExtend(model, {
      * @param navOpenKeys
      * @returns {{}}
      */
-    handleNavOpenKeys(state, {payload: navOpenKeys}) {
+    handleNavOpenKeys (state, { payload: navOpenKeys }) {
       return {
         ...state,
         ...navOpenKeys,
-      };
+      }
     },
   },
-});
+})

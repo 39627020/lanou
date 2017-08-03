@@ -1,28 +1,28 @@
-import {login} from '../services/login'
-import {routerRedux} from 'dva/router'
-import {queryURL, config} from 'utils'
+import { login } from '../services/login'
+import { routerRedux } from 'dva/router'
+import { queryURL, config } from 'utils'
 
-const {prefix} = config
+const { prefix } = config
 
 export default {
   namespace: 'login',
   state: {
     loginLoading: false,
-    token: localStorage.getItem(`${prefix}loginToken`)
+    token: localStorage.getItem(`${prefix}loginToken`),
   },
 
   effects: {
-    * login({
-              payload,
-            }, {put, call}) {
-      yield put({type: 'showLoginLoading'})
+    * login ({
+      payload,
+    }, { put, call }) {
+      yield put({ type: 'showLoginLoading' })
       const data = yield call(login, payload)
-      yield put({type: 'hideLoginLoading'})
+      yield put({ type: 'hideLoginLoading' })
       if (data.success) {
         localStorage.setItem(`${prefix}loginToken`, data.token)
         localStorage.setItem(`${prefix}loginUsername`, payload.username)
-        const from = queryURL('from');
-        yield put({type: 'app/query'})
+        const from = queryURL('from')
+        yield put({ type: 'app/query' })
         if (from) {
           yield put(routerRedux.push(from))
         } else {
@@ -34,13 +34,13 @@ export default {
     },
   },
   reducers: {
-    showLoginLoading(state) {
+    showLoginLoading (state) {
       return {
         ...state,
         loginLoading: true,
       }
     },
-    hideLoginLoading(state) {
+    hideLoginLoading (state) {
       return {
         ...state,
         loginLoading: false,

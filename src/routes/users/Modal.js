@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Form, Input, InputNumber, Radio, Modal, Cascader, Select} from 'antd'
+import { Form, Input, InputNumber, Radio, Modal, Cascader, Select } from 'antd'
 import city from '../../utils/city'
 
 const FormItem = Form.Item
@@ -14,16 +14,16 @@ const formItemLayout = {
   },
 }
 const modal = ({
-                 rolesList,
-                 item = {},
-                 onOk,
-                 form: {
-                   getFieldDecorator,
-                   validateFields,
-                   getFieldsValue,
-                 },
-                 ...modalProps
-               }) => {
+  rolesList,
+  item = {},
+  onOk,
+  form: {
+    getFieldDecorator,
+    validateFields,
+    getFieldsValue,
+  },
+  ...modalProps
+}) => {
   const handleOk = () => {
     validateFields((errors) => {
       if (errors) {
@@ -47,19 +47,20 @@ const modal = ({
       <Form layout="horizontal">
         <FormItem label="用户" hasFeedback {...formItemLayout}>
           {
-            modalOpts.type === "create" ?
+            modalOpts.type === 'create' ?
               getFieldDecorator('username', {
-                initialValue: item.username, validateStatus: "validating",
+                initialValue: item.username,
+                validateStatus: 'validating',
                 rules: [
                   {
                     required: true,
-                    message: "用户不能为空",
+                    message: '用户不能为空',
                   },
                 ],
-              })(<Input/>) : <div style={{'text-align': 'center'}}>{item.username}</div>
+              })(<Input />) : <div style={{ 'text-align': 'center' }}>{item.username}</div>
           }
         </FormItem>
-        {modalOpts.type === "create" ?
+        {modalOpts.type === 'create' ?
           <FormItem label="密码" hasFeedback {...formItemLayout}>
             {
 
@@ -68,12 +69,12 @@ const modal = ({
                 rules: [
                   {
                     required: true,
-                    message: "密码不能为空",
+                    message: '密码不能为空',
                   },
                 ],
-              })(<Input/>)
+              })(<Input />)
             }
-          </FormItem> : ""
+          </FormItem> : ''
         }
         <FormItem label="昵称" hasFeedback {...formItemLayout}>
           {getFieldDecorator('nickName', {
@@ -81,10 +82,10 @@ const modal = ({
             rules: [
               {
                 required: true,
-                message: "昵称不能为空",
+                message: '昵称不能为空',
               },
             ],
-          })(<Input/>)}
+          })(<Input />)}
         </FormItem>
         <FormItem label="性别" hasFeedback {...formItemLayout}>
           {getFieldDecorator('female', {
@@ -93,7 +94,7 @@ const modal = ({
               {
                 required: true,
                 type: 'boolean',
-                message: "性别不能为空",
+                message: '性别不能为空',
               },
             ],
           })(
@@ -110,10 +111,10 @@ const modal = ({
               {
                 required: true,
                 type: 'number',
-                message: "年龄不能为空",
+                message: '年龄不能为空',
               },
             ],
-          })(<InputNumber min={18} max={100}/>)}
+          })(<InputNumber min={18} max={100} />)}
         </FormItem>
         <FormItem label="手机" hasFeedback {...formItemLayout}>
           {getFieldDecorator('phone', {
@@ -125,7 +126,7 @@ const modal = ({
                 message: '请输入正确的手机号码!',
               },
             ],
-          })(<Input/>)}
+          })(<Input />)}
         </FormItem>
         <FormItem label="邮箱" hasFeedback {...formItemLayout}>
           {getFieldDecorator('email', {
@@ -137,7 +138,7 @@ const modal = ({
                 message: '请输入正确的电子邮箱!',
               },
             ],
-          })(<Input/>)}
+          })(<Input />)}
         </FormItem>
         <FormItem label="住址" hasFeedback {...formItemLayout}>
           {getFieldDecorator('address', {
@@ -150,7 +151,7 @@ const modal = ({
             ],
           })(<Cascader
             size="large"
-            style={{width: '100%'}}
+            style={{ width: '100%' }}
             options={city}
             placeholder="请选择地址"
           />)}
@@ -168,7 +169,8 @@ const modal = ({
             <Select
               mode="multiple"
               size="large"
-              placeholder="请选择权限">
+              placeholder="请选择权限"
+            >
               {
                 rolesList.map(role =>
                   <Option value={role.role}>{role.role}</Option>

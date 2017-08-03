@@ -2,11 +2,13 @@
   "private": true,
   "dependencies": {
     "antd": "^2.12.3",
+    "axios": "^0.16.2",
     "classnames": "^2.2.5",
     "draftjs-to-markdown": "^0.4.3",
     "dva": "^1.2.0",
     "dva-loading": "^0.2.0",
     "enquire": "0.0.2",
+    "jsonp": "^0.2.1",
     "lodash": "^4.17.4",
     "nprogress": "^0.2.0",
     "qs": "^6.5.0",
@@ -22,7 +24,6 @@
     "recharts": "^0.22.4"
   },
   "devDependencies": {
-    "axios": "^0.16.2",
     "babel-eslint": "^7.2.3",
     "babel-plugin-dev-expression": "^0.2.1",
     "babel-plugin-dva-hmr": "^0.3.2",
@@ -39,7 +40,6 @@
     "eslint-plugin-import": "^2.6.1",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.1.0",
-    "jsonp": "^0.2.1",
     "less-vars-to-js": "^1.1.2",
     "path-to-regexp": "^1.7.0",
     "redbox-react": "^1.2.10",

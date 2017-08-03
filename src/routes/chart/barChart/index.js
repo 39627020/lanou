@@ -96,12 +96,15 @@ const colProps = {
 
 const SimpleBarChart = () => (
   <Container>
-    <BarChart data={data} margin={{
-      top: 5,
-      right: 30,
-      left: 20,
-      bottom: 5,
-    }}>
+    <BarChart
+      data={data}
+      margin={{
+        top: 5,
+        right: 30,
+        left: 20,
+        bottom: 5,
+      }}
+    >
       <XAxis dataKey="name" />
       <YAxis />
       <CartesianGrid strokeDasharray="3 3" />
@@ -115,12 +118,15 @@ const SimpleBarChart = () => (
 
 const StackedBarChart = () => (
   <Container>
-    <BarChart data={data} margin={{
-      top: 20,
-      right: 30,
-      left: 20,
-      bottom: 5,
-    }}>
+    <BarChart
+      data={data}
+      margin={{
+        top: 20,
+        right: 30,
+        left: 20,
+        bottom: 5,
+      }}
+    >
       <XAxis dataKey="name" />
       <YAxis />
       <CartesianGrid strokeDasharray="3 3" />
@@ -134,12 +140,15 @@ const StackedBarChart = () => (
 
 const MixBarChart = () => (
   <Container>
-    <BarChart data={mixData} margin={{
-      top: 20,
-      right: 30,
-      left: 20,
-      bottom: 5,
-    }}>
+    <BarChart
+      data={mixData}
+      margin={{
+        top: 20,
+        right: 30,
+        left: 20,
+        bottom: 5,
+      }}
+    >
       <XAxis dataKey="name" />
       <YAxis />
       <CartesianGrid strokeDasharray="3 3" />
@@ -175,27 +184,34 @@ TriangleBar.propTypes = {
 
 const CustomShapeBarChart = () => (
   <Container>
-    <BarChart data={mixData} margin={{
-      top: 20,
-      right: 30,
-      left: 20,
-      bottom: 5,
-    }}>
+    <BarChart
+      data={mixData}
+      margin={{
+        top: 20,
+        right: 30,
+        left: 20,
+        bottom: 5,
+      }}
+    >
       <XAxis dataKey="name" />
       <YAxis />
       <CartesianGrid strokeDasharray="3 3" />
-      <Bar dataKey="female" fill="#8884d8" shape={< TriangleBar />} label />
+      <Bar dataKey="female" fill="#8884d8" shape={<TriangleBar />} label />
     </BarChart>
   </Container>
 )
 
 const EditorPage = () => (
   <div className="content-inner">
-    <Button type="primary" size="large" style={{
-      position: 'absolute',
-      right: 0,
-      top: -48,
-    }}>
+    <Button
+      type="primary"
+      size="large"
+      style={{
+        position: 'absolute',
+        right: 0,
+        top: -48,
+      }}
+    >
       <a href="http://recharts.org/#/en-US/examples/TinyBarChart" target="blank">Show More</a>
     </Button>
     <Row gutter={32}>

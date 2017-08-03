@@ -135,12 +135,15 @@ const colProps = {
 
 const SimpleAreaChart = () => (
   <Container>
-    <AreaChart data={data} margin={{
-      top: 10,
-      right: 30,
-      left: 0,
-      bottom: 0,
-    }}>
+    <AreaChart
+      data={data}
+      margin={{
+        top: 10,
+        right: 30,
+        left: 0,
+        bottom: 0,
+      }}
+    >
       <XAxis dataKey="name" />
       <YAxis />
       <CartesianGrid strokeDasharray="3 3" />
@@ -152,12 +155,15 @@ const SimpleAreaChart = () => (
 
 const StackedAreaChart = () => (
   <Container>
-    <AreaChart data={mixData} margin={{
-      top: 10,
-      right: 30,
-      left: 0,
-      bottom: 0,
-    }}>
+    <AreaChart
+      data={mixData}
+      margin={{
+        top: 10,
+        right: 30,
+        left: 0,
+        bottom: 0,
+      }}
+    >
       <XAxis dataKey="name" />
       <YAxis />
       <CartesianGrid strokeDasharray="3 3" />
@@ -192,9 +198,12 @@ const renderTooltipContent = (o) => {
       <p className="total">{`${label} (Total: ${total})`}</p>
       <ul className="list">
         {payload.map((entry, index) => (
-          <li key={`item-${index}`} style={{
-            color: entry.color,
-          }}>
+          <li
+            key={`item-${index}`}
+            style={{
+              color: entry.color,
+            }}
+          >
             {`${entry.name}: ${entry.value}(${getPercent(entry.value, total)})`}
           </li>
         ))}
@@ -205,12 +214,16 @@ const renderTooltipContent = (o) => {
 
 const PercentAreaChart = () => (
   <Container>
-    <AreaChart data={percentData} stackOffset="expand" margin={{
-      top: 10,
-      right: 30,
-      left: 0,
-      bottom: 0,
-    }}>
+    <AreaChart
+      data={percentData}
+      stackOffset="expand"
+      margin={{
+        top: 10,
+        right: 30,
+        left: 0,
+        bottom: 0,
+      }}
+    >
       <XAxis dataKey="month" />
       <YAxis tickFormatter={toPercent} />
       <CartesianGrid strokeDasharray="3 3" />
@@ -226,12 +239,15 @@ const PercentAreaChart = () => (
 const cardinal = d3.curveCardinal.tension(0.2)
 const CardinalAreaChart = () => (
   <Container>
-    <AreaChart data={mixData} margin={{
-      top: 10,
-      right: 30,
-      left: 0,
-      bottom: 0,
-    }}>
+    <AreaChart
+      data={mixData}
+      margin={{
+        top: 10,
+        right: 30,
+        left: 0,
+        bottom: 0,
+      }}
+    >
       <XAxis dataKey="name" />
       <YAxis />
       <CartesianGrid strokeDasharray="3 3" />
@@ -244,11 +260,15 @@ const CardinalAreaChart = () => (
 
 const EditorPage = () => (
   <div className="content-inner">
-    <Button type="primary" size="large" style={{
-      position: 'absolute',
-      right: 0,
-      top: -48,
-    }}>
+    <Button
+      type="primary"
+      size="large"
+      style={{
+        position: 'absolute',
+        right: 0,
+        top: -48,
+      }}
+    >
       <a href="http://recharts.org/#/en-US/examples/TinyBarChart" target="blank">Show More</a>
     </Button>
     <Row gutter={32}>

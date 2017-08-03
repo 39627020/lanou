@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {Form, Input, Modal, Select} from 'antd';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Form, Input, Modal, Select } from 'antd'
 
-const Option = Select.Option;
-const FormItem = Form.Item;
+const Option = Select.Option
+const FormItem = Form.Item
 
 const formItemLayout = {
   labelCol: {
@@ -12,42 +12,41 @@ const formItemLayout = {
   wrapperCol: {
     span: 14,
   },
-};
+}
 
 const modal = ({
-                 type,
-                 subjects = [],
-                 item = {},
-                 onOk,
-                 form: {
-                   getFieldDecorator,
-                   validateFields,
-                   getFieldsValue,
-                 },
-                 ...modalProps
-               }) => {
-
-  const {modalType} = modalProps;
-  if (modalType == "create") {
-    item = {type: type == 1 ? "QUESTION" : "CHOICE"};
+  type,
+  subjects = [],
+  item = {},
+  onOk,
+  form: {
+    getFieldDecorator,
+    validateFields,
+    getFieldsValue,
+  },
+  ...modalProps
+}) => {
+  const { modalType } = modalProps
+  if (modalType == 'create') {
+    item = { type: type == 1 ? 'QUESTION' : 'CHOICE' }
   }
   const handleOk = () => {
     validateFields((errors) => {
       if (errors) {
-        return;
+        return
       }
       const data = {
         type: item.type,
         ...getFieldsValue(),
-      };
-      onOk(data);
-    });
-  };
+      }
+      onOk(data)
+    })
+  }
 
   const modalOpts = {
     ...modalProps,
     onOk: handleOk,
-  };
+  }
 
   return (
     <Modal {...modalOpts}>
@@ -58,7 +57,7 @@ const modal = ({
             rules: [
               {
                 required: true,
-                message: "请选择试题类型",
+                message: '请选择试题类型',
               },
             ],
           })(
@@ -80,7 +79,7 @@ const modal = ({
                 message: '问题不能为空!',
               },
             ],
-          })(<Input type="textarea"/>)}
+          })(<Input type="textarea" />)}
         </FormItem>
 
         <FormItem label="试题答案" hasFeedback {...formItemLayout}>
@@ -92,12 +91,12 @@ const modal = ({
                 message: '答案不能为空!',
               },
             ],
-          })(<Input type="textarea"/>)}
+          })(<Input type="textarea" />)}
         </FormItem>
       </Form>
     </Modal>
-  );
-};
+  )
+}
 
 modal.propTypes = {
   form: PropTypes.object.isRequired,
@@ -105,6 +104,6 @@ modal.propTypes = {
   type: PropTypes.string,
   item: PropTypes.object,
   onOk: PropTypes.func,
-};
+}
 
-export default Form.create()(modal);
+export default Form.create()(modal)

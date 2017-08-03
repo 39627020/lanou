@@ -9,6 +9,7 @@ import '../themes/index.less'
 import './app.less'
 import NProgress from 'nprogress'
 import Error from './error'
+
 const { prefix, openPages } = config
 
 const { Header, Bread, Footer, Sider, styles } = Layout
@@ -68,11 +69,11 @@ const App = ({ children, dispatch, app, loading, location }) => {
 
   const breadProps = {
     menu,
-   }
+  }
   if (openPages && openPages.includes(pathname)) {
     return (<div>
       <Loader spinning={loading.effects['app/query']} />
-      {children} {/*这个children，是在执行app/query后确定的,已经重定向到登录界面*/}
+      {children} {/* 这个children，是在执行app/query后确定的,已经重定向到登录界面 */}
     </div>)
   }
   return (
@@ -82,7 +83,7 @@ const App = ({ children, dispatch, app, loading, location }) => {
         <title>蓝鸥IT 后台管理系统</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="icon" href={logo} type="image/x-icon" />
-        {iconFontJS && <script src={iconFontJS}></script>}
+        {iconFontJS && <script src={iconFontJS} />}
         {iconFontCSS && <link rel="stylesheet" href={iconFontCSS} />}
       </Helmet>
       <div className={classnames(styles.layout, { [styles.fold]: isNavbar ? false : siderFold }, { [styles.withnavbar]: isNavbar })}>

@@ -9,6 +9,7 @@ import {
   Input,
   Button,
 } from 'antd'
+
 const { api } = config
 const { dashboard, users, userLogin, user, v1test, v2test } = api
 
@@ -133,7 +134,7 @@ export default class RequestPage extends React.Component {
     const state = this.state
     const curretUrl = value.split('?')[0]
     const curretMethod = value.split('?')[1]
-    const currntItem = requestOptions.filter(item => {
+    const currntItem = requestOptions.filter((item) => {
       const { method = 'get' } = item
       return curretUrl === item.url && curretMethod === method
     })
@@ -153,14 +154,19 @@ export default class RequestPage extends React.Component {
       <div className="content-inner">
         <Row gutter={32}>
           <Col {...colProps}>
-            <Card title="Request" style={{
-              overflow: 'visible',
-            }}>
+            <Card
+              title="Request"
+              style={{
+                overflow: 'visible',
+              }}
+            >
               <div className={styles.option}>
-                <Select style={{
-                  width: '100%',
-                  flex: 1,
-                }} defaultValue={`${method.toLocaleUpperCase()}   ${requestOptions[0].url}`}
+                <Select
+                  style={{
+                    width: '100%',
+                    flex: 1,
+                  }}
+                  defaultValue={`${method.toLocaleUpperCase()}   ${requestOptions[0].url}`}
                   size="large"
                   onChange={this.handeleURLChange}
                 >

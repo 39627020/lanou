@@ -1,17 +1,17 @@
-import *as registerService from '../services/register'
-import {config} from 'utils'
+import * as registerService from '../services/register'
+import { config } from 'utils'
 
-const {prefix} = config
+const { prefix } = config
 export default {
   namespace: 'register',
   state: {},
   effects: {
-    * register({payload}, {call}) {
+    * register ({ payload }, { call }) {
       const data = yield call(registerService.register, payload)
-      if (data.success && data.token ) {
+      if (data.success && data.token) {
         localStorage.setItem(`${prefix}loginToken`, data.token)
         localStorage.setItem(`${prefix}loginUsername`, payload.username)
-        window.location = `${location.origin}/home`;
+        window.location = `${location.origin}/home`
       } else {
         throw data
       }

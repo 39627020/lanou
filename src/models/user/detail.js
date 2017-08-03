@@ -21,7 +21,7 @@ export default {
   },
 
   effects: {
-    *query ({
+    * query ({
       payload,
     }, { call, put }) {
       const data = yield call(queryOneById, payload)

@@ -24,35 +24,35 @@ const localRequireSVGIcons = [
   require('../../../svg/cute/think.svg'),
 ]
 
-const IcoPage = () => <div className="content-inner">
+const IcoPage = () => (<div className="content-inner">
   <Icon type="star-oo" />
   <h2 style={{ margin: '16px 0' }}>Colorful Icon</h2>
   <ul className={styles.list}>
-    {colorfulIcons.map(item => <li key={item}>
+    {colorfulIcons.map(item => (<li key={item}>
       <Iconfont className={styles.icon} colorful type={item} />
       <span className={styles.name}>{item}</span>
-    </li>)}
+    </li>))}
   </ul>
   <h2 style={{ margin: '16px 0' }}>Flat Icon</h2>
   <ul className={styles.list}>
-    {flatIcons.map(item => <li key={item}>
+    {flatIcons.map(item => (<li key={item}>
       <Iconfont className={styles.icon} type={item} />
       <span className={styles.name}>{item}</span>
-    </li>)}
+    </li>))}
   </ul>
   <h2 style={{ margin: '16px 0' }}>Local SVG</h2>
   <ul className={styles.list}>
-    {localSVGIcons.map(item => <li key={item}>
+    {localSVGIcons.map(item => (<li key={item}>
       <Iconfont className={styles.icon} colorful type={item} />
       <span className={styles.name}>{item}</span>
-    </li>)}
+    </li>))}
   </ul>
   <h2 style={{ margin: '16px 0' }}>Local Require SVG</h2>
   <ul className={styles.list}>
-    {localRequireSVGIcons.map(item => <li key={item}>
+    {localRequireSVGIcons.map(item => (<li key={item}>
       <Iconfont className={styles.icon} colorful type={item} />
       <span className={styles.name}>{item}</span>
-    </li>)}
+    </li>))}
   </ul>
   <h2 style={{ margin: '16px 0' }}>API</h2>
   <Row>
@@ -111,6 +111,6 @@ const IcoPage = () => <div className="content-inner">
       <a href="http://www.iconfont.cn/collections/detail?cid=4268" target="_blank"> http://www.iconfont.cn/collections/detail?cid=4268</a>
     </p>
   </div>
-</div>
+</div>)
 
 export default IcoPage
