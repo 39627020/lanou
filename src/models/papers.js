@@ -76,9 +76,10 @@ export default modelExtend(pageModel, {
       const currentItem = yield select(({papers}) => papers.currentItem)
       const id = currentItem.id
       const newItem = {...payload, id}
-      console.log(newItem)
       const data = yield call(papersService.queryOneById, newItem)
+      console.log(data)
       if (data.success) {
+
         yield put({
             type: 'updateState',
             payload: {
