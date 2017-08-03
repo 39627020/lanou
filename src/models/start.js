@@ -8,13 +8,14 @@ export default modelExtend(model, {
     state: {
       doPaper: false,
       exams: [],
+      currentExam: {},
       currentPaper: {}
     },
     subscriptions: {
       setup({dispatch}) {
         dispatch({type: "query"})
-        //todo
-        dispatch({type: "queryPaper", payload: {id: 1}})
+
+
       }
     },
     effects: {
@@ -44,25 +45,37 @@ export default modelExtend(model, {
           )
         }
       },
-      * startExam(state, {payload}) {
-        return {
-          ...state,
-        }
+      * startExam({payload}, {put, call}) {
+        yield  put({
+          type: 'updateState',
+          payload: {
+            currentExam: payload
+          }
+        })
+        const paperId = payload.paper.id
+        yield put({type: "queryPaper", payload: {id: paperId}})
+        yield put({type: 'showExamPaper'})
+
       },
-      * startExam(state, {payload}) {
-        return {
-          ...state,
-        }
+      * endExam({payload}, {put, call}) {
+        yield  put({
+          type: 'updateState',
+          payload: {
+            currentExam: {}, currentPaper: {},
+          }
+        })
+        yield put({type: 'hideExamPaper'})
+
       },
 
     },
     reducers: {
 
-      showExamPaper(state, ) {
+      showExamPaper(state) {
         return {...state, doPaper: true};
       },
       hideExamPaper(state) {
-        return {...state, doPaper: true};
+        return {...state, doPaper: false};
       },
     },
   }

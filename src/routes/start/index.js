@@ -7,7 +7,7 @@ import style from './index.less'
 import Paper from './Paper'
 import Exams from './Exams'
 
-const Start = ({loading, start, app}) => {
+const Start = ({loading, start, app,dispatch}) => {
   //界面上的加载条
   let lastHref
   const href = window.location.href
@@ -18,13 +18,16 @@ const Start = ({loading, start, app}) => {
       lastHref = href
     }
   }
-  const {exams, currentPaper, doPaper} = start
+  const {exams, currentPaper,currentExam, doPaper} = start
   const {isNavbar, subjects} = app
   const examsProps = {
     subjects,
     exams,
     doExam: (exam) => {
-      console.log(exam)
+      dispatch({
+        type:'start/startExam',
+        payload:exam,
+      })
     },
     showExamInfo: (exam) => {
       console.log(exam)
@@ -32,14 +35,17 @@ const Start = ({loading, start, app}) => {
     showMoreExams: (examSubject) => {
       console.log(examSubject)
     },
-
+  }
+  const paperProps ={
+    currentPaper,
+    currentExam,
 
   }
 
   return (
     <div className={style.start_container}>
       <Header id="nav_1_0" key="nav_1_0" isMode={isNavbar} style={{position: "fixed"}}/>
-      {doPaper ? <Paper/> : <Exams {...examsProps}/>}
+      {doPaper ? <Paper {...paperProps}/> : <Exams {...examsProps}/>}
     </div>
 
   )
