@@ -18,7 +18,7 @@ const Start = ({loading, start, app}) => {
       lastHref = href
     }
   }
-  const {exams, currentPaper, isAnswer} = start
+  const {exams, currentPaper, doPaper} = start
   const {isNavbar, subjects} = app
   const examsProps = {
     subjects,
@@ -39,7 +39,7 @@ const Start = ({loading, start, app}) => {
   return (
     <div className={style.start_container}>
       <Header id="nav_1_0" key="nav_1_0" isMode={isNavbar} style={{position: "fixed"}}/>
-      {isAnswer ? <Paper/> : <Exams {...examsProps}/>}
+      {doPaper ? <Paper/> : <Exams {...examsProps}/>}
     </div>
 
   )

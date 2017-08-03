@@ -6,7 +6,7 @@ import *as paperService from '../services/papers'
 export default modelExtend(model, {
     namespace: 'start',
     state: {
-      isAnswer: false,
+      doPaper: false,
       exams: [],
       currentPaper: {}
     },
@@ -43,8 +43,28 @@ export default modelExtend(model, {
             }
           )
         }
-      }
-    }
+      },
+      * startExam(state, {payload}) {
+        return {
+          ...state,
+        }
+      },
+      * startExam(state, {payload}) {
+        return {
+          ...state,
+        }
+      },
+
+    },
+    reducers: {
+
+      showExamPaper(state, ) {
+        return {...state, doPaper: true};
+      },
+      hideExamPaper(state) {
+        return {...state, doPaper: true};
+      },
+    },
   }
 )
 ;
