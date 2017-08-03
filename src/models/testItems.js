@@ -1,4 +1,4 @@
-import { pageModel } from './common'
+import {pageModel} from './common'
 import modelExtend from 'dva-model-extend'
 import * as itemService from '../services/testItems'
 
@@ -12,7 +12,7 @@ export default modelExtend(pageModel, {
     modalType: 'create', // 模态框类型，create update
   },
   subscriptions: {
-    setup ({ dispatch, history }) {
+    setup({dispatch, history}) {
       history.listen((location) => {
         if (location.pathname === '/testItems') {
           dispatch({
@@ -25,14 +25,20 @@ export default modelExtend(pageModel, {
   },
   effects: {
 
-    * query ({ payload = {} }, { put, call }) {
+    * query({payload = {}}, {put, call}) {
       const data = yield call(itemService.queryMany, payload)
       // 获取到消息,开始分页
-      if (data) {
+      if (data.success && data.content.length > 0) {
         yield put({
           type: 'querySuccess',
           payload: {
-            list: data.content,
+            list: data.content.map((_) => {
+              _.subject = _.subject.type
+              if (_.type == 'CHOICE') {
+                _.question = JSON.parse(_.question)
+              }
+              return _
+            }),
             pagination: {
               current: Number(payload.page) || data.number + 1, // 服务器是从0开始算页码
               pageSize: Number(payload.pageSize) || data.size,
@@ -42,62 +48,62 @@ export default modelExtend(pageModel, {
         })
       }
     },
-    * create ({ payload }, { call, put }) {
+    * create({payload}, {call, put}) {
       const data = yield call(itemService.create, payload)
       if (data.success) {
-        yield put({ type: 'hideModal' })
-        yield put({ type: 'query' })
+        yield put({type: 'hideModal'})
+        yield put({type: 'query'})
       } else {
         throw data
       }
     },
 
-    * update ({ payload }, { select, call, put }) {
-      const id = yield select(({ testItems }) => testItems.currentItem.id)
-      const newItem = { ...payload, id }
+    * update({payload}, {select, call, put}) {
+      const id = yield select(({testItems}) => testItems.currentItem.id)
+      const newItem = {...payload, id}
       const data = yield call(itemService.update, newItem)
       if (data.success) {
-        yield put({ type: 'hideModal' })
-        yield put({ type: 'query' })
+        yield put({type: 'hideModal'})
+        yield put({type: 'query'})
       } else {
         throw data
       }
     },
-    * delete ({ payload }, { call, put, select }) {
+    * delete({payload}, {call, put, select}) {
       // 多选时删除一个，保留选择记录
-      const { selectedRowKeys } = yield select(_ => _.testItems)
-      const data = yield call(itemService.removeOneById, { id: payload })
+      const {selectedRowKeys} = yield select(_ => _.testItems)
+      const data = yield call(itemService.removeOneById, {id: payload})
       if (data.success) {
-        yield put({ type: 'updateState', payload: { selectedRowKeys: selectedRowKeys.filter(_ => _ !== payload) } })
-        yield put({ type: 'query' })
+        yield put({type: 'updateState', payload: {selectedRowKeys: selectedRowKeys.filter(_ => _ !== payload)}})
+        yield put({type: 'query'})
       } else {
-        const error = { message: '存在依赖，删除失败！' }
+        const error = {message: '存在依赖，删除失败！'}
         throw error
       }
     },
 
-    * multiDelete ({ payload }, { call, put }) {
+    * multiDelete({payload}, {call, put}) {
       const data = yield call(itemService.removeMany, payload)
       if (data.success) {
-        yield put({ type: 'updateState', payload: { selectedRowKeys: [] } })
-        yield put({ type: 'query' })
+        yield put({type: 'updateState', payload: {selectedRowKeys: []}})
+        yield put({type: 'query'})
       } else {
-        const error = { message: '存在依赖，删除失败！' }
+        const error = {message: '存在依赖，删除失败！'}
         throw error
       }
     },
   },
   reducers: {
 
-    showModal1 (state, { payload }) {
-      return { ...state, ...payload, modalVisible1: true }
+    showModal1(state, {payload}) {
+      return {...state, ...payload, modalVisible1: true}
     },
-    showModal2 (state, { payload }) {
-      return { ...state, ...payload, modalVisible2: true }
+    showModal2(state, {payload}) {
+      return {...state, ...payload, modalVisible2: true}
     },
 
-    hideModal (state) {
-      return { ...state, modalVisible1: false, modalVisible2: false }
+    hideModal(state) {
+      return {...state, modalVisible1: false, modalVisible2: false}
     },
 
   },

@@ -7,7 +7,7 @@ import { Tabs } from 'antd'
 import MultiChoiceEdit from '../../components/DataTable/MultiChoiceEdit'
 import Filter from './Filter'
 import Modal from './Modal'
-import lodash from 'lodash'
+
 
 const TabPane = Tabs.TabPane
 const TestItemEnum = {
@@ -20,10 +20,7 @@ const TestItems = ({ testItems, loading, app, dispatch, location }) => {
   const { query, pathname } = location
   const { subjects } = app
   // 深度拷贝list，并格式化
-  const cloneList = lodash.cloneDeep(list).map((i) => {
-    i.subject = i.subject.type
-    return i
-  })
+
   /**
    * 类型切换
    * @param key
@@ -188,7 +185,7 @@ const TestItems = ({ testItems, loading, app, dispatch, location }) => {
           }
           <Filter type={String(TestItemEnum.QUESTION)} {...filterProps} />
           <List
-            dataSource={cloneList.filter(i => i.type == 'QUESTION')}
+            dataSource={list.filter(i => i.type == 'QUESTION')}
             type={String(TestItemEnum.QUESTION)}
             {...listProps}
           />
@@ -205,7 +202,7 @@ const TestItems = ({ testItems, loading, app, dispatch, location }) => {
           }
           <Filter type={String(TestItemEnum.CHOICE)} {...filterProps} />
           <List
-            dataSource={cloneList.filter(i => i.type == 'CHOICE')}
+            dataSource={list.filter(i => i.type == 'CHOICE')}
             type={String(TestItemEnum.CHOICE)}
             {...listProps}
           />

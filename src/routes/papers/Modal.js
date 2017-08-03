@@ -1,13 +1,26 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Input, Modal, Select, Collapse, Tabs, Table } from 'antd'
+import {Form, Input, Modal, Select, Collapse, Tabs, Table, Radio} from 'antd'
 
 const TabPane = Tabs.TabPane
 const Panel = Collapse.Panel
 const Option = Select.Option
 const FormItem = Form.Item
-
-
+const RadioGroup = Radio.Group
+const choiceItemShow = (text) => (
+  text.question == undefined
+    ? <div>{text}</div>
+    : <div>
+      <div>题干：{text.question}</div>
+      <div>
+        <RadioGroup>
+          <Radio value="A">A.{text.answer.A}</Radio>
+          <Radio value="B">B.{text.answer.B}</Radio>
+          <Radio value="C">C.{text.answer.C}</Radio>
+          <Radio value="D">D.{text.answer.D}</Radio>
+        </RadioGroup>
+      </div>
+    </div>)
 const formItemLayout = {
   labelCol: {
     span: 6,
@@ -18,21 +31,21 @@ const formItemLayout = {
 }
 
 const modal = ({
-  onTestItemPageChange,
-  onSwitchItem,
-  type,
-  subjects = [],
-  item = {},
-  onOk,
-  onChoiceItem,
-  form: {
-    getFieldDecorator,
-    validateFields,
-    getFieldsValue,
-  },
-  ...modalProps
-}) => {
-  const { modalItemVisible, testItemList, testItemPagination, rowSelection, testItemsLoading } = modalProps
+                 onTestItemPageChange,
+                 onSwitchItem,
+                 type,
+                 subjects = [],
+                 item = {},
+                 onOk,
+                 onChoiceItem,
+                 form: {
+                   getFieldDecorator,
+                   validateFields,
+                   getFieldsValue,
+                 },
+                 ...modalProps
+               }) => {
+  const {modalItemVisible, testItemList, testItemPagination, rowSelection, testItemsLoading} = modalProps
   const columns = [
     {
       title: '题型',
@@ -42,11 +55,12 @@ const modal = ({
     {
       title: '类型',
       dataIndex: 'subject',
-      render: text => text.type,
+      render: text => text,
     },
     {
       title: '题干',
       dataIndex: 'question',
+      render: choiceItemShow,
     },
     {
       title: '答案',
@@ -101,11 +115,11 @@ const modal = ({
                 message: '试卷描述不能为空!',
               },
             ],
-          })(<Input type="textarea" />)}
+          })(<Input type="textarea"/>)}
         </FormItem>
 
         {type == 'update' && modalItemVisible &&
-        <Table columns={columns} pagination={false} dataSource={item.testItems} />}
+        <Table columns={columns} pagination={false} dataSource={item.testItems}/>}
 
         <Collapse onChange={onChoiceItem}>
           <Panel header="选择包含的题目" key="1">

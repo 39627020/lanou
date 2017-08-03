@@ -1,27 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { routerRedux } from 'dva/router'
-import { connect } from 'dva'
+import {routerRedux} from 'dva/router'
+import {connect} from 'dva'
 import List from './List'
 import MultiChoiceEdit from '../../components/DataTable/MultiChoiceEdit'
 import Filter from './Filter'
 import Modal from './Modal'
-import lodash from 'lodash'
 
-const Papers = ({ papers, loading, app, dispatch, location }) => {
-  const { list, pagination, selectedRowKeys, modalVisible, modalItemVisible, modalType, currentItem, testItems } = papers
-  const { query = {}, pathname } = location
-  const { subjects } = app
-  const testItemList = lodash.cloneDeep(testItems.list).map((i) => {
-    i.subject = i.subject.type
-    return i
-  })
 
+const Papers = ({papers, loading, app, dispatch, location}) => {
+  const {list, pagination, selectedRowKeys, modalVisible, modalItemVisible, modalType, currentItem, testItems} = papers
+  const {query = {}, pathname} = location
+  const {subjects} = app
+  const testItemList = testItems.list
   const testItemPagination = testItems.pagination
-  const cloneList = lodash.cloneDeep(list).map((i) => {
-    i.subject = i.subject.type
-    return i
-  })
+
   /**
    * 搜索栏参数
    */
@@ -30,7 +23,7 @@ const Papers = ({ papers, loading, app, dispatch, location }) => {
     filter: {
       ...location.query,
     },
-    onFilterChange (value) {
+    onFilterChange(value) {
       dispatch(routerRedux.push({
         pathname: location.pathname,
         query: {
@@ -39,7 +32,7 @@ const Papers = ({ papers, loading, app, dispatch, location }) => {
         },
       }))
     },
-    onAdd () {
+    onAdd() {
       dispatch({
         type: 'papers/showModal',
         payload: {
@@ -61,7 +54,7 @@ const Papers = ({ papers, loading, app, dispatch, location }) => {
     confirmLoading: loading.effects['papers/update'],
     title: `${modalType === 'create' ? '新增试卷' : '修改试卷'}`,
     wrapClassName: 'vertical-center-modal',
-    onOk (data) {
+    onOk(data) {
       let newData = {
         ...data,
         testItemIds: testItems.selectedRowKeys,
@@ -71,17 +64,17 @@ const Papers = ({ papers, loading, app, dispatch, location }) => {
         payload: newData,
       })
     },
-    onCancel () {
+    onCancel() {
       dispatch({
         type: 'papers/hideModal',
       })
     },
-    onChoiceItem () {
+    onChoiceItem() {
       dispatch({
         type: 'papers/queryTestItems',
       })
     },
-    onSwitchItem (type) {
+    onSwitchItem(type) {
       dispatch({
         type: 'papers/queryTestItems',
         payload: {
@@ -89,7 +82,7 @@ const Papers = ({ papers, loading, app, dispatch, location }) => {
         },
       })
     },
-    onTestItemPageChange (page, type) {
+    onTestItemPageChange(page, type) {
       dispatch({
         type: 'papers/queryTestItems',
         payload: {
@@ -120,8 +113,8 @@ const Papers = ({ papers, loading, app, dispatch, location }) => {
    */
   const listProps = {
     pagination,
-    dataSource: cloneList,
-    loading: { spinning: loading.effects['papers/query'], size: 'large', tip: '请稍候...' },
+    dataSource: list,
+    loading: {spinning: loading.effects['papers/query'], size: 'large', tip: '请稍候...'},
     location,
     onChange: (page) => {
       dispatch(routerRedux.push({
@@ -144,13 +137,13 @@ const Papers = ({ papers, loading, app, dispatch, location }) => {
         })
       },
     },
-    onDeleteItem (id) {
+    onDeleteItem(id) {
       dispatch({
         type: 'papers/delete',
         payload: id,
       })
     },
-    onEditItem (item) {
+    onEditItem(item) {
       dispatch({
         type: 'papers/showModal',
         payload: {
@@ -204,4 +197,4 @@ Papers.propTypes = {
 }
 
 
-export default connect(({ papers, loading, app }) => ({ papers, loading, app }))(Papers)
+export default connect(({papers, loading, app}) => ({papers, loading, app}))(Papers)
