@@ -1,5 +1,5 @@
 import Header from '../home/Nav'
-import { connect } from 'dva'
+import {connect} from 'dva'
 import React from 'react'
 import '../home/less/nav.less'
 import NProgress from 'nprogress'
@@ -7,7 +7,7 @@ import style from './index.less'
 import Paper from './Paper'
 import Exams from './Exams'
 
-const Start = ({ loading, start, app, dispatch }) => {
+const Start = ({loading, start, app, dispatch}) => {
   // 界面上的加载条
   let lastHref
   const href = window.location.href
@@ -18,8 +18,8 @@ const Start = ({ loading, start, app, dispatch }) => {
       lastHref = href
     }
   }
-  const { exams, currentPaper, currentExam, doPaper } = start
-  const { isNavbar, subjects } = app
+  const {exams, currentPaper, currentExam, doPaper} = start
+  const {isNavbar, subjects} = app
   const examsProps = {
     subjects,
     exams,
@@ -37,10 +37,20 @@ const Start = ({ loading, start, app, dispatch }) => {
     },
   }
   const paperProps = {
+    completeLoading: loading.effects['start/completeExam'],
+    paperLoading: loading.effects['start/queryPaper'],
     currentPaper,
     currentExam,
-    onOk: (exam) => {
-      console.log(exam)
+    onOk: (data) => {
+      dispatch({
+        type: 'start/completeExam',
+        payload:
+          {
+            examId: currentExam.id,
+            paperId: currentPaper.id,
+            answer: data,
+          },
+      })
     },
     onCancel: () => {
       dispatch(
@@ -53,11 +63,11 @@ const Start = ({ loading, start, app, dispatch }) => {
 
   return (
     <div className={style.start_container}>
-      <Header id="nav_1_0" key="nav_1_0" isMode={isNavbar} style={{ position: 'fixed' }} />
+      <Header id="nav_1_0" key="nav_1_0" isMode={isNavbar} style={{position: 'fixed'}}/>
       {doPaper ? <Paper {...paperProps} /> : <Exams {...examsProps} />}
     </div>
 
   )
 }
-export default connect(({ start, loading, app }) => ({ start, loading, app }))(Start)
+export default connect(({start, loading, app}) => ({start, loading, app}))(Start)
 

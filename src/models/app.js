@@ -1,14 +1,14 @@
-import { parse } from 'qs'
+import {parse} from 'qs'
 import config from 'config'
-import { EnumRoleType } from 'enums'
+import {EnumRoleType} from 'enums'
 import modelExtend from 'dva-model-extend'
-import { routerRedux } from 'dva/router'
+import {routerRedux} from 'dva/router'
 import * as loginService from '../services/login'
 import * as roleService from '../services/uerRole'
-import { model } from './common'
+import {model} from './common'
 import * as subjectService from '../services/subject'
 
-const { prefix } = config
+const {prefix} = config
 
 export default modelExtend(model, {
   namespace: 'app',
@@ -36,8 +36,8 @@ export default modelExtend(model, {
   },
   subscriptions: {
 
-    setup ({ dispatch }) {
-      dispatch({ type: 'query' })
+    setup({dispatch}) {
+      dispatch({type: 'query'})
       let tid
       /*
       窗口宽度改变时，自适应界面
@@ -45,7 +45,7 @@ export default modelExtend(model, {
       window.onresize = () => {
         clearTimeout(tid)
         tid = setTimeout(() => {
-          dispatch({ type: 'changeNavbar' })
+          dispatch({type: 'changeNavbar'})
         }, 100)
       }
     },
@@ -57,10 +57,10 @@ export default modelExtend(model, {
      * @param payload
      * @param call
      * @param put
-     */* query ({
-      payload,
-    }, { call, put }) {
-      const { success, user } = yield call(loginService.loginByLocalStorage, payload)
+     */* query({
+                 payload,
+               }, {call, put}) {
+      const {success, user} = yield call(loginService.loginByLocalStorage, payload)
       if (success && user) {
         // 加载subject分类
         const subjectData = yield call(subjectService.queryMany)
@@ -68,7 +68,7 @@ export default modelExtend(model, {
         // 加载权限列表
         const roleData = yield call(roleService.queryMany)
         const roles = roleData.list
-        const { permissions } = user
+        const {permissions} = user
         // todo:修改逻辑 符合后台登录要求
         // const menuData = yield call(menusService.queryMany)
         const list = [
@@ -225,7 +225,9 @@ export default modelExtend(model, {
         if (location.pathname === '/login') {
           yield put(routerRedux.push('/dashboard'))
         }
-      } else if (config.openPages && config.openPages.indexOf(location.pathname) < 0) {
+      }
+      //特别的答题界面需要登录
+      else if (location.pathname == "/start" || config.openPages && config.openPages.indexOf(location.pathname) < 0) {
         let from = location.pathname
         window.location = `${location.origin}/login?from=${from}`
       }
@@ -235,12 +237,12 @@ export default modelExtend(model, {
      * @param payload
      * @param call
      * @param put
-     */* logout ({
-      payload,
-    }, { call, put }) {
+     */* logout({
+                  payload,
+                }, {call, put}) {
       const data = yield call(loginService.logout, parse(payload))
       if (data.success) {
-        yield put({ type: 'query' })
+        yield put({type: 'query'})
       } else {
         throw (data)
       }
@@ -250,13 +252,13 @@ export default modelExtend(model, {
      * @param payload
      * @param put
      * @param select
-     */* changeNavbar ({
-      payload,
-    }, { put, select }) {
-      const { app } = yield select(_ => _)
+     */* changeNavbar({
+                        payload,
+                      }, {put, select}) {
+      const {app} = yield select(_ => _)
       const isNavbar = document.body.clientWidth < 767
       if (isNavbar !== app.isNavbar) {
-        yield put({ type: 'handleNavbar', payload: isNavbar })
+        yield put({type: 'handleNavbar', payload: isNavbar})
       }
     },
   },
@@ -266,7 +268,7 @@ export default modelExtend(model, {
      * @param state
      * @returns {{siderFold: boolean}}
      */
-    switchSider (state) {
+    switchSider(state) {
       localStorage.setItem(`${prefix}siderFold`, !state.siderFold)
       return {
         ...state,
@@ -278,7 +280,7 @@ export default modelExtend(model, {
      * @param state
      * @returns {{darkTheme: boolean}}
      */
-    switchTheme (state) {
+    switchTheme(state) {
       localStorage.setItem(`${prefix}darkTheme`, !state.darkTheme)
       return {
         ...state,
@@ -290,7 +292,7 @@ export default modelExtend(model, {
      * @param state
      * @returns {{menuPopoverVisible: boolean}}
      */
-    switchMenuPopver (state) {
+    switchMenuPopver(state) {
       return {
         ...state,
         menuPopoverVisible: !state.menuPopoverVisible,
@@ -302,7 +304,7 @@ export default modelExtend(model, {
      * @param payload
      * @returns {{isNavbar: *}}
      */
-    handleNavbar (state, { payload }) {
+    handleNavbar(state, {payload}) {
       return {
         ...state,
         isNavbar: payload,
@@ -314,7 +316,7 @@ export default modelExtend(model, {
      * @param navOpenKeys
      * @returns {{}}
      */
-    handleNavOpenKeys (state, { payload: navOpenKeys }) {
+    handleNavOpenKeys(state, {payload: navOpenKeys}) {
       return {
         ...state,
         ...navOpenKeys,
