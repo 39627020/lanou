@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Form, Input, Card, Modal, Select, Radio, Button} from 'antd';
+import {Form, Input, Card, Modal, Radio, Button} from 'antd';
 
+const confirm = Modal.confirm;
 const RadioGroup = Radio.Group;
 const FormItem = Form.Item;
 import style from './Paper.less'
@@ -29,7 +30,16 @@ const paper = ({
     });
   }
   const handleCancel = () => {
-    onCancel()
+    confirm({
+      title: '你确定要退出考试吗？',
+      content: '退出考试后，你做的题目讲无法保存！',
+      onOk() {
+        onCancel()
+      },
+      onCancel() {
+      },
+    });
+
   }
   return (
     <div className={style.paper_container}>
@@ -84,7 +94,7 @@ const paper = ({
       </Form>
       <Card>
         <div style={{textAlign: "right"}}>
-          <Button style={{marginRight: 16}} type="primary" onClick={handleOk}>完成考试</Button>
+          <Button style={{marginRight: 16}} type="primary" onClick={handleOk} loading={true}>完成考试</Button>
           <Button style={{marginRight: 16}} type="danger" onClick={handleCancel}>退出考试</Button>
 
 

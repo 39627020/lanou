@@ -6,8 +6,6 @@ import NProgress from 'nprogress'
 import style from './index.less'
 import Paper from './Paper'
 import Exams from './Exams'
-import lodash from 'lodash';
-import {query} from "../../services/dashboard";
 
 const Start = ({loading, start, app, dispatch}) => {
   //界面上的加载条
@@ -45,6 +43,7 @@ const Start = ({loading, start, app, dispatch}) => {
       console.log(exam)
     },
     onCancel: () => {
+
       dispatch(
         {
           type: "start/endExam"
