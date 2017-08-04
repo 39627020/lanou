@@ -99,7 +99,7 @@ export default modelExtend(pageModel, {
         yield put({type: 'updateState', payload: {selectedRowKeys: selectedRowKeys.filter(_ => _ !== payload)}})
         yield put({type: 'query'})
       } else {
-        const error = {message: '存在依赖，删除失败！'}
+        const error = {message:  '该项目被引用，或者没有权限，无法删除！'}
         throw error
       }
     },
@@ -110,7 +110,7 @@ export default modelExtend(pageModel, {
         yield put({type: 'updateState', payload: {selectedRowKeys: []}})
         yield put({type: 'query'})
       } else {
-        const error = {message: '存在依赖，删除失败！'}
+        const error = {message: '该项目被引用，或者没有权限，无法删除！'}
         throw error
       }
     },

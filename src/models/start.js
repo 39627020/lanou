@@ -64,8 +64,12 @@ export default modelExtend(model, {
       },
       * completeExam({payload}, {put, call}) {
         const data = yield  call(startService.completeExam, payload)
-        if (data.success)
+        console.log(data)
+        if (data.success && data.status)
           yield put({type: 'hideExamPaper'})
+        else {
+          throw data
+        }
 
       },
       * endExam({payload}, {put, call}) {
