@@ -97,10 +97,7 @@ const paper = ({
         <div style={{textAlign: 'right'}}>
           <Button style={{marginRight: 16}} type="primary" onClick={handleOk} loading={completeLoading}>完成考试</Button>
           <Button style={{marginRight: 16}} type="danger" onClick={handleCancel}>退出考试</Button>
-
-
         </div>
-
       </Card>
     </div>)
 }

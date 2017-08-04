@@ -8,6 +8,8 @@ export default modelExtend(model, {
     namespace: 'start',
     state: {
       doPaper: false,
+      examInfoModal: false,
+      moreExamModal: false,
       exams: [],
       currentExam: {},
       currentPaper: {},
@@ -75,7 +77,35 @@ export default modelExtend(model, {
         })
         yield put({type: 'hideExamPaper'})
       },
+      * queryExamInfo({payload}, {put, call}) {
+        /**
+         * 设置当前考试
+         */
+        yield put({
+          type: 'updateState',
+          payload: {
+            currentExam: payload,
+          },
+        })
+        /**
+         * 设置当前试卷和用户的答案
+         */
+        const data = yield  call(startService.queryOneByExamId, {id: payload.id})
+        if (data.success) {
+          yield put({
+            type: 'updateState',
+            payload: {
+              examInfo: {
+                answers: data.answers
+              }
+            },
+          })
+          const paperId = payload.paper.id
+          yield put({type: 'queryPaper', payload: {id: paperId}})
+          yield  put({type: 'showExamInfoModal'})
+        }
 
+      },
     },
     reducers: {
 
@@ -84,6 +114,19 @@ export default modelExtend(model, {
       },
       hideExamPaper(state) {
         return {...state, doPaper: false}
+      },
+
+      showExamInfoModal(state) {
+        return {...state, examInfoModal: true}
+      },
+      hideExamInfoModal(state) {
+        return {...state, examInfoModal: false,examInfo:{}}
+      },
+      showMoreExamModal(state) {
+        return {...state, moreExamModal: true}
+      },
+      hideMoreExamModal(state) {
+        return {...state, moreExamModal: false}
       },
     },
   }
