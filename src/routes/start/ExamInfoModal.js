@@ -3,6 +3,7 @@ import {Form, Radio, Avatar, Modal, Table} from 'antd'
 
 const RadioGroup = Radio.Group;
 const modal = ({
+                 infoLoading,
                  currentPaper,
                  examInfo,
                  ...examInfoProps
@@ -66,7 +67,7 @@ const modal = ({
         bordered
         simple
         dataSource={currentPaper.testItems}
-
+        loading={infoLoading}
         scroll={{x: 400}}
         columns={columns}
         rowKey={record => record.id}

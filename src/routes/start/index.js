@@ -71,6 +71,7 @@ const Start = ({loading, start, app, dispatch}) => {
   }
   const examInfoProps = {
     visible: {examInfoModal},
+    infoLoading:loading.effects['start/queryExamInfo'],
     title: "考试详情",
     footer: null,
     examInfo,
