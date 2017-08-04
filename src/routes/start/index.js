@@ -20,29 +20,35 @@ const Start = ({loading, start, app, dispatch}) => {
       lastHref = href
     }
   }
+  const doExam = (exam) => {
+    dispatch({
+      type: 'start/startExam',
+      payload: exam,
+    })
+  }
+  const showExamInfo = (exam) => {
+    dispatch({
+      type: 'start/queryExamInfo',
+      payload: exam,
+    })
+  }
   const {
-    exams, currentPaper, examInfoModal,
+    exams, currentPaper, examInfoModal, moreExams,
     moreExamModal, currentExam, doPaper, examInfo,
   } = start
   const {isNavbar, subjects} = app
   const examsProps = {
     subjects,
     exams,
-    doExam: (exam) => {
+    doExam,
+    showExamInfo,
+    showMoreExams: (subject) => {
       dispatch({
-        type: 'start/startExam',
-        payload: exam,
+        type: 'start/queryMoreExam',
+        payload: {
+          subject: subject.type
+        },
       })
-    },
-    showExamInfo: (exam) => {
-      dispatch({
-        type: 'start/queryExamInfo',
-        payload: exam,
-
-      })
-    },
-    showMoreExams: (exam) => {
-      console.log(exam)
     },
   }
   const paperProps = {
@@ -61,7 +67,7 @@ const Start = ({loading, start, app, dispatch}) => {
           },
       })
     },
-    onCancel: () => {
+    onCancel: (page, subject) => {
       dispatch(
         {
           type: 'start/endExam',
@@ -71,7 +77,7 @@ const Start = ({loading, start, app, dispatch}) => {
   }
   const examInfoProps = {
     visible: {examInfoModal},
-    infoLoading:loading.effects['start/queryExamInfo'],
+    infoLoading: loading.effects['start/queryExamInfo'],
     title: "考试详情",
     footer: null,
     examInfo,
@@ -83,14 +89,41 @@ const Start = ({loading, start, app, dispatch}) => {
     }
   }
   const moreExamProps = {
-    title: "考试详情"
+    visible: {moreExamModal},
+    title: "更多考试",
+    tableLoading: loading.effects['start/queryMoreExam'],
+    tableDataSource: moreExams.list,
+    tablePagination: moreExams.pagination,
+    footer: null,
+    doExam,
+    showExamInfo,
+    onCancel() {
+      dispatch({
+        type: "start/hideMoreExamModal"
+      })
+    },
+    onChange(page, subjectType) {
+
+      dispatch({
+        type: 'start/queryMoreExam',
+        payload: {
+          subject: subjectType,
+          page: page.current,
+          pageSize: page.pageSize,
+       
+
+        },
+      })
+
+    },
+
   }
   return (
     <div className={style.start_container}>
       <Header id="nav_1_0" key="nav_1_0" isMode={isNavbar} style={{position: 'fixed'}}/>
       {doPaper ? <Paper {...paperProps} /> : <Exams {...examsProps} />}
       {examInfoModal && <ExamInfoModal {...examInfoProps}/>}
-      {/*{moreExamModal && <MoreExamModal {...moreExamProps}/>}*/}
+      {moreExamModal && <MoreExamModal {...moreExamProps}/>}
     </div>
 
   )

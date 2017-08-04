@@ -3,6 +3,7 @@ import {model} from './common'
 import * as examService from '../services/exams'
 import * as paperService from '../services/papers'
 import * as startService from '../services/start';
+import * as subjectService from '../services/subject';
 
 export default modelExtend(model, {
     namespace: 'start',
@@ -11,6 +12,7 @@ export default modelExtend(model, {
       examInfoModal: false,
       moreExamModal: false,
       exams: [],
+      moreExams: {},
       currentExam: {},
       currentPaper: {},
     },
@@ -20,13 +22,50 @@ export default modelExtend(model, {
       },
     },
     effects: {
-      * query({payload = {}}, {put, call}) {
+      /**
+       * 初始化考试列表，不带分页，每种最多4个
+       * @param payload
+       * @param put
+       * @param call
+       * @param select
+       */* query({payload = {}}, {put, call, select}) {
+        const subjectData = yield call(subjectService.queryMany)
+        const subjects = subjectData.list.map(_ => _.type)
+        payload = {
+          subjectList: subjects,
+          pageSize: 4,
+          ...payload,
+        }
         const data = yield call(examService.queryMany, payload)
         if (data.success) {
           yield put({
             type: 'updateState',
             payload: {
-              exams: data.content,
+              exams: data.list,
+            },
+          })
+        }
+      },
+      /**
+       * 查询更多的考试，返回带分页
+       * @param payload
+       * @param put
+       * @param call
+       */* queryMoreExam({payload = {}}, {put, call,}) {
+        yield  put({type: 'showMoreExamModal'})
+        const data = yield call(examService.queryMany, payload)
+        if (data.success) {
+          yield put({
+            type: 'updateState',
+            payload: {
+              moreExams: {
+                list: data.content,
+                pagination: {
+                  current: Number(payload.page) || data.number + 1, // 服务器是从0开始算页码
+                  pageSize: Number(payload.pageSize) || data.size,
+                  total: data.totalElements,
+                },
+              },
             },
           })
         }
@@ -82,6 +121,7 @@ export default modelExtend(model, {
         yield put({type: 'hideExamPaper'})
       },
       * queryExamInfo({payload}, {put, call}) {
+        yield  put({type: 'showExamInfoModal'})
         /**
          * 设置当前考试
          */
@@ -106,7 +146,7 @@ export default modelExtend(model, {
           })
           const paperId = payload.paper.id
           yield put({type: 'queryPaper', payload: {id: paperId}})
-          yield  put({type: 'showExamInfoModal'})
+
         }
 
       },
@@ -124,13 +164,13 @@ export default modelExtend(model, {
         return {...state, examInfoModal: true}
       },
       hideExamInfoModal(state) {
-        return {...state, examInfoModal: false,examInfo:{}}
+        return {...state, examInfoModal: false, examInfo: {}}
       },
       showMoreExamModal(state) {
         return {...state, moreExamModal: true}
       },
       hideMoreExamModal(state) {
-        return {...state, moreExamModal: false}
+        return {...state, moreExamModal: false, moreExams: {}}
       },
     },
   }
