@@ -18,7 +18,7 @@ const exmas = ({...examsProps}) => {
       <Row gutter={16} type="flex" align="top">
         {
           subjects.map(sub =>
-            (<Col span={12} style={{marginBottom: 16}}>
+            (<Col xs={24} sm={12} style={{marginBottom: 16}}>
               <Card title={sub.type} bordered={false}>
                 {
                   exams.filter(_ => _.subject.type == sub.type)
