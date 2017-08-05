@@ -1,4 +1,3 @@
-
 module.exports = (webpackConfig) => {
   // FilenameHash
   webpackConfig.output.chunkFilename = '[name].[hash].js' // http://webpack.github.io/docs/configuration.html#output-chunkfilename

@@ -10,9 +10,9 @@ const svgSpriteDirs = [
 export default {
   entry: 'src/index.js',
   svgSpriteLoaderDirs: svgSpriteDirs,
-  "theme": "./theme.config.js",
+  theme: "./theme.config.js",
   // 接口代理示例
-  "proxy": {
+  proxy: {
     "/api/v1": {
       "target": "http://119.29.88.16:8888",
       //"target": "http://localhost:8888",
@@ -21,7 +21,7 @@ export default {
     },
   },
   //针对特定的环境进行配置。server 的环境变量是 development，build 的环境变量是 production
-  "env": {
+  env: {
     "development": {
       "extraBabelPlugins": [
         "dva-hmr",
@@ -29,7 +29,7 @@ export default {
         ["import", {"libraryName": "antd", "style": true}]
       ]
     },
-    "production": {
+    production: {
       "extraBabelPlugins": [
         "transform-runtime",
         ["import", {"libraryName": "antd", "style": true}]
@@ -38,5 +38,5 @@ export default {
   },
   //配置是否多页应用。多页应用会自动提取公共部分为 common.js 和 common.css
   //必须在index.html 里面引用
-  "multipage": true,
+  multipage: false,
 }
