@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Icon, Switch } from 'antd'
 import styles from './Layout.less'
-import { config } from 'utils'
+import { config } from '../../utils'
 import Menus from './Menu'
 import { Link } from 'dva/router'
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Table, Modal } from 'antd'
 import styles from './List.less'
-import { DropOption } from 'components'
+import { DropOption } from '../../components'
 import PropTypes from 'prop-types'
 import { Avatar } from 'antd'
 

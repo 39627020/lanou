@@ -1,5 +1,5 @@
 import * as registerService from '../services/register'
-import { config } from 'utils'
+import { config } from '../utils'
 
 const { prefix } = config
 export default {

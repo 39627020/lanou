@@ -1,7 +1,7 @@
 import modelExtend from 'dva-model-extend'
 import * as usersService from '../services/users'
 import { pageModel } from './common'
-import { config } from 'utils'
+import { config } from '../utils'
 
 const { prefix } = config
 

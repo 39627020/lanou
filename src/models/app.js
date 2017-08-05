@@ -1,6 +1,6 @@
 import {parse} from 'qs'
-import config from 'config'
-import {EnumRoleType} from 'enums'
+import config from '../utils/config'
+import {EnumRoleType} from '../utils/enums'
 import modelExtend from 'dva-model-extend'
 import {routerRedux} from 'dva/router'
 import * as loginService from '../services/login'

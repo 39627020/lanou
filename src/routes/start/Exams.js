@@ -1,6 +1,5 @@
 import {Table, Button, Form, Card, Col, Row} from 'antd'
 import style from './Exams.less'
-import {Link} from 'dva/router'
 
 const exmas = ({...examsProps}) => {
   const {subjects, exams, doExam, showExamInfo, showMoreExams} = examsProps

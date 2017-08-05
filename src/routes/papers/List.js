@@ -1,7 +1,7 @@
 import React from 'react'
 import { Table, Modal, Avatar } from 'antd'
 import styles from './List.less'
-import { DropOption } from 'components'
+import { DropOption } from '../../components'
 import PropTypes from 'prop-types'
 
 const confirm = Modal.confirm

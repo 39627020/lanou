@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Form, Select, Button, Row, Col } from 'antd'
-import { FilterItem } from 'components'
+import { FilterItem } from '../../components'
 
 const Option = Select.Option
 

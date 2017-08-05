@@ -1,6 +1,6 @@
 import { login } from '../services/login'
 import { routerRedux } from 'dva/router'
-import { queryURL, config } from 'utils'
+import { queryURL, config } from '../utils'
 
 const { prefix } = config
 
