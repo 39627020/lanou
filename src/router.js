@@ -21,7 +21,7 @@ const Routers = function ({ history, app }) {
         require.ensure([], (require) => {
           registerModel(app, require('./models/app'))
           cb(null, require('./routes/app'))
-        }, 'dashboard')
+        }, 'app')
       },
       getIndexRoute (nextState, cb) {
         require.ensure([], (require) => {
@@ -35,7 +35,7 @@ const Routers = function ({ history, app }) {
           getComponent (nextState, cb) {
             require.ensure([], (require) => {
               cb(null, require('./routes/home/'))
-            }, 'dashboard')
+            }, 'home')
           },
         },
 
@@ -45,7 +45,7 @@ const Routers = function ({ history, app }) {
             require.ensure([], (require) => {
               registerModel(app, require('./models/start'))
               cb(null, require('./routes/start/'))
-            }, 'dashboard')
+            }, 'start')
           },
         },
         {
