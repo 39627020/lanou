@@ -16,7 +16,7 @@ app.get('/*', function (req, res) {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
-app.listen(9000, '127.0.0.1', function () {//前端ajax地址写 http://127.0.0.1:3000/
+app.listen(9000, function () {
   console.log('server is running at port 9000');
 });
 
