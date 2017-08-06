@@ -31,14 +31,14 @@ const compression = require('compression');
 // 540 B      dist\iconfont.css
 // 539 B      dist\error.79f3b96e6f185894b160.js
 app.use(compression());
-
 app.use(express.static(path.join(__dirname, 'dist')));
+
 // 配置静态文件服务中间件
-const serverUrl = 'http://119.29.88.16:8080'//server地址
-app.use('/api/v1/*', function (req, res) {
-  let url = serverUrl + req.originalUrl;
-  req.pipe(request(url)).pipe(res);
-});
+// const serverUrl = 'http://119.29.88.16:8080'//server地址
+// app.use('/api/v1/*', function (req, res) {
+//   let url = serverUrl + req.originalUrl;
+//   req.pipe(request(url)).pipe(res);
+// });
 
 app.get('/*', function (req, res) {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
