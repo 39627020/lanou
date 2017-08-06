@@ -1,7 +1,7 @@
 const APIV1 = '/api/v1'
 // const APIV2 = '/api/v2'
 //const serverUrl = 'http://127.0.0.1:8080'
-const serverUrl = 'http://119.29.88.16:8080'
+const serverUrl = 'http://47.93.48.40:8080'
 module.exports = {
   name: '蓝鸥IT',
   prefix: 'lanouAdmin',
