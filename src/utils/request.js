@@ -54,6 +54,7 @@ const fetch = (options) => {
     data = null
   }
   axios.defaults.headers.common.Authorization = token
+  console.log(token)
   switch (method.toLowerCase()) {
     case 'get':
       return axios.get(url,
