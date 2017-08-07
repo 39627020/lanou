@@ -16,7 +16,4 @@ script:
   - |
     if [ "$TEST_TYPE" = dev ]; then
       npm run dev
-    elif [ "$TEST_TYPE" = build ]; then
-      npm run build && \
-      node server.js
     fi
