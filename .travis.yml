@@ -1,0 +1,16 @@
+sudo: false
+
+language: node_js
+
+node_js:
+  - "6"
+
+env:
+  matrix:
+    - TEST_TYPE=build
+
+script:
+  - |
+    if [ "$TEST_TYPE" = build ]; then
+      npm run build
+    fi
