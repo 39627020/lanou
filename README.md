@@ -6,7 +6,7 @@
 
 [后端项目地址](https://github.com/MengStar/BMS-BE)
 
-##演示地址
+## 演示地址
 [在线demo](http://47.93.48.40/home)，最高权限账户 admin admin，可自己注册。
 
 ## 安装
@@ -23,13 +23,12 @@ npm install
 
 - 开发环境
 
-- `npm run dev` 说明：会启动热加载插件，访问[http://localhost:8000/home](http://localhost:8000/home)
+- `npm run dev` 说明：会启动热加载插件，访问[http://localhost:8000/home](http://localhost:8000/home)。
 
 - 生产环境
 
 - `npm run build `说明：会生成dist文件夹，按需加载js。压缩过程会很慢，耐心等待。
-- `node server.js`说明：使用node启动服务器，默认端口:80。单页应用，所有请求被转发到`index.html`。使用cros跨域，未配置反向代理。
-然后访问[http://localhost/home](http://localhost/home)
+- `node server.js`说明：使用node启动服务器，默认端口:80。单页应用，所有请求被转发到`index.html`。使用cros跨域，未配置反向代理。然后访问[http://localhost/home](http://localhost/home)。
 
 ## 注意
 
